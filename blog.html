@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog — Zerda Finance</title>
-    <meta name="description" content="Artículos prácticos sobre finanzas para emprendedores, startups y PYMEs. Sin humo, sin teoría — solo lo que sirve para decidir mejor.">
+    <title>Blog â€” Zerda Finance</title>
+    <meta name="description" content="ArtÃ­culos prÃ¡cticos sobre finanzas para emprendedores, startups y PYMEs. Sin humo, sin teorÃ­a â€” solo lo que sirve para decidir mejor.">
     <link rel="icon" href="logos/isotipo.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,7 +43,7 @@
 
         .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
 
-        /* ── NAVBAR ── */
+        /* â”€â”€ NAVBAR â”€â”€ */
         .navbar {
             position: fixed;
             top: 0; left: 0; right: 0;
@@ -123,7 +123,7 @@
         .mobile-menu a { color: var(--white); text-decoration: none; font-size: 22px; font-weight: 700; }
         .mobile-close { position: absolute; top: 22px; right: 24px; background: none; border: none; color: var(--white); font-size: 36px; cursor: pointer; }
 
-        /* ── HERO ── */
+        /* â”€â”€ HERO â”€â”€ */
         .blog-hero {
             background: linear-gradient(140deg, #0A1625 0%, #0F2035 50%, #162D4A 100%);
             padding: 140px 0 72px;
@@ -170,7 +170,7 @@
             line-height: 1.7;
         }
 
-        /* ── FILTROS ── */
+        /* â”€â”€ FILTROS â”€â”€ */
         .filters {
             background: var(--off-white);
             padding: 24px 0;
@@ -200,7 +200,7 @@
         .filter-btn:hover { border-color: var(--accent); color: var(--accent-dark); }
         .filter-btn.active { background: var(--accent); color: var(--dark); border-color: var(--accent); }
 
-        /* ── BLOG GRID ── */
+        /* â”€â”€ BLOG GRID â”€â”€ */
         .blog-section { padding: 64px 0 96px; }
 
         .blog-count {
@@ -281,7 +281,7 @@
             display: none;
         }
 
-        /* ── BACK LINK ── */
+        /* â”€â”€ BACK LINK â”€â”€ */
         .back-link {
             display: inline-flex;
             align-items: center;
@@ -295,7 +295,7 @@
         }
         .back-link:hover { gap: 12px; }
 
-        /* ── CTA BANNER ── */
+        /* â”€â”€ CTA BANNER â”€â”€ */
         .cta-banner {
             background: linear-gradient(135deg, var(--dark) 0%, var(--dark-mid) 100%);
             border-radius: 20px;
@@ -322,7 +322,7 @@
         .btn-outline-white { background: transparent; color: var(--white); border-color: rgba(255,255,255,0.35); }
         .btn-outline-white:hover { background: rgba(255,255,255,0.08); border-color: var(--white); }
 
-        /* ── FOOTER ── */
+        /* â”€â”€ FOOTER â”€â”€ */
         .footer { background: #070E1A; padding: 40px 0 28px; margin-top: 0; }
         .footer-bottom {
             display: flex;
@@ -336,7 +336,7 @@
         .footer-back { font-size: 13px; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; }
         .footer-back:hover { color: var(--accent); }
 
-        /* ── WA FLOAT ── */
+        /* â”€â”€ WA FLOAT â”€â”€ */
         .wa-float {
             position: fixed;
             bottom: 28px; right: 28px;
@@ -353,7 +353,7 @@
         }
         .wa-float:hover { transform: scale(1.08); }
 
-        /* ── RESPONSIVE ── */
+        /* â”€â”€ RESPONSIVE â”€â”€ */
         @media (max-width: 860px) {
             .blog-grid { grid-template-columns: repeat(2, 1fr); }
             .navbar-links, .navbar-cta-wrap { display: none; }
@@ -378,13 +378,13 @@
                 <li><a href="index.html#servicios">Servicios</a></li>
                 <li><a href="index.html#proceso">Proceso</a></li>
                 <li><a href="index.html#oscar">Sobre Oscar</a></li>
-                <li><a href="index.html#testimonios">Reseñas</a></li>
+                <li><a href="index.html#testimonios">ReseÃ±as</a></li>
                 <li><a href="blog.html" class="active">Blog</a></li>
             </ul>
             <div class="navbar-cta-wrap">
-                <a href="diagnostico.html" class="btn btn-primary">Agenda tu Diagnóstico</a>
+                <a href="diagnostico.html" class="btn btn-primary">Agenda tu DiagnÃ³stico</a>
             </div>
-            <button class="hamburger" onclick="openMenu()" aria-label="Menú">
+            <button class="hamburger" onclick="openMenu()" aria-label="MenÃº">
                 <span></span><span></span><span></span>
             </button>
         </div>
@@ -392,13 +392,13 @@
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-close" onclick="closeMenu()">×</button>
+    <button class="mobile-close" onclick="closeMenu()">Ã—</button>
     <a href="index.html#servicios" onclick="closeMenu()">Servicios</a>
     <a href="index.html#proceso"   onclick="closeMenu()">Proceso</a>
     <a href="index.html#oscar"     onclick="closeMenu()">Sobre Oscar</a>
-    <a href="index.html#testimonios" onclick="closeMenu()">Reseñas</a>
+    <a href="index.html#testimonios" onclick="closeMenu()">ReseÃ±as</a>
     <a href="blog.html"            onclick="closeMenu()">Blog</a>
-    <a href="diagnostico.html" onclick="closeMenu()" class="btn btn-primary">Agenda tu Diagnóstico</a>
+    <a href="diagnostico.html" onclick="closeMenu()" class="btn btn-primary">Agenda tu DiagnÃ³stico</a>
 </div>
 
 
@@ -407,8 +407,8 @@
     <div class="container">
         <div class="blog-hero-inner">
             <span class="section-label">Blog</span>
-            <h1>Finanzas sin humo, sin teoría</h1>
-            <p>Artículos prácticos para emprendedores que quieren entender sus números y tomar mejores decisiones.</p>
+            <h1>Finanzas sin humo, sin teorÃ­a</h1>
+            <p>ArtÃ­culos prÃ¡cticos para emprendedores que quieren entender sus nÃºmeros y tomar mejores decisiones.</p>
         </div>
     </div>
 </section>
@@ -419,7 +419,7 @@
     <div class="container">
         <div class="filters-inner">
             <button class="filter-btn active" data-filter="todos" onclick="filterPosts(this)">Todos (20)</button>
-            <button class="filter-btn" data-filter="Gestión Financiera" onclick="filterPosts(this)">Gestión Financiera</button>
+            <button class="filter-btn" data-filter="GestiÃ³n Financiera" onclick="filterPosts(this)">GestiÃ³n Financiera</button>
             <button class="filter-btn" data-filter="Pricing" onclick="filterPosts(this)">Pricing</button>
             <button class="filter-btn" data-filter="Startups" onclick="filterPosts(this)">Startups</button>
             <button class="filter-btn" data-filter="Crecimiento" onclick="filterPosts(this)">Crecimiento</button>
@@ -434,243 +434,243 @@
 <!-- BLOG GRID -->
 <section class="blog-section">
     <div class="container">
-        <a href="index.html" class="back-link">← Volver al inicio</a>
-        <p class="blog-count">Mostrando <span id="count">20</span> artículos</p>
+        <a href="index.html" class="back-link">â† Volver al inicio</a>
+        <p class="blog-count">Mostrando <span id="count">20</span> artÃ­culos</p>
 
         <div class="blog-grid" id="blogGrid">
 
             <!-- 1 -->
-            <a href="https://zerdafinance.com/blog/la-mentira-de-que-todo-se-arregla-vendiendo-mas" target="_blank" rel="noopener" class="blog-card" data-tags="Gestión Financiera,Crecimiento">
-                <span class="blog-tag">Gestión Financiera</span>
-                <h3>La mentira de que "todo se arregla vendiendo más"</h3>
-                <p>Muchos negocios no se mueren por falta de ventas — se mueren por vender más sin orden. Oscar Rincón explica por qué escalar sin estructura financiera puede ser el error más costoso que cometes.</p>
+            <a href="blog.html" target="_blank" rel="noopener" class="blog-card" data-tags="GestiÃ³n Financiera,Crecimiento">
+                <span class="blog-tag">GestiÃ³n Financiera</span>
+                <h3>La mentira de que "todo se arregla vendiendo mÃ¡s"</h3>
+                <p>Muchos negocios no se mueren por falta de ventas â€” se mueren por vender mÃ¡s sin orden. Oscar RincÃ³n explica por quÃ© escalar sin estructura financiera puede ser el error mÃ¡s costoso que cometes.</p>
                 <div class="blog-meta">
                     <span class="blog-date">18 nov 2025</span>
-                    <span class="blog-read">Leer →</span>
+                    <span class="blog-read">Leer â†’</span>
                 </div>
             </a>
 
             <!-- 2 -->
-            <a href="https://zerdafinance.com/blog/crecer-no-es-contratar-mas" target="_blank" rel="noopener" class="blog-card" data-tags="Crecimiento,Gestión Financiera">
+            <a href="blog.html" target="_blank" rel="noopener" class="blog-card" data-tags="Crecimiento,GestiÃ³n Financiera">
                 <span class="blog-tag">Crecimiento</span>
-                <h3>Crecer NO es contratar más</h3>
-                <p>Más empleados no siempre significa más crecimiento. Cómo analizar la rentabilidad por persona antes de expandir tu estructura operativa.</p>
+                <h3>Crecer NO es contratar mÃ¡s</h3>
+                <p>MÃ¡s empleados no siempre significa mÃ¡s crecimiento. CÃ³mo analizar la rentabilidad por persona antes de expandir tu estructura operativa.</p>
                 <div class="blog-meta">
                     <span class="blog-date">7 nov 2025</span>
-                    <span class="blog-read">Leer →</span>
+                    <span class="blog-read">Leer â†’</span>
                 </div>
             </a>
 
             <!-- 3 -->
-            <a href="https://zerdafinance.com/blog/por-que-no-puedes-escalar-tu-negocio-si-cobras-muy-barato" target="_blank" rel="noopener" class="blog-card" data-tags="Pricing,Crecimiento">
+            <a href="blog.html" target="_blank" rel="noopener" class="blog-card" data-tags="Pricing,Crecimiento">
                 <span class="blog-tag">Pricing</span>
-                <h3>Por qué no puedes escalar tu negocio si cobras muy barato</h3>
-                <p>Un caso real: demanda, clientes satisfechos y sin capacidad de crecer. El problema no era la calidad — eran los precios.</p>
+                <h3>Por quÃ© no puedes escalar tu negocio si cobras muy barato</h3>
+                <p>Un caso real: demanda, clientes satisfechos y sin capacidad de crecer. El problema no era la calidad â€” eran los precios.</p>
                 <div class="blog-meta">
                     <span class="blog-date">29 oct 2025</span>
-                    <span class="blog-read">Leer →</span>
+                    <span class="blog-read">Leer â†’</span>
                 </div>
             </a>
 
             <!-- 4 -->
-            <a href="https://zerdafinance.com/blog/guia-paso-a-paso-para-reducir-gastos-en-tu-empresa" target="_blank" rel="noopener" class="blog-card" data-tags="Gestión Financiera">
-                <span class="blog-tag">Gestión Financiera</span>
-                <h3>Guía paso a paso para reducir gastos en tu empresa</h3>
-                <p>Cómo inventariar, clasificar y optimizar costos sin afectar las operaciones que sí generan valor en tu negocio.</p>
+            <a href="blog.html" target="_blank" rel="noopener" class="blog-card" data-tags="GestiÃ³n Financiera">
+                <span class="blog-tag">GestiÃ³n Financiera</span>
+                <h3>GuÃ­a paso a paso para reducir gastos en tu empresa</h3>
+                <p>CÃ³mo inventariar, clasificar y optimizar costos sin afectar las operaciones que sÃ­ generan valor en tu negocio.</p>
                 <div class="blog-meta">
                     <span class="blog-date">22 oct 2025</span>
-                    <span class="blog-read">Leer →</span>
+                    <span class="blog-read">Leer â†’</span>
                 </div>
             </a>
 
             <!-- 5 -->
-            <a href="https://zerdafinance.com/blog/como-funciona-zerda-finance" target="_blank" rel="noopener" class="blog-card" data-tags="Gestión Financiera">
+            <a href="blog.html" target="_blank" rel="noopener" class="blog-card" data-tags="GestiÃ³n Financiera">
                 <span class="blog-tag">Zerda Finance</span>
-                <h3>¿Cómo funciona Zerda Finance?</h3>
-                <p>No partimos del balance — partimos de tu historia y tus decisiones para construir claridad financiera real y accionable.</p>
+                <h3>Â¿CÃ³mo funciona Zerda Finance?</h3>
+                <p>No partimos del balance â€” partimos de tu historia y tus decisiones para construir claridad financiera real y accionable.</p>
                 <div class="blog-meta">
                     <span class="blog-date">8 oct 2025</span>
-                    <span class="blog-read">Leer →</span>
+                    <span class="blog-read">Leer â†’</span>
                 </div>
             </a>
 
             <!-- 6 -->
-            <a href="https://zerdafinance.com/blog/stock-options-para-principiantes" target="_blank" rel="noopener" class="blog-card" data-tags="Startups,Capital">
+            <a href="blog.html" target="_blank" rel="noopener" class="blog-card" data-tags="Startups,Capital">
                 <span class="blog-tag">Startups</span>
                 <h3>Stock Options para principiantes</h3>
-                <p>Cómo dar participación sin poner en riesgo tu empresa: rangos recomendados, cláusulas de vesting y qué nunca dejar sin protección.</p>
+                <p>CÃ³mo dar participaciÃ³n sin poner en riesgo tu empresa: rangos recomendados, clÃ¡usulas de vesting y quÃ© nunca dejar sin protecciÃ³n.</p>
                 <div class="blog-meta">
                     <span class="blog-date">1 oct 2025</span>
-                    <span class="blog-read">Leer →</span>
+                    <span class="blog-read">Leer â†’</span>
                 </div>
             </a>
 
             <!-- 7 -->
-            <a href="https://zerdafinance.com/blog/como-armar-el-plan-de-una-saas-que-busca-levantar-capital" target="_blank" rel="noopener" class="blog-card" data-tags="Capital,Startups">
+            <a href="blog.html" target="_blank" rel="noopener" class="blog-card" data-tags="Capital,Startups">
                 <span class="blog-tag">Capital</span>
-                <h3>Cómo armar el plan de una SaaS que busca levantar capital</h3>
-                <p>Lo que los inversionistas realmente evalúan: narrativa sólida + números realistas, no proyecciones de fantasía.</p>
+                <h3>CÃ³mo armar el plan de una SaaS que busca levantar capital</h3>
+                <p>Lo que los inversionistas realmente evalÃºan: narrativa sÃ³lida + nÃºmeros realistas, no proyecciones de fantasÃ­a.</p>
                 <div class="blog-meta">
                     <span class="blog-date">25 sep 2025</span>
-                    <span class="blog-read">Leer →</span>
+                    <span class="blog-read">Leer â†’</span>
                 </div>
             </a>
 
             <!-- 8 -->
-            <a href="https://zerdafinance.com/blog/por-que-comence-zerda-finance-la-historia-detras-del-propo" target="_blank" rel="noopener" class="blog-card" data-tags="Gestión Financiera">
+            <a href="blog.html" target="_blank" rel="noopener" class="blog-card" data-tags="GestiÃ³n Financiera">
                 <span class="blog-tag">Historia</span>
-                <h3>¿Por qué comencé Zerda Finance?</h3>
-                <p>La historia personal detrás de una empresa que nació para traducir lo financiero a un idioma claro y accionable para emprendedores.</p>
+                <h3>Â¿Por quÃ© comencÃ© Zerda Finance?</h3>
+                <p>La historia personal detrÃ¡s de una empresa que naciÃ³ para traducir lo financiero a un idioma claro y accionable para emprendedores.</p>
                 <div class="blog-meta">
                     <span class="blog-date">16 sep 2025</span>
-                    <span class="blog-read">Leer →</span>
+                    <span class="blog-read">Leer â†’</span>
                 </div>
             </a>
 
             <!-- 9 -->
-            <a href="https://zerdafinance.com/blog/te-conviene-endeudarte-para-crecer" target="_blank" rel="noopener" class="blog-card" data-tags="Capital,Gestión Financiera">
+            <a href="blog.html" target="_blank" rel="noopener" class="blog-card" data-tags="Capital,GestiÃ³n Financiera">
                 <span class="blog-tag">Financiamiento</span>
-                <h3>¿Te conviene endeudarte para crecer?</h3>
-                <p>5 principios para saber cuándo pedir un crédito tiene sentido — y cuándo solo va a empeorar tu situación financiera.</p>
+                <h3>Â¿Te conviene endeudarte para crecer?</h3>
+                <p>5 principios para saber cuÃ¡ndo pedir un crÃ©dito tiene sentido â€” y cuÃ¡ndo solo va a empeorar tu situaciÃ³n financiera.</p>
                 <div class="blog-meta">
                     <span class="blog-date">10 sep 2025</span>
-                    <span class="blog-read">Leer →</span>
+                    <span class="blog-read">Leer â†’</span>
                 </div>
             </a>
 
             <!-- 10 -->
-            <a href="https://zerdafinance.com/blog/educacion-financiera-para-fundadores" target="_blank" rel="noopener" class="blog-card" data-tags="KPIs,Gestión Financiera">
-                <span class="blog-tag">Educación</span>
-                <h3>Educación financiera para fundadores</h3>
+            <a href="blog.html" target="_blank" rel="noopener" class="blog-card" data-tags="KPIs,GestiÃ³n Financiera">
+                <span class="blog-tag">EducaciÃ³n</span>
+                <h3>EducaciÃ³n financiera para fundadores</h3>
                 <p>Los 10 conceptos financieros que todo emprendedor debe dominar. Accesibles, aplicables desde hoy y sin jerga innecesaria.</p>
                 <div class="blog-meta">
                     <span class="blog-date">3 sep 2025</span>
-                    <span class="blog-read">Leer →</span>
+                    <span class="blog-read">Leer â†’</span>
                 </div>
             </a>
 
             <!-- 11 -->
-            <a href="https://zerdafinance.com/blog/abrir-una-cuenta-empresa-mi-experiencia" target="_blank" rel="noopener" class="blog-card" data-tags="Gestión Financiera">
+            <a href="blog.html" target="_blank" rel="noopener" class="blog-card" data-tags="GestiÃ³n Financiera">
                 <span class="blog-tag">Consejos</span>
                 <h3>Abrir una cuenta empresa: mi experiencia</h3>
-                <p>Burocracia bancaria vs. alternativas ágiles: lo que nadie te cuenta sobre abrir tu primera cuenta empresarial en Chile.</p>
+                <p>Burocracia bancaria vs. alternativas Ã¡giles: lo que nadie te cuenta sobre abrir tu primera cuenta empresarial en Chile.</p>
                 <div class="blog-meta">
                     <span class="blog-date">27 ago 2025</span>
-                    <span class="blog-read">Leer →</span>
+                    <span class="blog-read">Leer â†’</span>
                 </div>
             </a>
 
             <!-- 12 -->
-            <a href="https://zerdafinance.com/blog/slack-y-la-leccion-de-negocio-que-nacio-del-fracaso" target="_blank" rel="noopener" class="blog-card" data-tags="Startups,Crecimiento">
+            <a href="blog.html" target="_blank" rel="noopener" class="blog-card" data-tags="Startups,Crecimiento">
                 <span class="blog-tag">Startups</span>
-                <h3>Slack y la lección de negocio que nació del fracaso</h3>
-                <p>Cómo un videojuego fallido en 2012 se convirtió en una de las herramientas B2B más exitosas de la historia.</p>
+                <h3>Slack y la lecciÃ³n de negocio que naciÃ³ del fracaso</h3>
+                <p>CÃ³mo un videojuego fallido en 2012 se convirtiÃ³ en una de las herramientas B2B mÃ¡s exitosas de la historia.</p>
                 <div class="blog-meta">
                     <span class="blog-date">20 ago 2025</span>
-                    <span class="blog-read">Leer →</span>
+                    <span class="blog-read">Leer â†’</span>
                 </div>
             </a>
 
             <!-- 13 -->
-            <a href="https://zerdafinance.com/blog/plan-financiero-para-startups-guia-paso-a-paso" target="_blank" rel="noopener" class="blog-card" data-tags="Gestión Financiera,Startups">
+            <a href="blog.html" target="_blank" rel="noopener" class="blog-card" data-tags="GestiÃ³n Financiera,Startups">
                 <span class="blog-tag">Plan Financiero</span>
-                <h3>Plan financiero para startups: guía paso a paso</h3>
+                <h3>Plan financiero para startups: guÃ­a paso a paso</h3>
                 <p>6 pasos para construir un plan financiero realista y empezar a tomar decisiones con datos, no con intuiciones.</p>
                 <div class="blog-meta">
                     <span class="blog-date">13 ago 2025</span>
-                    <span class="blog-read">Leer →</span>
+                    <span class="blog-read">Leer â†’</span>
                 </div>
             </a>
 
             <!-- 14 -->
-            <a href="https://zerdafinance.com/blog/como-subir-tus-precios-sin-perder-ventas" target="_blank" rel="noopener" class="blog-card" data-tags="Pricing">
+            <a href="blog.html" target="_blank" rel="noopener" class="blog-card" data-tags="Pricing">
                 <span class="blog-tag">Pricing</span>
-                <h3>Cómo subir tus precios sin perder ventas</h3>
-                <p>La experiencia real de Oscar en Aramark durante la pandemia: transparencia y datos personalizados como arma de negociación.</p>
+                <h3>CÃ³mo subir tus precios sin perder ventas</h3>
+                <p>La experiencia real de Oscar en Aramark durante la pandemia: transparencia y datos personalizados como arma de negociaciÃ³n.</p>
                 <div class="blog-meta">
                     <span class="blog-date">6 ago 2025</span>
-                    <span class="blog-read">Leer →</span>
+                    <span class="blog-read">Leer â†’</span>
                 </div>
             </a>
 
             <!-- 15 -->
-            <a href="https://zerdafinance.com/blog/que-harias-si-tu-negocio-estuviera-a-dias-de-la-quiebra" target="_blank" rel="noopener" class="blog-card" data-tags="Crisis,Gestión Financiera">
+            <a href="blog.html" target="_blank" rel="noopener" class="blog-card" data-tags="Crisis,GestiÃ³n Financiera">
                 <span class="blog-tag">Crisis</span>
-                <h3>¿Qué harías si tu negocio estuviera a días de la quiebra?</h3>
-                <p>Cómo el Borussia Dortmund escapó de la insolvencia en 2005 — y qué pueden aprender los emprendedores de esa historia.</p>
+                <h3>Â¿QuÃ© harÃ­as si tu negocio estuviera a dÃ­as de la quiebra?</h3>
+                <p>CÃ³mo el Borussia Dortmund escapÃ³ de la insolvencia en 2005 â€” y quÃ© pueden aprender los emprendedores de esa historia.</p>
                 <div class="blog-meta">
                     <span class="blog-date">30 jul 2025</span>
-                    <span class="blog-read">Leer →</span>
+                    <span class="blog-read">Leer â†’</span>
                 </div>
             </a>
 
             <!-- 16 -->
-            <a href="https://zerdafinance.com/blog/lo-que-el-leeds-united-me-enseno-sobre-finanzas" target="_blank" rel="noopener" class="blog-card" data-tags="Crisis,Gestión Financiera">
+            <a href="blog.html" target="_blank" rel="noopener" class="blog-card" data-tags="Crisis,GestiÃ³n Financiera">
                 <span class="blog-tag">Estrategia</span>
-                <h3>Lo que el Leeds United me enseñó sobre finanzas</h3>
-                <p>Soberbia, deuda sin control y falta de plan B — la caída del Leeds como espejo de los errores financieros más comunes en negocios.</p>
+                <h3>Lo que el Leeds United me enseÃ±Ã³ sobre finanzas</h3>
+                <p>Soberbia, deuda sin control y falta de plan B â€” la caÃ­da del Leeds como espejo de los errores financieros mÃ¡s comunes en negocios.</p>
                 <div class="blog-meta">
                     <span class="blog-date">23 jul 2025</span>
-                    <span class="blog-read">Leer →</span>
+                    <span class="blog-read">Leer â†’</span>
                 </div>
             </a>
 
             <!-- 17 -->
-            <a href="https://zerdafinance.com/blog/que-harias-si-tu-negocio-perdiera-el-80-de-sus-ingresos-en-un-mes" target="_blank" rel="noopener" class="blog-card" data-tags="Crisis,Gestión Financiera">
+            <a href="blog.html" target="_blank" rel="noopener" class="blog-card" data-tags="Crisis,GestiÃ³n Financiera">
                 <span class="blog-tag">Crisis</span>
-                <h3>¿Qué harías si tu negocio perdiera el 80% de sus ingresos en un mes?</h3>
-                <p>El caso Airbnb en 2020: cómo decisiones difíciles y adaptación estratégica convirtieron una catástrofe en un IPO histórico.</p>
+                <h3>Â¿QuÃ© harÃ­as si tu negocio perdiera el 80% de sus ingresos en un mes?</h3>
+                <p>El caso Airbnb en 2020: cÃ³mo decisiones difÃ­ciles y adaptaciÃ³n estratÃ©gica convirtieron una catÃ¡strofe en un IPO histÃ³rico.</p>
                 <div class="blog-meta">
                     <span class="blog-date">18 jul 2025</span>
-                    <span class="blog-read">Leer →</span>
+                    <span class="blog-read">Leer â†’</span>
                 </div>
             </a>
 
             <!-- 18 -->
-            <a href="https://zerdafinance.com/blog/finanzas-abiertas" target="_blank" rel="noopener" class="blog-card" data-tags="Gestión Financiera">
+            <a href="blog.html" target="_blank" rel="noopener" class="blog-card" data-tags="GestiÃ³n Financiera">
                 <span class="blog-tag">Equipo</span>
                 <h3>Finanzas abiertas</h3>
-                <p>Compartir información financiera con tu equipo genera compromiso auténtico — no conflictos. Cómo implementarlo sin riesgos.</p>
+                <p>Compartir informaciÃ³n financiera con tu equipo genera compromiso autÃ©ntico â€” no conflictos. CÃ³mo implementarlo sin riesgos.</p>
                 <div class="blog-meta">
                     <span class="blog-date">14 jul 2025</span>
-                    <span class="blog-read">Leer →</span>
+                    <span class="blog-read">Leer â†’</span>
                 </div>
             </a>
 
             <!-- 19 -->
-            <a href="https://zerdafinance.com/blog/cuanto-te-cuesta-vender" target="_blank" rel="noopener" class="blog-card" data-tags="KPIs">
+            <a href="blog.html" target="_blank" rel="noopener" class="blog-card" data-tags="KPIs">
                 <span class="blog-tag">KPIs</span>
-                <h3>¿Cuánto te cuesta vender?</h3>
-                <p>Si no sabes tu CAC, podrías estar vendiendo mucho y ganando poco. La métrica que define si tu negocio es realmente sostenible.</p>
+                <h3>Â¿CuÃ¡nto te cuesta vender?</h3>
+                <p>Si no sabes tu CAC, podrÃ­as estar vendiendo mucho y ganando poco. La mÃ©trica que define si tu negocio es realmente sostenible.</p>
                 <div class="blog-meta">
                     <span class="blog-date">9 jul 2025</span>
-                    <span class="blog-read">Leer →</span>
+                    <span class="blog-read">Leer â†’</span>
                 </div>
             </a>
 
             <!-- 20 -->
-            <a href="https://zerdafinance.com/blog/conoces-tu-punto-de-equilibrio" target="_blank" rel="noopener" class="blog-card" data-tags="KPIs,Gestión Financiera">
+            <a href="blog.html" target="_blank" rel="noopener" class="blog-card" data-tags="KPIs,GestiÃ³n Financiera">
                 <span class="blog-tag">Fundamentos</span>
-                <h3>¿Conoces tu punto de equilibrio?</h3>
-                <p>El 70% de los emprendedores no lo sabe. Guía práctica de 3 pasos para calcularlo y saber cuánto necesitas vender para no perder.</p>
+                <h3>Â¿Conoces tu punto de equilibrio?</h3>
+                <p>El 70% de los emprendedores no lo sabe. GuÃ­a prÃ¡ctica de 3 pasos para calcularlo y saber cuÃ¡nto necesitas vender para no perder.</p>
                 <div class="blog-meta">
                     <span class="blog-date">7 jul 2025</span>
-                    <span class="blog-read">Leer →</span>
+                    <span class="blog-read">Leer â†’</span>
                 </div>
             </a>
 
-            <div class="no-results" id="noResults">No hay artículos en esta categoría todavía.</div>
+            <div class="no-results" id="noResults">No hay artÃ­culos en esta categorÃ­a todavÃ­a.</div>
 
         </div>
 
         <!-- CTA banner -->
         <div class="cta-banner">
             <div class="cta-banner-inner">
-                <h2>¿Listo para dejar de operar <em>a ciegas</em>?</h2>
-                <p>Agenda una sesión gratuita de 30 minutos con Oscar.</p>
+                <h2>Â¿Listo para dejar de operar <em>a ciegas</em>?</h2>
+                <p>Agenda una sesiÃ³n gratuita de 30 minutos con Oscar.</p>
                 <div class="cta-actions">
-                    <a href="diagnostico.html" class="btn btn-primary">📅 Agenda tu Diagnóstico Gratuito</a>
-                    <a href="https://wa.me/56976830798" target="_blank" rel="noopener" class="btn btn-outline-white">💬 WhatsApp</a>
+                    <a href="diagnostico.html" class="btn btn-primary">ðŸ“… Agenda tu DiagnÃ³stico Gratuito</a>
+                    <a href="https://wa.me/56976830798" target="_blank" rel="noopener" class="btn btn-outline-white">ðŸ’¬ WhatsApp</a>
                 </div>
             </div>
         </div>
@@ -686,8 +686,8 @@
             <a href="index.html" class="footer-logo">
                 <img src="logos/Logo oficial white.png" alt="Zerda Finance">
             </a>
-            <p class="footer-copy">© 2025 Zerda Finance. Todos los derechos reservados.</p>
-            <a href="index.html" class="footer-back">← Volver al inicio</a>
+            <p class="footer-copy">Â© 2025 Zerda Finance. Todos los derechos reservados.</p>
+            <a href="index.html" class="footer-back">â† Volver al inicio</a>
         </div>
     </div>
 </footer>
@@ -718,7 +718,7 @@
         document.body.style.overflow = '';
     }
 
-    // Filtro por categoría
+    // Filtro por categorÃ­a
     function filterPosts(btn) {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -743,3 +743,4 @@
 
 </body>
 </html>
+
