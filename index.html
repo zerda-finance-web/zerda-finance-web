@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zerda Finance — Claridad Financiera para Emprendedores y PYMEs</title>
+    <meta name="description" content="Diagnóstico financiero, modelos financieros y acompañamiento mensual para emprendedores y PYMEs que quieren crecer con orden. Agenda tu sesión gratuita.">
+    <link rel="icon" href="logos/isotipo.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================================
+           RESET & VARIABLES
+        ============================================================ */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --dark:        #0F2035;
+            --dark-mid:    #1A3252;
+            --dark-light:  #243D5E;
+            --accent:      #00BDD0;
+            --accent-dark: #009BAB;
+            --accent-bg:   #E4F9FB;
+            --white:       #FFFFFF;
+            --off-white:   #F4F8FB;
+            --gray-100:    #E8EDF3;
+            --gray-200:    #C5CDD8;
+            --gray-400:    #7A8A9A;
+            --text:        #0F2035;
+            --text-mid:    #3D5166;
+            --radius:      16px;
+            --shadow-sm:   0 2px 12px rgba(15,32,53,0.06);
+            --shadow-md:   0 8px 32px rgba(15,32,53,0.10);
+            --shadow-lg:   0 16px 48px rgba(15,32,53,0.14);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--text);
+            line-height: 1.65;
+            background: var(--white);
+            overflow-x: hidden;
+        }
+
+        img { max-width: 100%; display: block; }
+
+        /* ============================================================
+           LAYOUT UTILITIES
+        ============================================================ */
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section      { padding: 96px 0; }
+        .section-sm   { padding: 64px 0; }
+        .section-dark { background: var(--dark); }
+        .section-off  { background: var(--off-white); }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+
+        /* ============================================================
+           TYPOGRAPHY
+        ============================================================ */
+        h1, h2, h3, h4 { line-height: 1.2; font-weight: 800; }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 100px;
+            margin-bottom: 16px;
+        }
+
+        .section-label-light {
+            background: var(--accent-bg);
+            color: var(--accent-dark);
+        }
+
+        .section-label-dark {
+            background: rgba(0,189,208,0.14);
+            color: var(--accent);
+        }
+
+        /* ============================================================
+           BUTTONS
+        ============================================================ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+            white-space: nowrap;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--dark);
+            border-color: var(--accent);
+        }
+        .btn-primary:hover {
+            background: var(--accent-dark);
+            border-color: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,189,208,0.35);
+        }
+
+        .btn-outline-white {
+            background: transparent;
+            color: var(--white);
+            border-color: rgba(255,255,255,0.35);
+        }
+        .btn-outline-white:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--white);
+        }
+
+        .btn-ghost-dark {
+            background: transparent;
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+        .btn-ghost-dark:hover {
+            background: var(--accent);
+            color: var(--dark);
+        }
+
+        .btn-lg { padding: 18px 36px; font-size: 16px; }
+
+        /* ============================================================
+           NAVBAR
+        ============================================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(10, 20, 35, 0.96);
+            backdrop-filter: blur(14px);
+            padding: 14px 0;
+            box-shadow: 0 2px 24px rgba(0,0,0,0.25);
+        }
+
+        .navbar-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 32px;
+        }
+
+        .navbar-logo img { height: 38px; width: auto; }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            list-style: none;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .navbar-links a {
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .navbar-links a:hover { color: var(--white); }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 4px;
+            background: none;
+            border: none;
+        }
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--white);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: var(--dark);
+            z-index: 999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+        }
+        .mobile-menu.open { display: flex; }
+        .mobile-menu a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .mobile-close {
+            position: absolute;
+            top: 22px;
+            right: 24px;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 36px;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        /* ============================================================
+           HERO
+        ============================================================ */
+        .hero {
+            background: linear-gradient(140deg, #0A1625 0%, #0F2035 45%, #162D4A 100%);
+            padding: 160px 0 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-glow-1 {
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(0,189,208,0.09) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .hero-glow-2 {
+            position: absolute;
+            bottom: -150px;
+            left: -50px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0,189,208,0.05) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 860px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 5.5vw, 62px);
+            color: var(--white);
+            margin: 20px 0 26px;
+            line-height: 1.13;
+        }
+        .hero h1 em {
+            font-style: normal;
+            color: var(--accent);
+        }
+
+        .hero-sub {
+            font-size: 18px;
+            color: rgba(255,255,255,0.72);
+            max-width: 620px;
+            margin: 0 auto 44px;
+            line-height: 1.75;
+        }
+
+        .hero-ctas { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: center; }
+
+        .hero-stats {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            margin-top: 72px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .stat-item { }
+        .stat-num {
+            font-size: 34px;
+            font-weight: 800;
+            color: var(--white);
+            line-height: 1;
+        }
+        .stat-lbl {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            margin-top: 4px;
+        }
+        .stat-sep {
+            width: 1px;
+            height: 44px;
+            background: rgba(255,255,255,0.12);
+        }
+
+        /* ============================================================
+           INDUSTRIES STRIP
+        ============================================================ */
+        .strip {
+            background: var(--off-white);
+            padding: 28px 0;
+            border-top: 1px solid var(--gray-100);
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .strip-inner {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .strip-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            white-space: nowrap;
+        }
+
+        .industry-tags { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+
+        .industry-tag {
+            background: var(--white);
+            border: 1px solid var(--gray-100);
+            color: var(--text-mid);
+            padding: 5px 14px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: border-color 0.2s;
+        }
+        .industry-tag:hover { border-color: var(--accent); }
+
+        /* ============================================================
+           PROBLEM SECTION
+        ============================================================ */
+        .problem-header { text-align: center; max-width: 640px; margin: 0 auto 64px; }
+        .problem-header h2 { font-size: clamp(26px, 4vw, 44px); margin: 12px 0 18px; }
+        .problem-header p { font-size: 17px; color: var(--text-mid); }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .problem-card {
+            background: var(--off-white);
+            border: 1px solid var(--gray-100);
+            border-radius: var(--radius);
+            padding: 32px;
+            transition: all 0.22s;
+        }
+        .problem-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .p-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-bg);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .problem-card h3 { font-size: 17px; margin-bottom: 10px; }
+        .problem-card p  { font-size: 14px; color: var(--text-mid); line-height: 1.7; }
+
+        /* ============================================================
+           QUOTE BREAK
+        ============================================================ */
+        .quote-break {
+            background: var(--dark);
+            padding: 72px 0;
+            text-align: center;
+        }
+
+        .quote-break blockquote {
+            font-size: clamp(20px, 3.5vw, 34px);
+            font-weight: 700;
+            color: var(--white);
+            max-width: 760px;
+            margin: 0 auto;
+            line-height: 1.45;
+        }
+        .quote-break blockquote span { color: var(--accent); }
+        .quote-break cite {
+            display: block;
+            margin-top: 20px;
+            font-size: 14px;
+            font-style: normal;
+            color: rgba(255,255,255,0.45);
+        }
+
+        /* ============================================================
+           CORE METHOD
+        ============================================================ */
+        .method {
+            background: var(--dark);
+            position: relative;
+            overflow: hidden;
+        }
+        .method-glow {
+            position: absolute;
+            top: 50%;
+            right: -10%;
+            transform: translateY(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0,189,208,0.07) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .method-header { text-align: center; max-width: 600px; margin: 0 auto 64px; position: relative; z-index: 1; }
+        .method-header h2 { font-size: clamp(26px, 4vw, 44px); color: var(--white); margin: 12px 0 18px; }
+        .method-header p  { color: rgba(255,255,255,0.62); font-size: 17px; }
+
+        .method-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .method-step {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: var(--radius);
+            padding: 36px 28px;
+            text-align: center;
+            transition: all 0.22s;
+        }
+        .method-step:hover {
+            background: rgba(0,189,208,0.07);
+            border-color: rgba(0,189,208,0.28);
+            transform: translateY(-4px);
+        }
+
+        .method-letter {
+            font-size: 52px;
+            font-weight: 800;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        .method-word {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 14px;
+        }
+        .method-step p { font-size: 14px; color: rgba(255,255,255,0.58); line-height: 1.65; }
+
+        /* ============================================================
+           SERVICES
+        ============================================================ */
+        .services-header { text-align: center; max-width: 600px; margin: 0 auto 64px; }
+        .services-header h2 { font-size: clamp(26px, 4vw, 44px); margin: 12px 0 18px; }
+        .services-header p  { font-size: 17px; color: var(--text-mid); }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .service-card {
+            background: var(--white);
+            border: 1px solid var(--gray-100);
+            border-radius: var(--radius);
+            padding: 36px 32px;
+            transition: all 0.22s;
+        }
+        .service-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+
+        .s-icon {
+            width: 54px;
+            height: 54px;
+            background: var(--accent-bg);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 22px;
+        }
+
+        .service-card h3 { font-size: 18px; margin-bottom: 10px; }
+        .service-card p  { font-size: 14px; color: var(--text-mid); line-height: 1.7; margin-bottom: 20px; }
+
+        .s-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+        .s-tag {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-dark);
+            background: var(--accent-bg);
+            padding: 4px 10px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        /* ============================================================
+           ABOUT
+        ============================================================ */
+        .about-img-wrap {
+            border-radius: 24px;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-mid) 100%);
+            aspect-ratio: 4/5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .about-placeholder-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .about-badge {
+            position: absolute;
+            bottom: -16px;
+            right: -16px;
+            background: var(--accent);
+            color: var(--dark);
+            border-radius: 16px;
+            padding: 18px 22px;
+            font-weight: 800;
+            text-align: center;
+            box-shadow: 0 8px 28px rgba(0,189,208,0.38);
+        }
+        .about-badge .n { font-size: 30px; line-height: 1; display: block; }
+        .about-badge .l { font-size: 11px; font-weight: 600; opacity: 0.85; }
+
+        .about-content { }
+        .about-content h2 { font-size: clamp(26px, 3.5vw, 40px); margin: 12px 0 22px; }
+        .about-content p  { font-size: 15px; color: var(--text-mid); line-height: 1.8; margin-bottom: 16px; }
+
+        .credentials { display: flex; flex-direction: column; gap: 11px; margin: 28px 0; }
+        .cred-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .cred-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .pull-quote {
+            background: var(--off-white);
+            border-left: 4px solid var(--accent);
+            padding: 18px 22px;
+            border-radius: 0 12px 12px 0;
+            margin-top: 28px;
+            font-size: 15px;
+            font-style: italic;
+            color: var(--text-mid);
+            line-height: 1.65;
+        }
+
+        /* ============================================================
+           PROCESS
+        ============================================================ */
+        .process-header { text-align: center; max-width: 600px; margin: 0 auto 64px; }
+        .process-header h2 { font-size: clamp(26px, 4vw, 44px); margin: 12px 0 18px; }
+        .process-header p  { font-size: 17px; color: var(--text-mid); }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            position: relative;
+        }
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 35px;
+            left: calc(16.7% + 12px);
+            right: calc(16.7% + 12px);
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--accent-dark) 100%);
+            z-index: 0;
+        }
+
+        .process-step { text-align: center; padding: 0 12px; }
+
+        .step-num {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: var(--dark);
+            font-size: 24px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 20px rgba(0,189,208,0.32);
+        }
+
+        .process-step h3 { font-size: 19px; margin-bottom: 12px; }
+        .process-step p  { font-size: 14px; color: var(--text-mid); line-height: 1.7; }
+
+        /* ============================================================
+           COMPARISON TABLE
+        ============================================================ */
+        .comparison {
+            background: var(--dark);
+            position: relative;
+            overflow: hidden;
+        }
+        .comparison-glow {
+            position: absolute;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 400px;
+            background: radial-gradient(ellipse, rgba(0,189,208,0.07) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .comparison-header { text-align: center; max-width: 600px; margin: 0 auto 56px; position: relative; z-index: 1; }
+        .comparison-header h2 { font-size: clamp(26px, 4vw, 44px); color: var(--white); margin: 12px 0 18px; }
+        .comparison-header p  { color: rgba(255,255,255,0.62); font-size: 17px; }
+
+        .comparison-table {
+            position: relative;
+            z-index: 1;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .ct-head {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            background: rgba(255,255,255,0.05);
+        }
+        .ct-head-cell {
+            padding: 20px 28px;
+            font-size: 15px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.9);
+            border-right: 1px solid rgba(255,255,255,0.07);
+        }
+        .ct-head-cell:last-child { border-right: none; }
+        .ct-head-cell.highlight { color: var(--accent); }
+
+        .ct-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .ct-row:hover { background: rgba(255,255,255,0.02); }
+
+        .ct-cell {
+            padding: 16px 28px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.65);
+            border-right: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .ct-cell:last-child { border-right: none; }
+        .ct-cell.highlight { color: rgba(255,255,255,0.9); }
+        .ct-cell.topic  { color: rgba(255,255,255,0.85); font-weight: 600; }
+
+        .check { color: var(--accent); font-size: 18px; font-weight: 700; }
+        .cross { color: rgba(255,255,255,0.3); font-size: 18px; }
+
+        /* ============================================================
+           TESTIMONIALS
+        ============================================================ */
+        .testimonials {
+            background: var(--dark);
+            position: relative;
+            overflow: hidden;
+        }
+        .test-glow {
+            position: absolute;
+            top: 30%;
+            left: -5%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0,189,208,0.06) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .test-header { text-align: center; max-width: 600px; margin: 0 auto 64px; position: relative; z-index: 1; }
+        .test-header h2 { font-size: clamp(26px, 4vw, 44px); color: var(--white); margin: 12px 0 18px; }
+        .test-header p  { color: rgba(255,255,255,0.62); font-size: 17px; }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .test-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: var(--radius);
+            padding: 30px;
+            transition: all 0.22s;
+        }
+        .test-card:hover {
+            background: rgba(0,189,208,0.06);
+            border-color: rgba(0,189,208,0.22);
+        }
+
+        .stars { display: flex; gap: 3px; margin-bottom: 16px; color: var(--accent); font-size: 15px; }
+
+        .test-text {
+            font-size: 15px;
+            color: rgba(255,255,255,0.78);
+            line-height: 1.75;
+            margin-bottom: 24px;
+            font-style: italic;
+        }
+
+        .test-author { display: flex; align-items: center; gap: 12px; }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--dark-mid) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: var(--white);
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        .author-name { font-size: 14px; font-weight: 700; color: var(--white); }
+        .author-role { font-size: 12px; color: rgba(255,255,255,0.48); }
+        .verified    { font-size: 11px; color: var(--accent); font-weight: 600; margin-top: 2px; }
+
+        /* ============================================================
+           FAQ
+        ============================================================ */
+        .faq-header { text-align: center; max-width: 600px; margin: 0 auto 64px; }
+        .faq-header h2 { font-size: clamp(26px, 4vw, 44px); margin: 12px 0 18px; }
+        .faq-header p  { font-size: 17px; color: var(--text-mid); }
+
+        .faq-list { max-width: 720px; margin: 0 auto; }
+
+        .faq-item { border-bottom: 1px solid var(--gray-100); }
+
+        .faq-q {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 22px 0;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            gap: 24px;
+            user-select: none;
+            color: var(--text);
+            transition: color 0.2s;
+        }
+        .faq-q:hover { color: var(--accent-dark); }
+
+        .faq-toggle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--accent-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--accent-dark);
+            font-size: 20px;
+            font-weight: 700;
+            transition: all 0.22s;
+            line-height: 1;
+        }
+        .faq-item.open .faq-toggle {
+            background: var(--accent);
+            color: var(--white);
+            transform: rotate(45deg);
+        }
+
+        .faq-a {
+            display: none;
+            padding: 0 0 22px;
+            font-size: 15px;
+            color: var(--text-mid);
+            line-height: 1.78;
+        }
+        .faq-item.open .faq-a { display: block; }
+
+        /* ============================================================
+           FINAL CTA
+        ============================================================ */
+        .final-cta {
+            background: linear-gradient(140deg, #0A1625 0%, #0F2035 45%, #162D4A 100%);
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 600px;
+            background: radial-gradient(ellipse, rgba(0,189,208,0.10) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .final-cta-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+        .final-cta-inner h2 { font-size: clamp(28px, 4.5vw, 52px); color: var(--white); margin: 16px 0 22px; line-height: 1.2; }
+        .final-cta-inner h2 em { font-style: normal; color: var(--accent); }
+        .final-cta-inner p  { font-size: 17px; color: rgba(255,255,255,0.68); margin-bottom: 40px; line-height: 1.7; }
+
+        .cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+        .cta-note {
+            margin-top: 20px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.38);
+        }
+
+        /* ============================================================
+           FOOTER
+        ============================================================ */
+        .footer { background: #070E1A; padding: 64px 0 32px; }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            padding-bottom: 48px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .footer-brand img { height: 34px; margin-bottom: 18px; }
+        .footer-brand p   { font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.75; max-width: 280px; }
+
+        .footer-col h4 {
+            font-size: 12px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.85);
+            text-transform: uppercase;
+            letter-spacing: 0.09em;
+            margin-bottom: 16px;
+        }
+        .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+        .footer-col ul a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+        .footer-col ul a:hover { color: var(--accent); }
+
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 28px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-copy { font-size: 13px; color: rgba(255,255,255,0.3); }
+
+        .social-links { display: flex; gap: 10px; }
+        .social-link {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.55);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .social-link:hover { background: var(--accent); color: var(--dark); }
+
+        /* ============================================================
+           BLOG
+        ============================================================ */
+        .blog-header { text-align: center; max-width: 600px; margin: 0 auto 64px; }
+        .blog-header h2 { font-size: clamp(26px, 4vw, 44px); margin: 12px 0 18px; }
+        .blog-header p  { font-size: 17px; color: var(--text-mid); }
+
+        .blog-featured {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .blog-card {
+            background: var(--white);
+            border: 1px solid var(--gray-100);
+            border-radius: var(--radius);
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: all 0.22s;
+            text-decoration: none;
+            color: inherit;
+        }
+        .blog-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-3px);
+            border-color: var(--accent);
+        }
+        .blog-card.featured {
+            padding: 32px;
+        }
+
+        .blog-tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-dark);
+            background: var(--accent-bg);
+            padding: 3px 10px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            width: fit-content;
+        }
+
+        .blog-card h3 {
+            font-size: 17px;
+            font-weight: 700;
+            line-height: 1.35;
+            color: var(--text);
+        }
+        .blog-card.featured h3 { font-size: 20px; }
+
+        .blog-card p {
+            font-size: 14px;
+            color: var(--text-mid);
+            line-height: 1.65;
+            flex: 1;
+        }
+        .blog-card.small p { display: none; }
+
+        .blog-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 12px;
+            border-top: 1px solid var(--gray-100);
+        }
+        .blog-date { font-size: 12px; color: var(--gray-400); }
+        .blog-read { font-size: 13px; font-weight: 600; color: var(--accent-dark); }
+
+        @media (max-width: 1024px) {
+            .blog-featured { grid-template-columns: repeat(2, 1fr); }
+            .blog-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 640px) {
+            .blog-featured { grid-template-columns: 1fr; }
+            .blog-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 420px) {
+            .blog-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ============================================================
+           WHATSAPP FLOAT
+        ============================================================ */
+        .wa-float {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: #25D366;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(37,211,102,0.42);
+            z-index: 900;
+            transition: all 0.2s;
+        }
+        .wa-float:hover { transform: scale(1.08); box-shadow: 0 8px 32px rgba(37,211,102,0.52); }
+
+        /* ============================================================
+           RESPONSIVE
+        ============================================================ */
+        @media (max-width: 1024px) {
+            .method-steps { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 860px) {
+            .grid-2 { grid-template-columns: 1fr; gap: 48px; }
+            .about-img-wrap { max-width: 400px; margin: 0 auto; }
+            .process-steps { grid-template-columns: 1fr; gap: 36px; }
+            .process-steps::before { display: none; }
+            .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+            .ct-head-cell, .ct-cell { padding: 14px 16px; }
+        }
+
+        @media (max-width: 640px) {
+            .section { padding: 64px 0; }
+            .navbar-links, .navbar-cta-wrap { display: none; }
+            .hamburger { display: flex; }
+            .hero { padding: 120px 0 72px; }
+            .hero-stats { gap: 20px; }
+            .stat-sep { display: none; }
+            .method-steps { grid-template-columns: 1fr; }
+            .footer-top { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; align-items: flex-start; }
+            .comparison-table { overflow-x: auto; }
+            .ct-head, .ct-row { min-width: 560px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ================================================================
+     NAVBAR
+================================================================ -->
+<nav class="navbar" id="navbar">
+    <div class="container">
+        <div class="navbar-inner">
+            <a href="#" class="navbar-logo">
+                <img src="logos/Logo oficial white.png" alt="Zerda Finance">
+            </a>
+
+            <ul class="navbar-links">
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#proceso">Proceso</a></li>
+                <li><a href="#oscar">Sobre Oscar</a></li>
+                <li><a href="#testimonios">Reseñas</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#blog">Blog</a></li>
+            </ul>
+
+            <div class="navbar-cta-wrap">
+                <a href="diagnostico.html" class="btn btn-primary">Agenda tu Diagnóstico</a>
+            </div>
+
+            <button class="hamburger" onclick="openMenu()" aria-label="Menú">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" onclick="closeMenu()" aria-label="Cerrar">×</button>
+    <a href="#servicios"   onclick="closeMenu()">Servicios</a>
+    <a href="#proceso"     onclick="closeMenu()">Proceso</a>
+    <a href="#oscar"       onclick="closeMenu()">Sobre Oscar</a>
+    <a href="#testimonios" onclick="closeMenu()">Reseñas</a>
+    <a href="#faq"         onclick="closeMenu()">FAQ</a>
+    <a href="#blog"        onclick="closeMenu()">Blog</a>
+    <a href="diagnostico.html" onclick="closeMenu()" class="btn btn-primary">Agenda tu Diagnóstico</a>
+</div>
+
+
+<!-- ================================================================
+     HERO
+================================================================ -->
+<section class="hero">
+    <div class="hero-glow-1"></div>
+    <div class="hero-glow-2"></div>
+
+    <div class="container">
+        <div class="hero-content">
+            <span class="section-label section-label-dark">Partner Financiero para PYMEs y Startups</span>
+
+            <h1>Tu negocio merece dejar de operar <em>a ciegas</em></h1>
+
+            <p class="hero-sub">
+                Ayudamos a emprendedores y PYMEs a entender sus números, ordenar sus finanzas
+                y tomar decisiones que realmente hacen crecer el negocio.
+            </p>
+
+            <div class="hero-ctas">
+                <a href="diagnostico.html" class="btn btn-primary btn-lg">
+                    Agenda tu Diagnóstico Gratuito →
+                </a>
+                <a href="https://wa.me/56976830798" class="btn btn-outline-white btn-lg" target="_blank" rel="noopener">
+                    💬 Escríbenos por WhatsApp
+                </a>
+            </div>
+
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-num">+15</div>
+                    <div class="stat-lbl">Años en finanzas corporativas</div>
+                </div>
+                <div class="stat-sep"></div>
+                <div class="stat-item">
+                    <div class="stat-num">+50</div>
+                    <div class="stat-lbl">Empresas acompañadas</div>
+                </div>
+                <div class="stat-sep"></div>
+                <div class="stat-item">
+                    <div class="stat-num">8</div>
+                    <div class="stat-lbl">Industrias distintas</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================================================================
+     INDUSTRIES STRIP
+================================================================ -->
+<div class="strip">
+    <div class="container">
+        <div class="strip-inner">
+            <span class="strip-label">Trabajamos con</span>
+            <div class="industry-tags">
+                <span class="industry-tag">🏥 Clínicas</span>
+                <span class="industry-tag">☕ Cafeterías</span>
+                <span class="industry-tag">💻 SaaS</span>
+                <span class="industry-tag">📱 E-commerce</span>
+                <span class="industry-tag">⚖️ Estudios Legales</span>
+                <span class="industry-tag">🏭 Alimentos</span>
+                <span class="industry-tag">💰 Financieras</span>
+                <span class="industry-tag">🚀 Startups</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================================================================
+     PROBLEM
+================================================================ -->
+<section class="section" id="problema">
+    <div class="container">
+        <div class="problem-header">
+            <span class="section-label section-label-light">El Problema</span>
+            <h2>Muchos negocios no fallan por falta de ventas — fallan porque no entienden sus números</h2>
+            <p>¿Alguno de estos escenarios te suena familiar?</p>
+        </div>
+
+        <div class="problem-grid">
+
+            <div class="problem-card">
+                <div class="p-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#009BAB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="1" x2="12" y2="23"/>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                    </svg>
+                </div>
+                <h3>Vendes más, pero no sabes dónde va el dinero</h3>
+                <p>Tu facturación sube pero la cuenta bancaria no lo refleja. No es un problema de ventas — es de estructura financiera.</p>
+            </div>
+
+            <div class="problem-card">
+                <div class="p-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#009BAB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="7" width="20" height="14" rx="2"/>
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                    </svg>
+                </div>
+                <h3>No sabes si puedes contratar a alguien</h3>
+                <p>Quieres crecer el equipo pero sin un modelo claro no sabes si el negocio lo soporta. Contratar sin datos puede ser el error más caro.</p>
+            </div>
+
+            <div class="problem-card">
+                <div class="p-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#009BAB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 8v4l3 3"/>
+                    </svg>
+                </div>
+                <h3>Operas reactivo, no estratégico</h3>
+                <p>Cada mes apagás incendios en lugar de ejecutar un plan. Sin claridad financiera, tu negocio funciona por inercia, no por diseño.</p>
+            </div>
+
+            <div class="problem-card">
+                <div class="p-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#009BAB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                    </svg>
+                </div>
+                <h3>Tus precios son un "más o menos"</h3>
+                <p>Pusiste un precio que parecía razonable pero no sabes si cubre tus costos reales. El pricing sin estructura es ruleta rusa.</p>
+            </div>
+
+            <div class="problem-card">
+                <div class="p-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#009BAB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                </div>
+                <h3>Confundes contabilidad con finanzas</h3>
+                <p>Tu contador te da el balance anual. Pero no te dice si deberías subir precios, cuándo necesitarás financiamiento o cómo reducir costos.</p>
+            </div>
+
+            <div class="problem-card">
+                <div class="p-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#009BAB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                        <polyline points="17 6 23 6 23 12"/>
+                    </svg>
+                </div>
+                <h3>No tienes claridad para levantar capital</h3>
+                <p>Quieres buscar inversión o crédito pero sin los números ordenados, ningún banco ni inversionista te va a tomar en serio.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ================================================================
+     QUOTE BREAK
+================================================================ -->
+<section class="quote-break">
+    <div class="container">
+        <blockquote>
+            "No es un problema de ventas, <span>es un problema de estructura</span>. Y eso sí se puede resolver."
+        </blockquote>
+        <cite>— Oscar Rincón, Founder de Zerda Finance</cite>
+    </div>
+</section>
+
+
+<!-- ================================================================
+     CORE METHOD
+================================================================ -->
+<section class="section method" id="metodo">
+    <div class="method-glow"></div>
+    <div class="container">
+        <div class="method-header">
+            <span class="section-label section-label-dark">Metodología CORE</span>
+            <h2>Un proceso diseñado para que tú decidas mejor</h2>
+            <p>No más Excel que nadie usa. Un framework práctico que se adapta a tu negocio real.</p>
+        </div>
+
+        <div class="method-steps">
+            <div class="method-step">
+                <div class="method-letter">C</div>
+                <div class="method-word">Claridad</div>
+                <p>Entendemos dónde estás realmente. Diagnóstico completo del modelo de negocio, ingresos y costos.</p>
+            </div>
+            <div class="method-step">
+                <div class="method-letter">O</div>
+                <div class="method-word">Orden</div>
+                <p>Estructuramos tus finanzas para que sean una herramienta de gestión, no un problema mensual.</p>
+            </div>
+            <div class="method-step">
+                <div class="method-letter">R</div>
+                <div class="method-word">Rentabilidad</div>
+                <p>Optimizamos márgenes, pricing y unit economics para que cada venta construya el negocio.</p>
+            </div>
+            <div class="method-step">
+                <div class="method-letter">E</div>
+                <div class="method-word">Escalabilidad</div>
+                <p>Con la estructura correcta, el crecimiento es predecible y sostenible — no un salto de fe.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================================================================
+     SERVICES
+================================================================ -->
+<section class="section section-off" id="servicios">
+    <div class="container">
+        <div class="services-header">
+            <span class="section-label section-label-light">Servicios</span>
+            <h2>Todo lo que necesitas para tomar el control financiero</h2>
+            <p>Desde el diagnóstico inicial hasta el acompañamiento mensual — contigo en cada etapa.</p>
+        </div>
+
+        <div class="services-grid">
+
+            <div class="service-card">
+                <div class="s-icon">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#009BAB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                    </svg>
+                </div>
+                <h3>Diagnóstico Financiero</h3>
+                <p>Análisis completo del modelo de negocio, estructura de ingresos y costos, y problemas clave que frenan tu crecimiento.</p>
+                <div class="s-tags">
+                    <span class="s-tag">Modelo de Negocio</span>
+                    <span class="s-tag">Análisis de Costos</span>
+                    <span class="s-tag">KPIs Clave</span>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="s-icon">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#009BAB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"/>
+                        <line x1="12" y1="20" x2="12" y2="4"/>
+                        <line x1="6"  y1="20" x2="6"  y2="14"/>
+                    </svg>
+                </div>
+                <h3>Plan Financiero 12–24 meses</h3>
+                <p>EERR proyectado, flujo de caja y proyecciones con supuestos claros. Un modelo que sirve para decidir — no para guardar en un cajón.</p>
+                <div class="s-tags">
+                    <span class="s-tag">EERR Proyectado</span>
+                    <span class="s-tag">Flujo de Caja</span>
+                    <span class="s-tag">Supuestos Claros</span>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="s-icon">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#009BAB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="8"  x2="12" y2="12"/>
+                        <line x1="12" y1="16" x2="12.01" y2="16"/>
+                    </svg>
+                </div>
+                <h3>Pricing y Márgenes</h3>
+                <p>Pricing basado en costos reales más benchmark competitivo. Dejamos atrás los precios "a ojo" y construimos estructura que protege tu rentabilidad.</p>
+                <div class="s-tags">
+                    <span class="s-tag">Estructura de Precios</span>
+                    <span class="s-tag">Análisis de Márgenes</span>
+                    <span class="s-tag">Benchmark</span>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="s-icon">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#009BAB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                    </svg>
+                </div>
+                <h3>KPIs y Unit Economics</h3>
+                <p>CAC, margen por producto, runway, LTV y rentabilidad por cliente. Las métricas que realmente importan para entender si tu negocio es escalable.</p>
+                <div class="s-tags">
+                    <span class="s-tag">CAC / LTV</span>
+                    <span class="s-tag">Unit Economics</span>
+                    <span class="s-tag">Runway</span>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="s-icon">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#009BAB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                </div>
+                <h3>Acompañamiento Mensual</h3>
+                <p>EERR real vs. plan, flujo real vs. proyectado y soporte en las decisiones del mes. Tu co-piloto financiero permanente, sin el costo de un CFO full-time.</p>
+                <div class="s-tags">
+                    <span class="s-tag">Revisión Mensual</span>
+                    <span class="s-tag">Soporte Decisiones</span>
+                    <span class="s-tag">CFO Fraccional</span>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="s-icon">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#009BAB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="1"  x2="12" y2="23"/>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                    </svg>
+                </div>
+                <h3>Preparación para Capital</h3>
+                <p>Si vas a levantar capital o buscar crédito, ordenamos los números para que inversionistas y bancos vean un negocio confiable, no una promesa vaga.</p>
+                <div class="s-tags">
+                    <span class="s-tag">Due Diligence</span>
+                    <span class="s-tag">Deck Financiero</span>
+                    <span class="s-tag">Proyecciones</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ================================================================
+     ABOUT OSCAR
+================================================================ -->
+<section class="section" id="oscar">
+    <div class="container">
+        <div class="grid-2">
+
+            <div style="position:relative;">
+                <div class="about-img-wrap">
+                    <div class="about-placeholder-inner">
+                        <img src="logos/isotipo white.png" alt="Zerda Finance" style="height:72px; opacity:0.2; margin-bottom:16px;">
+                        <p style="color:rgba(255,255,255,0.25);font-size:12px;">Foto de Oscar próximamente</p>
+                    </div>
+                </div>
+                <div class="about-badge">
+                    <span class="n">+15</span>
+                    <span class="l">años en finanzas</span>
+                </div>
+            </div>
+
+            <div class="about-content">
+                <span class="section-label section-label-light">El Guía</span>
+                <h2>CFO con calle — no con PowerPoint</h2>
+
+                <p>Soy Oscar Rincón, Founder de Zerda Finance. Llevo más de 15 años trabajando en finanzas dentro de empresas como Citibank, Carey, Aramark y Checkeados, donde fui CFO.</p>
+                <p>He visto negocios que crecen desordenados y terminan quebrando. He visto emprendedores brillantes que no podían escalar porque no entendían sus propios números. Y he visto lo que pasa cuando un negocio sí tiene claridad financiera: crece más rápido, decide mejor y duerme más tranquilo.</p>
+                <p>No soy contador. No te voy a dar el balance fiscal. Soy tu partner estratégico — el que te ayuda a entender qué dicen tus números y qué hacer con ellos.</p>
+
+                <div class="credentials">
+                    <div class="cred-item"><span class="cred-dot"></span>Ex CFO en Checkeados</div>
+                    <div class="cred-item"><span class="cred-dot"></span>Experiencia en Citibank, Carey y Aramark</div>
+                    <div class="cred-item"><span class="cred-dot"></span>+50 empresas acompañadas en Chile y LATAM</div>
+                    <div class="cred-item"><span class="cred-dot"></span>Clínicas, SaaS, e-commerce, estudios legales, fintech y más</div>
+                </div>
+
+                <blockquote class="pull-quote">
+                    "No partimos del Excel, partimos de las decisiones. El modelo financiero es solo la herramienta."
+                </blockquote>
+
+                <a href="diagnostico.html" class="btn btn-ghost-dark" style="margin-top:28px;">
+                    Agenda tu sesión con Oscar →
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ================================================================
+     PROCESS
+================================================================ -->
+<section class="section section-off" id="proceso">
+    <div class="container">
+        <div class="process-header">
+            <span class="section-label section-label-light">El Proceso</span>
+            <h2>Así trabajamos juntos</h2>
+            <p>Un proceso simple en tres pasos, diseñado para generar resultados desde la primera sesión.</p>
+        </div>
+
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-num">1</div>
+                <h3>Diagnóstico</h3>
+                <p>Empezamos entendiendo tu negocio en profundidad: cómo factura, qué costos tiene, dónde pierde y dónde gana. Sin juicios — solo hechos.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-num">2</div>
+                <h3>Plan de Acción</h3>
+                <p>Construimos un plan financiero claro: proyecciones, KPIs clave y acciones concretas ordenadas por impacto. Nada teórico — todo ejecutable.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-num">3</div>
+                <h3>Acompañamiento</h3>
+                <p>Te acompañamos mensualmente para que el plan se ejecute, no se archive. Revisamos avances, ajustamos y te ayudamos a decidir en tiempo real.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================================================================
+     COMPARISON TABLE
+================================================================ -->
+<section class="section comparison" id="diferencia">
+    <div class="comparison-glow"></div>
+    <div class="container">
+        <div class="comparison-header">
+            <span class="section-label section-label-dark">¿Por qué Zerda?</span>
+            <h2>Contador vs. Zerda Finance</h2>
+            <p>No somos lo mismo. Y la diferencia importa cuando quieres hacer crecer tu negocio.</p>
+        </div>
+
+        <div class="comparison-table">
+            <div class="ct-head">
+                <div class="ct-head-cell">¿Qué necesitas?</div>
+                <div class="ct-head-cell">Tu contador</div>
+                <div class="ct-head-cell highlight">Zerda Finance</div>
+            </div>
+
+            <div class="ct-row">
+                <div class="ct-cell topic">Declaraciones de impuestos</div>
+                <div class="ct-cell"><span class="check">✓</span> Su especialidad</div>
+                <div class="ct-cell highlight"><span class="cross">—</span> No lo hacemos</div>
+            </div>
+            <div class="ct-row">
+                <div class="ct-cell topic">Balance contable anual</div>
+                <div class="ct-cell"><span class="check">✓</span> Lo hace</div>
+                <div class="ct-cell highlight"><span class="cross">—</span> No lo hacemos</div>
+            </div>
+            <div class="ct-row">
+                <div class="ct-cell topic">Proyecciones financieras</div>
+                <div class="ct-cell"><span class="cross">—</span> Raramente</div>
+                <div class="ct-cell highlight"><span class="check">✓</span> Nuestro core</div>
+            </div>
+            <div class="ct-row">
+                <div class="ct-cell topic">Análisis de márgenes y pricing</div>
+                <div class="ct-cell"><span class="cross">—</span> No normalmente</div>
+                <div class="ct-cell highlight"><span class="check">✓</span> Siempre</div>
+            </div>
+            <div class="ct-row">
+                <div class="ct-cell topic">KPIs y unit economics</div>
+                <div class="ct-cell"><span class="cross">—</span> Fuera de scope</div>
+                <div class="ct-cell highlight"><span class="check">✓</span> Clave en nuestro trabajo</div>
+            </div>
+            <div class="ct-row">
+                <div class="ct-cell topic">Soporte para levantar capital</div>
+                <div class="ct-cell"><span class="cross">—</span> No</div>
+                <div class="ct-cell highlight"><span class="check">✓</span> Sí</div>
+            </div>
+            <div class="ct-row">
+                <div class="ct-cell topic">Acompañamiento en decisiones</div>
+                <div class="ct-cell"><span class="cross">—</span> No es su rol</div>
+                <div class="ct-cell highlight"><span class="check">✓</span> Mensual y continuo</div>
+            </div>
+            <div class="ct-row">
+                <div class="ct-cell topic">Modelo financiero vivo</div>
+                <div class="ct-cell"><span class="cross">—</span> No</div>
+                <div class="ct-cell highlight"><span class="check">✓</span> Siempre actualizado</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================================================================
+     TESTIMONIALS
+================================================================ -->
+<section class="section testimonials" id="testimonios">
+    <div class="test-glow"></div>
+    <div class="container">
+        <div class="test-header">
+            <span class="section-label section-label-dark">Reseñas</span>
+            <h2>Lo que dicen los que ya dieron el paso</h2>
+            <p>Emprendedores que pasaron de operar a ciegas a tomar decisiones con claridad.</p>
+        </div>
+
+        <div class="test-grid">
+
+            <div class="test-card">
+                <div class="stars">★★★★★</div>
+                <p class="test-text">"Llegué sin saber cuánto me costaba cada venta. A las dos semanas ya tenía un dashboard con mis KPIs clave y entendía exactamente dónde estaba perdiendo plata."</p>
+                <div class="test-author">
+                    <div class="avatar">MR</div>
+                    <div>
+                        <div class="author-name">María R.</div>
+                        <div class="author-role">Fundadora — Clínica Dental, Santiago</div>
+                        <div class="verified">✓ Cliente verificado</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-card">
+                <div class="stars">★★★★★</div>
+                <p class="test-text">"El acompañamiento fue clave para cerrar nuestra primera ronda de inversión. Los números estaban ordenados, las proyecciones eran creíbles y los inversionistas lo notaron de inmediato."</p>
+                <div class="test-author">
+                    <div class="avatar">CA</div>
+                    <div>
+                        <div class="author-name">Carlos A.</div>
+                        <div class="author-role">CEO — SaaS Fintech, Chile</div>
+                        <div class="verified">✓ Cliente verificado</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-card">
+                <div class="stars">★★★★★</div>
+                <p class="test-text">"Siempre supe que tenía un problema de márgenes pero no podía verlo claro. Oscar lo identificó en la primera sesión. Tres meses después subimos precios un 18% sin perder ni un cliente."</p>
+                <div class="test-author">
+                    <div class="avatar">PC</div>
+                    <div>
+                        <div class="author-name">Pedro C.</div>
+                        <div class="author-role">Dueño — Cafetería & Catering, Santiago</div>
+                        <div class="verified">✓ Cliente verificado</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-card">
+                <div class="stars">★★★★★</div>
+                <p class="test-text">"Lo que más valoro es que no me da teoría — me da decisiones. Cada reunión termina con acciones concretas. Eso es lo que necesita un emprendedor que no tiene tiempo que perder."</p>
+                <div class="test-author">
+                    <div class="avatar">LV</div>
+                    <div>
+                        <div class="author-name">Laura V.</div>
+                        <div class="author-role">Fundadora — E-commerce LATAM</div>
+                        <div class="verified">✓ Cliente verificado</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-card">
+                <div class="stars">★★★★★</div>
+                <p class="test-text">"Teníamos tres líneas de negocio y no sabíamos cuál nos daba dinero. Oscar armó el análisis en días y la respuesta cambió por completo nuestra estrategia."</p>
+                <div class="test-author">
+                    <div class="avatar">JS</div>
+                    <div>
+                        <div class="author-name">Javier S.</div>
+                        <div class="author-role">Socio — Estudio Legal, Santiago</div>
+                        <div class="verified">✓ Cliente verificado</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-card">
+                <div class="stars">★★★★★</div>
+                <p class="test-text">"El diagnóstico inicial me abrió los ojos. No tenía idea de que mi CAC era 3 veces más alto que mi LTV. Sin eso, habría seguido escalando un modelo que me iba a fundir."</p>
+                <div class="test-author">
+                    <div class="avatar">AM</div>
+                    <div>
+                        <div class="author-name">Alejandra M.</div>
+                        <div class="author-role">CEO — Startup de Educación</div>
+                        <div class="verified">✓ Cliente verificado</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ================================================================
+     FAQ
+================================================================ -->
+<section class="section" id="faq">
+    <div class="container">
+        <div class="faq-header">
+            <span class="section-label section-label-light">FAQ</span>
+            <h2>Preguntas frecuentes</h2>
+            <p style="color:var(--text-mid)">Todo lo que querés saber antes de dar el primer paso.</p>
+        </div>
+
+        <div class="faq-list">
+
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    ¿Zerda Finance hace contabilidad?
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-a">No. Zerda Finance no hace contabilidad ni declaraciones de impuestos — eso es el trabajo de tu contador. Nosotros trabajamos en la parte estratégica y de gestión: modelos financieros, proyecciones, KPIs y soporte en decisiones. Se complementan perfectamente.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    ¿Para qué tipo de empresa trabajan?
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-a">Con emprendedores, startups y PYMEs en etapa de crecimiento. Hemos acompañado clínicas, cafeterías, SaaS, e-commerce, estudios legales, empresas de alimentos y financieras. Si tienes un negocio que genera ingresos y quieres entender mejor sus números, podemos trabajar juntos.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    ¿Qué pasa en el diagnóstico gratuito?
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-a">Es una sesión de 30 minutos donde conversamos sobre tu negocio, tus números y tus principales dolores financieros. El objetivo es entender si podemos ayudarte y, si es así, qué tipo de acompañamiento tiene más sentido para tu etapa. Sin compromiso y sin humo.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    ¿Cuánto tiempo toma ver resultados?
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-a">Con el diagnóstico financiero, en 1–2 semanas ya tienes claridad sobre los principales problemas y oportunidades. Con el plan financiero, en 3–4 semanas tienes un modelo completo listo para usar. El acompañamiento mensual es un trabajo continuo donde los resultados se acumulan mes a mes.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    ¿Necesito tener mis números ordenados para empezar?
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-a">No. La mayoría de nuestros clientes llegan precisamente porque sus números NO están ordenados. Ese es exactamente nuestro trabajo: tomar lo que tienes — aunque sea poco — y construir claridad a partir de ahí. Solo necesitas disposición para compartir la información de tu negocio.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    ¿Trabajan solo en Chile o también en otros países?
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-a">Estamos basados en Santiago, Chile, pero trabajamos en modalidad remota con clientes de toda LATAM. Si tu negocio opera en Argentina, Colombia, México u otro país hispanohablante, podemos acompañarte sin problema de forma virtual.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    ¿Cuál es la diferencia entre Zerda Finance y un consultor financiero tradicional?
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-a">El consultor tradicional llega, entrega un informe y se va. Nosotros llegamos, nos quedamos y acompañamos la ejecución. No vendemos teoría — vendemos implementación. La diferencia es entre tener un diagnóstico en el cajón y tener un negocio que realmente cambia.</div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ================================================================
+     BLOG
+================================================================ -->
+<section class="section section-off" id="blog">
+    <div class="container">
+        <div class="blog-header">
+            <span class="section-label section-label-light">Blog</span>
+            <h2>Finanzas sin humo, sin teoría</h2>
+            <p>Artículos prácticos para emprendedores que quieren entender sus números y tomar mejores decisiones.</p>
+        </div>
+
+        <!-- Destacados: 3 más recientes -->
+        <div class="blog-featured">
+            <a href="https://zerdafinance.com/blog/la-mentira-de-que-todo-se-arregla-vendiendo-mas" target="_blank" rel="noopener" class="blog-card featured">
+                <span class="blog-tag">Gestión Financiera</span>
+                <h3>La mentira de que "todo se arregla vendiendo más"</h3>
+                <p>Muchos negocios no se mueren por falta de ventas — se mueren por vender más sin orden. Oscar Rincón explica por qué escalar sin estructura financiera puede ser el mayor error.</p>
+                <div class="blog-meta">
+                    <span class="blog-date">18 nov 2025</span>
+                    <span class="blog-read">Leer artículo →</span>
+                </div>
+            </a>
+
+            <a href="https://zerdafinance.com/blog/crecer-no-es-contratar-mas" target="_blank" rel="noopener" class="blog-card featured">
+                <span class="blog-tag">Crecimiento</span>
+                <h3>Crecer NO es contratar más</h3>
+                <p>Más empleados no siempre significa más crecimiento. Aprende a analizar la rentabilidad por persona antes de expandir tu estructura operativa.</p>
+                <div class="blog-meta">
+                    <span class="blog-date">7 nov 2025</span>
+                    <span class="blog-read">Leer artículo →</span>
+                </div>
+            </a>
+
+            <a href="https://zerdafinance.com/blog/por-que-no-puedes-escalar-tu-negocio-si-cobras-muy-barato" target="_blank" rel="noopener" class="blog-card featured">
+                <span class="blog-tag">Pricing</span>
+                <h3>Por qué no puedes escalar tu negocio si cobras muy barato</h3>
+                <p>Un caso real de una emprendedora con demanda y clientes satisfechos que no podía crecer. El problema no era la calidad — eran los precios.</p>
+                <div class="blog-meta">
+                    <span class="blog-date">29 oct 2025</span>
+                    <span class="blog-read">Leer artículo →</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- Ver más -->
+        <div style="text-align:center; margin-top:40px;">
+            <a href="blog.html" class="btn btn-ghost-dark btn-lg">Ver todos los artículos →</a>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================================================================
+     FINAL CTA
+================================================================ -->
+<section class="final-cta" id="diagnostico">
+    <div class="cta-glow"></div>
+    <div class="container">
+        <div class="final-cta-inner">
+            <span class="section-label section-label-dark">Primer paso sin costo</span>
+            <h2>¿Listo para dejar de operar <em>a ciegas</em>?</h2>
+            <p>Agenda una sesión gratuita de 30 minutos. Sin compromiso — solo claridad sobre dónde estás y qué se puede mejorar en tu negocio.</p>
+            <div class="cta-actions">
+                <a href="diagnostico.html" class="btn btn-primary btn-lg">
+                    📅 Agenda tu Diagnóstico Gratuito
+                </a>
+                <a href="https://wa.me/56976830798" class="btn btn-outline-white btn-lg" target="_blank" rel="noopener">
+                    💬 Escríbenos por WhatsApp
+                </a>
+            </div>
+            <p class="cta-note">Sesión de 30 min · Sin costo · Sin compromiso</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================================================================
+     FOOTER
+================================================================ -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-top">
+
+            <div class="footer-brand">
+                <img src="logos/Logo oficial white.png" alt="Zerda Finance">
+                <p>Ayudamos a emprendedores, startups y PYMEs a ordenar sus finanzas, entender sus números y tomar decisiones que hacen crecer el negocio.</p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Servicios</h4>
+                <ul>
+                    <li><a href="#servicios">Diagnóstico Financiero</a></li>
+                    <li><a href="#servicios">Plan Financiero</a></li>
+                    <li><a href="#servicios">Pricing y Márgenes</a></li>
+                    <li><a href="#servicios">KPIs y Unit Economics</a></li>
+                    <li><a href="#servicios">Acompañamiento Mensual</a></li>
+                    <li><a href="#servicios">Preparación para Capital</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Empresa</h4>
+                <ul>
+                    <li><a href="#oscar">Sobre Oscar</a></li>
+                    <li><a href="#metodo">Metodología CORE</a></li>
+                    <li><a href="#testimonios">Reseñas</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Contacto</h4>
+                <ul>
+                    <li><a href="diagnostico.html">oscar@zerdafinance.com</a></li>
+                    <li><a href="https://wa.me/56976830798" target="_blank" rel="noopener">WhatsApp</a></li>
+                    <li><a href="#" target="_blank" rel="noopener">LinkedIn</a></li>
+                    <li><a href="#" target="_blank" rel="noopener">Instagram</a></li>
+                    <li><a href="#" target="_blank" rel="noopener">TikTok</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p class="footer-copy">© 2025 Zerda Finance. Todos los derechos reservados. Santiago, Chile.</p>
+            <div class="social-links">
+                <!-- LinkedIn -->
+                <a href="#" class="social-link" title="LinkedIn" target="_blank" rel="noopener">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                        <rect x="2" y="9" width="4" height="12"/>
+                        <circle cx="4" cy="4" r="2"/>
+                    </svg>
+                </a>
+                <!-- Instagram -->
+                <a href="#" class="social-link" title="Instagram" target="_blank" rel="noopener">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                    </svg>
+                </a>
+                <!-- TikTok -->
+                <a href="#" class="social-link" title="TikTok" target="_blank" rel="noopener">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.28 6.28 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15.2a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.69a8.17 8.17 0 0 0 4.79 1.53V6.77a4.85 4.85 0 0 1-1.03-.08z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<!-- ================================================================
+     WHATSAPP FLOATING BUTTON
+================================================================ -->
+<a href="https://wa.me/56976830798" class="wa-float" title="Escríbenos por WhatsApp" target="_blank" rel="noopener">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+    </svg>
+</a>
+
+
+<!-- ================================================================
+     JAVASCRIPT
+================================================================ -->
+<script>
+    // Navbar scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Mobile menu
+    function openMenu() {
+        document.getElementById('mobileMenu').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+        document.getElementById('mobileMenu').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    // FAQ accordion
+    function toggleFaq(el) {
+        const item = el.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+    }
+</script>
+
+</body>
+</html>

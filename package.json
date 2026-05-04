@@ -1,0 +1,13 @@
+{
+  "name": "zerda-finance-web",
+  "version": "1.0.0",
+  "description": "Zerda Finance website with leads backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-session": "^1.18.0"
+  }
+}

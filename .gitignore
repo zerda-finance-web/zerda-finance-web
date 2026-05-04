@@ -1,0 +1,16 @@
+node_modules/
+leads.json
+*.log
+.DS_Store
+Thumbs.db
+
+# Archivos de diseño y marketing (no necesarios en el servidor)
+ICONOS/
+PNG/
+Ejemplos/
+Logo y Manual de Uso/
+*.ai
+*.pptx
+*.docx
+*.pdf
+DS_Store

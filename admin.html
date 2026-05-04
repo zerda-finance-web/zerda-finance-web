@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin CRM — Zerda Finance</title>
+    <link rel="icon" href="logos/isotipo.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --dark:    #0F2035;
+            --sidebar: #070E1A;
+            --accent:  #00BDD0;
+            --accent-dark: #009BAB;
+            --white:   #FFFFFF;
+            --bg:      #F2F5F9;
+            --card:    #FFFFFF;
+            --border:  #E2E8F0;
+            --text:    #0F2035;
+            --muted:   #64748B;
+            --radius:  12px;
+
+            --s-novo:      #00BDD0;
+            --s-novo-bg:   #E4F9FB;
+            --s-contact:   #F59E0B;
+            --s-contact-bg:#FEF3C7;
+            --s-proceso:   #8B5CF6;
+            --s-proceso-bg:#EDE9FE;
+            --s-cerrado:   #10B981;
+            --s-cerrado-bg:#D1FAE5;
+            --s-descart:   #94A3B8;
+            --s-descart-bg:#F1F5F9;
+        }
+        html, body { height: 100%; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); }
+
+        /* ── LOGIN ── */
+        #loginScreen {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(140deg, #0A1625 0%, #0F2035 60%, #162D4A 100%);
+        }
+        .login-box {
+            background: var(--white); border-radius: 20px; padding: 48px 40px;
+            width: 100%; max-width: 400px; text-align: center;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.3);
+        }
+        .login-box img { height: 44px; margin: 0 auto 28px; }
+        .login-box h2 { font-size: 22px; margin-bottom: 6px; }
+        .login-box p  { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+        .login-input {
+            width: 100%; padding: 13px 16px; border-radius: 10px;
+            border: 1.5px solid var(--border); font-size: 15px;
+            font-family: inherit; outline: none; margin-bottom: 14px;
+            transition: border-color 0.2s;
+        }
+        .login-input:focus { border-color: var(--accent); }
+        .login-btn {
+            width: 100%; padding: 14px; border-radius: 10px; border: none;
+            background: var(--accent); color: var(--dark); font-size: 15px;
+            font-weight: 800; cursor: pointer; font-family: inherit;
+            transition: all 0.2s;
+        }
+        .login-btn:hover { background: var(--accent-dark); }
+        .login-error { color: #DC2626; font-size: 13px; margin-top: 10px; display: none; }
+
+        /* ── APP SHELL ── */
+        #appShell { display: none; height: 100vh; overflow: hidden; flex-direction: row; }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            width: 240px; flex-shrink: 0; background: var(--sidebar);
+            display: flex; flex-direction: column; padding: 28px 0;
+        }
+        .sidebar-logo { padding: 0 24px 32px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+        .sidebar-logo img { height: 32px; }
+        .sidebar-logo .sub { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 4px; }
+
+        .sidebar-nav { padding: 20px 12px; flex: 1; }
+        .nav-label { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.3); letter-spacing: 0.1em; text-transform: uppercase; padding: 0 12px; margin-bottom: 8px; margin-top: 16px; }
+        .nav-item {
+            display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+            border-radius: 8px; color: rgba(255,255,255,0.6); font-size: 14px;
+            font-weight: 500; cursor: pointer; transition: all 0.18s;
+            text-decoration: none; margin-bottom: 2px;
+        }
+        .nav-item:hover { background: rgba(255,255,255,0.06); color: var(--white); }
+        .nav-item.active { background: rgba(0,189,208,0.14); color: var(--accent); }
+        .nav-badge {
+            margin-left: auto; background: var(--accent); color: var(--dark);
+            font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 100px;
+        }
+
+        .sidebar-footer { padding: 16px 12px; border-top: 1px solid rgba(255,255,255,0.07); }
+        .logout-btn {
+            display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+            border-radius: 8px; color: rgba(255,255,255,0.45); font-size: 14px;
+            font-weight: 500; cursor: pointer; background: none; border: none;
+            font-family: inherit; width: 100%; transition: all 0.18s;
+        }
+        .logout-btn:hover { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.75); }
+
+        /* ── MAIN ── */
+        .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+
+        .topbar {
+            background: var(--white); border-bottom: 1px solid var(--border);
+            padding: 18px 32px; display: flex; align-items: center;
+            justify-content: space-between; position: sticky; top: 0; z-index: 50;
+        }
+        .topbar h1 { font-size: 20px; font-weight: 800; }
+        .topbar-right { display: flex; align-items: center; gap: 12px; }
+
+        .search-input {
+            padding: 9px 14px; border-radius: 8px; border: 1.5px solid var(--border);
+            font-size: 14px; font-family: inherit; outline: none; width: 240px;
+            transition: border-color 0.2s;
+        }
+        .search-input:focus { border-color: var(--accent); }
+
+        .export-btn {
+            padding: 9px 16px; border-radius: 8px; border: 1.5px solid var(--border);
+            background: var(--white); font-size: 13px; font-weight: 600;
+            cursor: pointer; font-family: inherit; color: var(--muted);
+            transition: all 0.18s; display: flex; align-items: center; gap: 6px;
+        }
+        .export-btn:hover { border-color: var(--accent); color: var(--accent-dark); }
+
+        /* ── STATS ── */
+        .stats-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; padding: 24px 32px; }
+        .stat-card {
+            background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 18px 20px; cursor: pointer; transition: all 0.18s;
+        }
+        .stat-card:hover { border-color: var(--accent); }
+        .stat-card.active { border-color: var(--accent); background: var(--accent); }
+        .stat-card.active .stat-num { color: var(--dark); }
+        .stat-card.active .stat-lbl { color: rgba(15,32,53,0.7); }
+        .stat-num { font-size: 26px; font-weight: 800; color: var(--text); line-height: 1; margin-bottom: 4px; }
+        .stat-lbl { font-size: 12px; font-weight: 600; color: var(--muted); }
+
+        /* ── TABLE ── */
+        .table-wrap { flex: 1; padding: 0 32px 40px; }
+        .table-container {
+            background: var(--white); border: 1px solid var(--border);
+            border-radius: var(--radius); overflow: hidden;
+        }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        thead { background: var(--bg); }
+        th {
+            text-align: left; padding: 12px 16px; font-size: 11px; font-weight: 700;
+            color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+            border-bottom: 1px solid var(--border); white-space: nowrap;
+        }
+        td { padding: 14px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #F8FAFC; }
+
+        .td-name { font-weight: 700; }
+        .td-email a { color: var(--accent-dark); text-decoration: none; font-weight: 500; }
+        .td-email a:hover { text-decoration: underline; }
+        .td-desc { max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--muted); }
+        .td-fecha { color: var(--muted); font-size: 13px; white-space: nowrap; }
+
+        /* Status badge */
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 4px 10px; border-radius: 100px; font-size: 12px; font-weight: 700;
+            white-space: nowrap;
+        }
+        .s-Nuevo        { background: var(--s-novo-bg);     color: var(--s-novo); }
+        .s-Contactado   { background: var(--s-contact-bg);  color: var(--s-contact); }
+        .s-En\ proceso  { background: var(--s-proceso-bg);  color: var(--s-proceso); }
+        .s-Cerrado      { background: var(--s-cerrado-bg);  color: var(--s-cerrado); }
+        .s-Descartado   { background: var(--s-descart-bg);  color: var(--s-descart); }
+
+        .action-btn {
+            padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;
+            cursor: pointer; border: 1.5px solid; font-family: inherit; transition: all 0.15s;
+        }
+        .btn-edit   { border-color: var(--border); background: var(--white); color: var(--muted); }
+        .btn-edit:hover { border-color: var(--accent); color: var(--accent-dark); }
+        .btn-del    { border-color: #FECACA; background: #FFF5F5; color: #DC2626; }
+        .btn-del:hover { background: #FEE2E2; }
+
+        .empty-state { text-align: center; padding: 64px 24px; color: var(--muted); }
+        .empty-state p { font-size: 15px; }
+
+        /* ── MODAL ── */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+            z-index: 1000; align-items: center; justify-content: center; padding: 20px;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: var(--white); border-radius: 20px; padding: 36px;
+            width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+        }
+        .modal-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; }
+        .modal-header h3 { font-size: 18px; font-weight: 800; line-height: 1.3; max-width: 420px; }
+        .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--muted); line-height: 1; padding: 0 4px; }
+
+        .modal-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+        .info-block { }
+        .info-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+        .info-value { font-size: 14px; font-weight: 500; }
+        .info-value a { color: var(--accent-dark); text-decoration: none; }
+        .info-value a:hover { text-decoration: underline; }
+
+        .modal-field { margin-bottom: 18px; }
+        .modal-field label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 7px; }
+        .modal-select, .modal-textarea {
+            width: 100%; padding: 11px 14px; border-radius: 8px;
+            border: 1.5px solid var(--border); font-size: 14px;
+            font-family: inherit; outline: none; color: var(--text);
+            transition: border-color 0.2s;
+        }
+        .modal-select:focus, .modal-textarea:focus { border-color: var(--accent); }
+        .modal-textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+
+        .desc-box {
+            background: var(--bg); border-radius: 8px; padding: 14px 16px;
+            font-size: 14px; color: var(--muted); line-height: 1.65;
+            margin-bottom: 24px; grid-column: 1 / -1;
+        }
+
+        .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+        .modal-save {
+            padding: 11px 24px; border-radius: 8px; border: none;
+            background: var(--accent); color: var(--dark); font-size: 14px;
+            font-weight: 800; cursor: pointer; font-family: inherit;
+            transition: all 0.18s;
+        }
+        .modal-save:hover { background: var(--accent-dark); }
+        .modal-cancel {
+            padding: 11px 20px; border-radius: 8px; border: 1.5px solid var(--border);
+            background: var(--white); color: var(--muted); font-size: 14px;
+            font-weight: 600; cursor: pointer; font-family: inherit;
+        }
+
+        /* ── TOAST ── */
+        .toast {
+            position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+            background: var(--dark); color: var(--white); padding: 12px 24px;
+            border-radius: 10px; font-size: 14px; font-weight: 600;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25); z-index: 2000;
+            opacity: 0; transition: opacity 0.25s; pointer-events: none;
+        }
+        .toast.show { opacity: 1; }
+
+        @media (max-width: 1100px) { .stats-row { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 768px)  {
+            .sidebar { display: none; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .search-input { width: 160px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════
+     LOGIN
+══════════════════════════════════════════════════════ -->
+<div id="loginScreen">
+    <div class="login-box">
+        <img src="logos/Logo oficial.png" alt="Zerda Finance">
+        <h2>Panel de administración</h2>
+        <p>Acceso exclusivo para el equipo de Zerda Finance.</p>
+        <input type="password" id="loginPass" class="login-input" placeholder="Contraseña" autocomplete="current-password">
+        <button class="login-btn" onclick="doLogin()">Entrar</button>
+        <p class="login-error" id="loginError">Contraseña incorrecta. Intenta de nuevo.</p>
+    </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════
+     APP
+══════════════════════════════════════════════════════ -->
+<div id="appShell">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <img src="logos/Logo oficial white.png" alt="Zerda Finance">
+            <div class="sub">Panel de administración</div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-label">Gestión</div>
+            <a class="nav-item active" onclick="setFilter('todos')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                Todos los leads
+                <span class="nav-badge" id="navTotal">0</span>
+            </a>
+            <a class="nav-item" onclick="setFilter('Nuevo')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                Nuevos
+                <span class="nav-badge" id="navNuevo" style="background:#E4F9FB;color:#009BAB;">0</span>
+            </a>
+            <a class="nav-item" onclick="setFilter('Contactado')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.36 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.11 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+                Contactados
+            </a>
+            <a class="nav-item" onclick="setFilter('En proceso')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                En proceso
+            </a>
+            <a class="nav-item" onclick="setFilter('Cerrado')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                Cerrados
+            </a>
+            <a class="nav-item" onclick="setFilter('Descartado')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                Descartados
+            </a>
+
+            <div class="nav-label" style="margin-top:24px;">Sitio web</div>
+            <a class="nav-item" href="index.html" target="_blank">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                Ver sitio web
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="doLogout()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Cerrar sesión
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+        <div class="topbar">
+            <h1 id="topbarTitle">Todos los leads</h1>
+            <div class="topbar-right">
+                <input type="text" class="search-input" placeholder="🔍  Buscar por nombre o email…" id="searchInput" oninput="renderTable()">
+                <button class="export-btn" onclick="exportCSV()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Exportar CSV
+                </button>
+            </div>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-row">
+            <div class="stat-card active" id="sc-todos" onclick="setFilter('todos')">
+                <div class="stat-num" id="cnt-todos">0</div>
+                <div class="stat-lbl">Total</div>
+            </div>
+            <div class="stat-card" id="sc-Nuevo" onclick="setFilter('Nuevo')">
+                <div class="stat-num" id="cnt-Nuevo">0</div>
+                <div class="stat-lbl" style="color:#009BAB;">Nuevos</div>
+            </div>
+            <div class="stat-card" id="sc-Contactado" onclick="setFilter('Contactado')">
+                <div class="stat-num" id="cnt-Contactado">0</div>
+                <div class="stat-lbl" style="color:#D97706;">Contactados</div>
+            </div>
+            <div class="stat-card" id="sc-En proceso" onclick="setFilter('En proceso')">
+                <div class="stat-num" id="cnt-En proceso">0</div>
+                <div class="stat-lbl" style="color:#7C3AED;">En proceso</div>
+            </div>
+            <div class="stat-card" id="sc-Cerrado" onclick="setFilter('Cerrado')">
+                <div class="stat-num" id="cnt-Cerrado">0</div>
+                <div class="stat-lbl" style="color:#059669;">Cerrados</div>
+            </div>
+            <div class="stat-card" id="sc-Descartado" onclick="setFilter('Descartado')">
+                <div class="stat-num" id="cnt-Descartado">0</div>
+                <div class="stat-lbl">Descartados</div>
+            </div>
+        </div>
+
+        <!-- TABLE -->
+        <div class="table-wrap">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Fecha</th>
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Facturación</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leadsTableBody"></tbody>
+                </table>
+                <div class="empty-state" id="emptyState" style="display:none;">
+                    <p>No hay leads en esta categoría todavía.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════
+     MODAL EDITAR LEAD
+══════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="modalTitle">—</h3>
+            <button class="modal-close" onclick="closeModalBtn()">×</button>
+        </div>
+
+        <div class="modal-info-grid" id="modalInfoGrid"></div>
+
+        <div class="modal-field">
+            <label for="modalStatus">Estado</label>
+            <select class="modal-select" id="modalStatus">
+                <option value="Nuevo">🔵 Nuevo</option>
+                <option value="Contactado">🟡 Contactado</option>
+                <option value="En proceso">🟣 En proceso</option>
+                <option value="Cerrado">🟢 Cerrado (cliente)</option>
+                <option value="Descartado">⚫ Descartado</option>
+            </select>
+        </div>
+
+        <div class="modal-field">
+            <label for="modalNotas">Notas internas</label>
+            <textarea class="modal-textarea" id="modalNotas" placeholder="Ej: Llamé el martes, muy interesado en acompañamiento mensual. Presupuesto acotado…"></textarea>
+        </div>
+
+        <div class="modal-actions">
+            <button class="modal-cancel" onclick="closeModalBtn()">Cancelar</button>
+            <button class="modal-save" onclick="saveLead()">Guardar cambios</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+    let allLeads = [];
+    let currentFilter = 'todos';
+    let editingId = null;
+
+    // ── AUTH ─────────────────────────────────────────────────────
+    async function doLogin() {
+        const pass = document.getElementById('loginPass').value;
+        const errEl = document.getElementById('loginError');
+        try {
+            const res  = await fetch('/api/admin/login', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ password: pass }) });
+            const data = await res.json();
+            if (data.success) {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('appShell').style.display = 'flex';
+                loadLeads();
+            } else {
+                errEl.style.display = 'block';
+            }
+        } catch { errEl.style.display = 'block'; }
+    }
+
+    document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+    async function doLogout() {
+        await fetch('/api/admin/logout', { method: 'POST' });
+        location.reload();
+    }
+
+    // Check if already logged in
+    (async () => {
+        const res  = await fetch('/api/admin/check');
+        const data = await res.json();
+        if (data.isAdmin) {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('appShell').style.display = 'flex';
+            loadLeads();
+        }
+    })();
+
+    // ── DATA ─────────────────────────────────────────────────────
+    async function loadLeads() {
+        try {
+            const res  = await fetch('/api/admin/leads');
+            allLeads   = await res.json();
+            updateStats();
+            renderTable();
+        } catch (e) { console.error(e); }
+    }
+
+    function updateStats() {
+        const statuses = ['Nuevo', 'Contactado', 'En proceso', 'Cerrado', 'Descartado'];
+        document.getElementById('cnt-todos').textContent = allLeads.length;
+        document.getElementById('navTotal').textContent  = allLeads.length;
+        const nuevos = allLeads.filter(l => l.status === 'Nuevo').length;
+        document.getElementById('navNuevo').textContent  = nuevos;
+        statuses.forEach(s => {
+            const cnt = allLeads.filter(l => l.status === s).length;
+            document.getElementById(`cnt-${s}`).textContent = cnt;
+        });
+    }
+
+    function setFilter(filter) {
+        currentFilter = filter;
+        // sidebar active
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        // stats cards active
+        document.querySelectorAll('.stat-card').forEach(el => el.classList.remove('active'));
+        const sc = document.getElementById(`sc-${filter}`);
+        if (sc) sc.classList.add('active');
+
+        const titles = { todos: 'Todos los leads', Nuevo: 'Nuevos', Contactado: 'Contactados', 'En proceso': 'En proceso', Cerrado: 'Cerrados', Descartado: 'Descartados' };
+        document.getElementById('topbarTitle').textContent = titles[filter] || filter;
+        renderTable();
+    }
+
+    function renderTable() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        let leads = allLeads;
+        if (currentFilter !== 'todos') leads = leads.filter(l => l.status === currentFilter);
+        if (query) leads = leads.filter(l => l.nombre.toLowerCase().includes(query) || l.correo.toLowerCase().includes(query));
+
+        const tbody = document.getElementById('leadsTableBody');
+        const empty = document.getElementById('emptyState');
+
+        if (leads.length === 0) {
+            tbody.innerHTML = '';
+            empty.style.display = 'block';
+            return;
+        }
+        empty.style.display = 'none';
+
+        tbody.innerHTML = leads.map(l => `
+            <tr>
+                <td style="color:#94A3B8;font-size:13px;">#${l.id}</td>
+                <td class="td-fecha">${fmtDate(l.fecha)}</td>
+                <td class="td-name">${esc(l.nombre)}</td>
+                <td class="td-email"><a href="mailto:${esc(l.correo)}">${esc(l.correo)}</a></td>
+                <td style="font-size:13px;color:#64748B;">${esc(l.facturacion) || '—'}</td>
+                <td class="td-desc" title="${esc(l.descripcion)}">${esc(l.descripcion) || '—'}</td>
+                <td><span class="status-badge s-${esc(l.status)}">${esc(l.status)}</span></td>
+                <td>
+                    <button class="action-btn btn-edit" onclick="openModal(${l.id})">✏️ Editar</button>
+                    <button class="action-btn btn-del" onclick="deleteLead(${l.id}, '${esc(l.nombre)}')" style="margin-left:6px;">🗑</button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    // ── MODAL ────────────────────────────────────────────────────
+    function openModal(id) {
+        const lead = allLeads.find(l => l.id === id);
+        if (!lead) return;
+        editingId = id;
+
+        document.getElementById('modalTitle').textContent = lead.nombre;
+        document.getElementById('modalStatus').value = lead.status;
+        document.getElementById('modalNotas').value  = lead.notas || '';
+
+        document.getElementById('modalInfoGrid').innerHTML = `
+            <div class="info-block"><div class="info-label">Correo</div><div class="info-value"><a href="mailto:${esc(lead.correo)}">${esc(lead.correo)}</a></div></div>
+            <div class="info-block"><div class="info-label">Facturación</div><div class="info-value">${esc(lead.facturacion) || '—'}</div></div>
+            <div class="info-block"><div class="info-label">Fecha</div><div class="info-value">${fmtDateFull(lead.fecha)}</div></div>
+            <div class="info-block"><div class="info-label">ID</div><div class="info-value">#${lead.id}</div></div>
+            <div class="info-block" style="grid-column:1/-1;"><div class="info-label">¿Qué necesita?</div><div class="desc-box">${esc(lead.descripcion) || '—'}</div></div>
+        `;
+
+        document.getElementById('modalOverlay').classList.add('open');
+    }
+
+    function closeModal(e) { if (e.target === document.getElementById('modalOverlay')) closeModalBtn(); }
+    function closeModalBtn() { document.getElementById('modalOverlay').classList.remove('open'); editingId = null; }
+
+    async function saveLead() {
+        const status = document.getElementById('modalStatus').value;
+        const notas  = document.getElementById('modalNotas').value;
+        try {
+            const res  = await fetch(`/api/admin/leads/${editingId}`, { method: 'PATCH', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ status, notas }) });
+            const data = await res.json();
+            if (data.success) {
+                const idx = allLeads.findIndex(l => l.id === editingId);
+                if (idx !== -1) { allLeads[idx].status = status; allLeads[idx].notas = notas; }
+                updateStats();
+                renderTable();
+                closeModalBtn();
+                showToast('✅ Lead actualizado correctamente');
+            }
+        } catch { showToast('❌ Error al guardar. Intenta de nuevo.'); }
+    }
+
+    // ── DELETE ───────────────────────────────────────────────────
+    async function deleteLead(id, nombre) {
+        if (!confirm(`¿Eliminar el lead de ${nombre}? Esta acción no se puede deshacer.`)) return;
+        try {
+            const res  = await fetch(`/api/admin/leads/${id}`, { method: 'DELETE' });
+            const data = await res.json();
+            if (data.success) {
+                allLeads = allLeads.filter(l => l.id !== id);
+                updateStats();
+                renderTable();
+                showToast('🗑 Lead eliminado.');
+            }
+        } catch { showToast('❌ Error al eliminar.'); }
+    }
+
+    // ── EXPORT CSV ───────────────────────────────────────────────
+    function exportCSV() {
+        const headers = ['ID','Fecha','Nombre','Correo','Facturación','Descripción','Estado','Notas'];
+        const rows = allLeads.map(l => [
+            l.id, fmtDateFull(l.fecha), l.nombre, l.correo,
+            l.facturacion, l.descripcion, l.status, l.notas
+        ].map(v => `"${String(v||'').replace(/"/g,'""')}"`));
+        const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+        const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+        const url  = URL.createObjectURL(blob);
+        const a    = document.createElement('a');
+        a.href = url; a.download = `zerda-leads-${new Date().toISOString().slice(0,10)}.csv`;
+        a.click(); URL.revokeObjectURL(url);
+    }
+
+    // ── HELPERS ──────────────────────────────────────────────────
+    function fmtDate(iso)     { return new Date(iso).toLocaleDateString('es-CL', { day:'2-digit', month:'short', year:'numeric' }); }
+    function fmtDateFull(iso) { return new Date(iso).toLocaleString('es-CL', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }); }
+    function esc(str)         { return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg; t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3000);
+    }
+</script>
+</body>
+</html>

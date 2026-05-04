@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico Gratuito — Zerda Finance</title>
+    <meta name="description" content="Agenda una sesión gratuita de 30 minutos con Oscar Rincón. Entendemos tu negocio y te decimos exactamente qué se puede mejorar.">
+    <link rel="icon" href="logos/isotipo.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --dark:        #0F2035;
+            --dark-mid:    #1A3252;
+            --accent:      #00BDD0;
+            --accent-dark: #009BAB;
+            --accent-bg:   #E4F9FB;
+            --white:       #FFFFFF;
+            --off-white:   #F4F8FB;
+            --gray-100:    #E8EDF3;
+            --gray-200:    #C5CDD8;
+            --gray-400:    #7A8A9A;
+            --text:        #0F2035;
+            --text-mid:    #3D5166;
+            --radius:      14px;
+            --green:       #10B981;
+            --red:         #EF4444;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text);
+            background: var(--white);
+            line-height: 1.65;
+            overflow-x: hidden;
+        }
+        img { max-width: 100%; display: block; }
+        .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+        /* ── NAVBAR ── */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 20px 0; transition: all 0.3s;
+        }
+        .navbar.scrolled {
+            background: rgba(10,20,35,0.96); backdrop-filter: blur(14px);
+            padding: 14px 0; box-shadow: 0 2px 24px rgba(0,0,0,0.25);
+        }
+        .navbar-inner { display: flex; align-items: center; justify-content: space-between; }
+        .navbar-logo img { height: 38px; }
+        .navbar-links {
+            display: flex; align-items: center; gap: 28px;
+            list-style: none; flex: 1; justify-content: center;
+        }
+        .navbar-links a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+        .navbar-links a:hover { color: var(--white); }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 26px; border-radius: 10px; font-size: 15px; font-weight: 700; text-decoration: none; border: 2px solid transparent; transition: all 0.2s; font-family: inherit; cursor: pointer; }
+        .btn-primary { background: var(--accent); color: var(--dark); border-color: var(--accent); }
+        .btn-primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,189,208,0.3); }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+        .hamburger span { display: block; width: 24px; height: 2px; background: var(--white); border-radius: 2px; }
+        .mobile-menu { display: none; position: fixed; inset: 0; background: var(--dark); z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 28px; }
+        .mobile-menu.open { display: flex; }
+        .mobile-menu a { color: var(--white); text-decoration: none; font-size: 22px; font-weight: 700; }
+        .mobile-close { position: absolute; top: 22px; right: 24px; background: none; border: none; color: var(--white); font-size: 36px; cursor: pointer; }
+
+        /* ── HERO ── */
+        .page-hero {
+            background: linear-gradient(140deg, #0A1625 0%, #0F2035 50%, #162D4A 100%);
+            padding: 130px 0 72px; text-align: center; position: relative; overflow: hidden;
+        }
+        .page-hero::before {
+            content: ''; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%,-50%); width: 700px; height: 400px;
+            background: radial-gradient(ellipse, rgba(0,189,208,0.09) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .page-hero-inner { position: relative; z-index: 1; }
+        .section-label { display: inline-flex; gap: 6px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 14px; border-radius: 100px; margin-bottom: 16px; background: rgba(0,189,208,0.14); color: var(--accent); }
+        .page-hero h1 { font-size: clamp(28px, 4.5vw, 50px); color: var(--white); font-weight: 800; margin-bottom: 16px; line-height: 1.15; }
+        .page-hero p { font-size: 17px; color: rgba(255,255,255,0.65); max-width: 520px; margin: 0 auto; line-height: 1.7; }
+
+        /* ── MAIN LAYOUT ── */
+        .main-section { padding: 72px 0 96px; background: var(--off-white); }
+        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+
+        /* ── LEFT: BENEFICIOS ── */
+        .benefits h2 { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
+        .benefits .sub { font-size: 15px; color: var(--text-mid); margin-bottom: 36px; line-height: 1.65; }
+
+        .benefit-item { display: flex; gap: 16px; margin-bottom: 28px; }
+        .benefit-icon {
+            width: 44px; height: 44px; border-radius: 12px;
+            background: var(--accent-bg); display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .benefit-item h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+        .benefit-item p  { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
+
+        .testimonial-mini {
+            background: var(--white); border: 1px solid var(--gray-100); border-radius: var(--radius);
+            padding: 24px; margin-top: 40px;
+        }
+        .testimonial-mini p { font-size: 14px; font-style: italic; color: var(--text-mid); line-height: 1.7; margin-bottom: 16px; }
+        .tm-author { display: flex; align-items: center; gap: 10px; }
+        .tm-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--dark-mid)); display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--white); font-size: 13px; }
+        .tm-name { font-size: 13px; font-weight: 700; }
+        .tm-role { font-size: 12px; color: var(--gray-400); }
+
+        /* ── RIGHT: FORMULARIO ── */
+        .form-card {
+            background: var(--white); border-radius: 20px;
+            padding: 40px 36px; box-shadow: 0 8px 40px rgba(15,32,53,0.1);
+            position: sticky; top: 100px;
+        }
+        .form-card h3 { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+        .form-card .form-sub { font-size: 14px; color: var(--text-mid); margin-bottom: 28px; }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 7px; color: var(--text); }
+        .form-group label span { color: var(--accent-dark); }
+
+        .form-control {
+            width: 100%; padding: 12px 16px; border-radius: 10px;
+            border: 1.5px solid var(--gray-200); font-size: 15px;
+            font-family: inherit; color: var(--text); background: var(--white);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none; appearance: none;
+        }
+        .form-control:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,189,208,0.12); }
+        .form-control::placeholder { color: var(--gray-400); }
+        textarea.form-control { resize: vertical; min-height: 110px; line-height: 1.6; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        .submit-btn {
+            width: 100%; padding: 16px; border-radius: 10px; border: none;
+            background: var(--accent); color: var(--dark); font-size: 16px; font-weight: 800;
+            cursor: pointer; font-family: inherit; transition: all 0.2s; margin-top: 4px;
+        }
+        .submit-btn:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,189,208,0.32); }
+        .submit-btn:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+
+        .form-note { text-align: center; font-size: 12px; color: var(--gray-400); margin-top: 12px; }
+
+        /* ── SUCCESS STATE ── */
+        .success-state {
+            display: none; text-align: center; padding: 32px 0;
+        }
+        .success-icon {
+            width: 72px; height: 72px; border-radius: 50%;
+            background: #ECFDF5; display: flex; align-items: center;
+            justify-content: center; margin: 0 auto 20px; font-size: 32px;
+        }
+        .success-state h3 { font-size: 22px; font-weight: 800; margin-bottom: 10px; }
+        .success-state p { font-size: 15px; color: var(--text-mid); line-height: 1.7; }
+
+        /* ── ERROR MSG ── */
+        .form-error {
+            display: none; background: #FEF2F2; border: 1px solid #FECACA;
+            color: #DC2626; border-radius: 8px; padding: 12px 16px;
+            font-size: 14px; margin-bottom: 16px;
+        }
+
+        /* ── FOOTER ── */
+        .footer { background: #070E1A; padding: 40px 0 28px; }
+        .footer-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+        .footer-logo img { height: 30px; }
+        .footer-copy { font-size: 13px; color: rgba(255,255,255,0.3); }
+        .footer-back { font-size: 13px; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; }
+        .footer-back:hover { color: var(--accent); }
+
+        /* ── WA FLOAT ── */
+        .wa-float { position: fixed; bottom: 28px; right: 28px; width: 54px; height: 54px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 4px 20px rgba(37,211,102,0.42); z-index: 900; transition: all 0.2s; }
+        .wa-float:hover { transform: scale(1.08); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 860px) {
+            .main-grid { grid-template-columns: 1fr; gap: 40px; }
+            .form-card { position: static; }
+            .navbar-links, .navbar-cta-wrap { display: none; }
+            .hamburger { display: flex; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+    <div class="container">
+        <div class="navbar-inner">
+            <a href="index.html" class="navbar-logo">
+                <img src="logos/Logo oficial white.png" alt="Zerda Finance">
+            </a>
+            <ul class="navbar-links">
+                <li><a href="index.html#servicios">Servicios</a></li>
+                <li><a href="index.html#proceso">Proceso</a></li>
+                <li><a href="index.html#oscar">Sobre Oscar</a></li>
+                <li><a href="index.html#testimonios">Reseñas</a></li>
+                <li><a href="blog.html">Blog</a></li>
+            </ul>
+            <div class="navbar-cta-wrap">
+                <a href="diagnostico.html" class="btn btn-primary">Agenda tu Diagnóstico</a>
+            </div>
+            <button class="hamburger" onclick="openMenu()" aria-label="Menú">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" onclick="closeMenu()">×</button>
+    <a href="index.html#servicios" onclick="closeMenu()">Servicios</a>
+    <a href="index.html#proceso"   onclick="closeMenu()">Proceso</a>
+    <a href="index.html#oscar"     onclick="closeMenu()">Sobre Oscar</a>
+    <a href="blog.html"            onclick="closeMenu()">Blog</a>
+    <a href="diagnostico.html"     onclick="closeMenu()" class="btn btn-primary">Agenda tu Diagnóstico</a>
+</div>
+
+
+<!-- HERO -->
+<section class="page-hero">
+    <div class="container">
+        <div class="page-hero-inner">
+            <span class="section-label">Primer paso sin costo</span>
+            <h1>Agenda tu Diagnóstico Gratuito</h1>
+            <p>30 minutos con Oscar. Sin compromiso. Saldrás con claridad sobre dónde estás y qué se puede mejorar en tu negocio.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- MAIN -->
+<section class="main-section">
+    <div class="container">
+        <div class="main-grid">
+
+            <!-- BENEFICIOS -->
+            <div class="benefits">
+                <h2>¿Qué pasa en esa sesión?</h2>
+                <p class="sub">En 30 minutos conversamos sobre tu negocio, tus números y tus dolores más urgentes. Al final sabrás exactamente qué está fallando y si podemos ayudarte.</p>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#009BAB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4>Diagnóstico real de tu situación</h4>
+                        <p>Entendemos cómo funciona tu negocio, cómo genera ingresos y qué costos tiene. Sin juicios — solo hechos.</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#009BAB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4>Identificamos los problemas clave</h4>
+                        <p>Márgenes, pricing, costos, flujo de caja — encontramos dónde se está yendo el dinero y qué tiene mayor impacto.</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#009BAB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4>Un plan concreto de próximos pasos</h4>
+                        <p>Te digo qué haría yo en tu lugar. Sin teoría, sin genérico — acciones específicas para tu negocio.</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#009BAB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4>Sin presión, sin compromiso</h4>
+                        <p>Si al final de la sesión ves que podemos trabajar juntos, perfecto. Si no, igual te vas con valor concreto.</p>
+                    </div>
+                </div>
+
+                <div class="testimonial-mini">
+                    <p>"El diagnóstico inicial me abrió los ojos. No tenía idea de que mi CAC era 3 veces más alto que mi LTV. Sin eso, habría seguido escalando un modelo que me iba a fundir."</p>
+                    <div class="tm-author">
+                        <div class="tm-avatar">AM</div>
+                        <div>
+                            <div class="tm-name">Alejandra M.</div>
+                            <div class="tm-role">CEO — Startup de Educación</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FORMULARIO -->
+            <div>
+                <div class="form-card">
+                    <h3>Cuéntanos sobre tu negocio</h3>
+                    <p class="form-sub">Te contactamos en menos de 24 horas para coordinar la sesión.</p>
+
+                    <div class="form-error" id="formError"></div>
+
+                    <form id="leadForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nombre">Nombre completo <span>*</span></label>
+                                <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Oscar Rincón" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="correo">Correo electrónico <span>*</span></label>
+                                <input type="email" id="correo" name="correo" class="form-control" placeholder="oscar@empresa.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="facturacion">¿Cuánto factura tu empresa al mes?</label>
+                            <select id="facturacion" name="facturacion" class="form-control">
+                                <option value="" disabled selected>Selecciona un rango</option>
+                                <option value="Sin ingresos aún">Sin ingresos aún (en etapa pre-revenue)</option>
+                                <option value="Menos de $1M CLP/mes">Menos de $1M CLP/mes</option>
+                                <option value="$1M - $5M CLP/mes">$1M – $5M CLP/mes</option>
+                                <option value="$5M - $20M CLP/mes">$5M – $20M CLP/mes</option>
+                                <option value="$20M - $100M CLP/mes">$20M – $100M CLP/mes</option>
+                                <option value="Más de $100M CLP/mes">Más de $100M CLP/mes</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descripcion">¿Qué necesitas? <span>*</span></label>
+                            <textarea id="descripcion" name="descripcion" class="form-control" placeholder="Ej: Necesito ordenar mis finanzas, no sé si mis precios cubren mis costos, quiero armar un plan financiero para levantar capital…" required></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            Enviar y agendar diagnóstico →
+                        </button>
+                        <p class="form-note">🔒 Tus datos son confidenciales y nunca serán compartidos.</p>
+                    </form>
+
+                    <!-- SUCCESS -->
+                    <div class="success-state" id="successState">
+                        <div class="success-icon">✅</div>
+                        <h3>¡Listo, recibimos tu solicitud!</h3>
+                        <p>Oscar revisará tu mensaje y te contactará en menos de 24 horas para coordinar la sesión gratuita.<br><br>
+                        Mientras tanto, puedes leer el blog o escribirnos por WhatsApp si tienes alguna pregunta urgente.</p>
+                        <a href="https://wa.me/56976830798" target="_blank" style="display:inline-flex;align-items:center;gap:8px;margin-top:24px;padding:13px 24px;background:#25D366;color:#fff;border-radius:10px;font-weight:700;text-decoration:none;font-size:15px;">
+                            💬 Escríbenos por WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-bottom">
+            <a href="index.html" class="footer-logo">
+                <img src="logos/Logo oficial white.png" alt="Zerda Finance">
+            </a>
+            <p class="footer-copy">© 2025 Zerda Finance. Santiago, Chile.</p>
+            <a href="index.html" class="footer-back">← Volver al inicio</a>
+        </div>
+    </div>
+</footer>
+
+<a href="https://wa.me/56976830798" class="wa-float" target="_blank" rel="noopener">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+</a>
+
+<script>
+    // Navbar
+    window.addEventListener('scroll', () => {
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+    });
+    function openMenu() { document.getElementById('mobileMenu').classList.add('open'); document.body.style.overflow='hidden'; }
+    function closeMenu() { document.getElementById('mobileMenu').classList.remove('open'); document.body.style.overflow=''; }
+
+    // Form submit
+    document.getElementById('leadForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        const errEl = document.getElementById('formError');
+
+        btn.disabled = true;
+        btn.textContent = 'Enviando…';
+        errEl.style.display = 'none';
+
+        const data = {
+            nombre:      document.getElementById('nombre').value,
+            correo:      document.getElementById('correo').value,
+            facturacion: document.getElementById('facturacion').value,
+            descripcion: document.getElementById('descripcion').value
+        };
+
+        try {
+            const res = await fetch('/api/lead', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const json = await res.json();
+            if (json.success) {
+                document.getElementById('leadForm').style.display = 'none';
+                document.getElementById('successState').style.display = 'block';
+            } else {
+                throw new Error(json.error || 'Error al enviar.');
+            }
+        } catch (err) {
+            errEl.textContent = err.message || 'Hubo un error. Por favor intenta de nuevo.';
+            errEl.style.display = 'block';
+            btn.disabled = false;
+            btn.textContent = 'Enviar y agendar diagnóstico →';
+        }
+    });
+</script>
+</body>
+</html>
