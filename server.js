@@ -100,6 +100,11 @@ app.delete('/api/admin/leads/:id', auth, (req, res) => {
     res.json({ success: true });
 });
 
+// ── Redirect old blog URLs ──────────────────────────────────────
+app.get('/blog/:slug', (req, res) => {
+    res.redirect(301, '/blog.html');
+});
+
 // ── START ───────────────────────────────────────────────────────
 app.listen(PORT, () => {
     console.log('');
