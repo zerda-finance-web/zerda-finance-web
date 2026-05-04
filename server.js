@@ -20,7 +20,13 @@ function nextId(leads)     { return leads.length === 0 ? 1 : Math.max(...leads.m
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname));
+app.use(express.static(__dirname, {
+    setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.html')) {
+            res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        }
+    }
+}));
 app.use(session({
     secret: 'zf-secret-key-2025',
     resave: false,
