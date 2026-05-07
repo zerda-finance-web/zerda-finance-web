@@ -106,6 +106,11 @@ app.delete('/api/admin/leads/:id', auth, (req, res) => {
     res.json({ success: true });
 });
 
+// ── Simulador financiero ────────────────────────────────────────
+app.get('/simulador', (_req, res) => {
+    res.sendFile(path.join(__dirname, 'simulador.html'));
+});
+
 // ── Redirect old blog URLs ──────────────────────────────────────
 app.get('/blog/:slug', (req, res) => {
     res.redirect(301, '/blog.html');
