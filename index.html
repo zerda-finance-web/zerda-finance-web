@@ -194,6 +194,20 @@
         }
         .navbar-links a:hover { color: var(--white); }
 
+        .navbar-cta-wrap { display: flex; align-items: center; gap: 10px; }
+        .btn-outline-nav {
+            padding: 8px 16px;
+            border: 1.5px solid rgba(0,189,208,0.6);
+            border-radius: 8px;
+            color: #00BDD0;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .btn-outline-nav:hover { background: rgba(0,189,208,0.1); border-color: #00BDD0; }
+
         .hamburger {
             display: none;
             flex-direction: column;
@@ -1022,6 +1036,7 @@
             </ul>
 
             <div class="navbar-cta-wrap">
+                <a href="/simulador" class="btn btn-outline-nav">Simulador</a>
                 <a href="diagnostico.html" class="btn btn-primary">Agenda tu Diagnóstico</a>
             </div>
 
@@ -1040,6 +1055,7 @@
     <a href="#oscar"       onclick="closeMenu()">Sobre Oscar</a>
     <a href="#testimonios" onclick="closeMenu()">Reseñas</a>
     <a href="#faq"         onclick="closeMenu()">FAQ</a>
+    <a href="/simulador"   onclick="closeMenu()" class="btn btn-outline-nav">Simulador Financiero</a>
     <a href="diagnostico.html" onclick="closeMenu()" class="btn btn-primary">Agenda tu Diagnóstico</a>
 </div>
 
