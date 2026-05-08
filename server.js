@@ -2,25 +2,17 @@ const express      = require('express');
 const session      = require('express-session');
 const fs           = require('fs');
 const path         = require('path');
-// ── Email via Resend API (configura RESEND_API_KEY en Render) ───────
-const RESEND_KEY     = process.env.RESEND_API_KEY || null;
-const EMAIL_FROM     = process.env.EMAIL_FROM || 'Zerda Finance <onboarding@resend.dev>';
+const nodemailer = require('nodemailer');
 
-if (!RESEND_KEY) console.warn('  ⚠️  RESEND_API_KEY no configurado — correos desactivados');
+// ── Email transporter (configura EMAIL_USER y EMAIL_PASS en Render) ──
+const mailer = (process.env.EMAIL_USER && process.env.EMAIL_PASS)
+  ? nodemailer.createTransport({
+      service: 'gmail',
+      auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+    })
+  : null;
 
-async function sendEmail({ to, subject, html }) {
-    if (!RESEND_KEY) return { skipped: true };
-    const r = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${RESEND_KEY}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ from: EMAIL_FROM, to, subject, html })
-    });
-    if (!r.ok) {
-        const err = await r.text();
-        throw new Error(err);
-    }
-    return r.json();
-}
+if (!mailer) console.warn('  ⚠️  EMAIL_USER / EMAIL_PASS no configurados — correos desactivados');
 
 const app   = express();
 const PORT  = process.env.PORT || 3000;
@@ -136,13 +128,14 @@ app.post('/api/enviar-plan', async (req, res) => {
     console.log(`[ENVIAR-PLAN] correo=${correo} empresa=${empresa}`);
     if (!correo) return res.status(400).json({ error: 'Correo requerido.' });
 
-    if (!RESEND_KEY) {
+    if (!mailer) {
         console.log(`[PLAN] (sin email) ${nombreUser} <${correo}> — ${empresa}`);
         return res.json({ success: true, skipped: true });
     }
 
     try {
-        await sendEmail({
+        await mailer.sendMail({
+            from:    `"Zerda Finance" <${process.env.EMAIL_USER}>`,
             to:      correo,
             subject: `Tu Plan Financiero — ${empresa || 'Zerda Finance'}`,
             html:    buildPlanEmail({ nombreUser, empresa, tipo, kpis, eerr })
