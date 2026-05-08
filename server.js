@@ -125,6 +125,7 @@ app.get('/simulador', (_req, res) => {
 // ── Enviar plan financiero por correo ───────────────────────────
 app.post('/api/enviar-plan', async (req, res) => {
     const { nombreUser, correo, empresa, tipo, kpis, eerr } = req.body;
+    console.log(`[ENVIAR-PLAN] correo=${correo} empresa=${empresa}`);
     if (!correo) return res.status(400).json({ error: 'Correo requerido.' });
 
     if (!mailer) {

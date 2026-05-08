@@ -846,12 +846,11 @@ function calcular() {
     }).catch(()=>{});
 
     // Enviar plan por correo
-    const avgMB2 = meses.reduce((a,m)=>a+m.mbPct,0)/12;
-    const pe2    = avgMB2>0 ? fixedTot/(avgMB2/100) : 0;
-    const peU2   = inp.precio>0 ? Math.ceil(pe2/inp.precio) : 0;
-    fetch('/api/enviar-plan', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
+    try {
+      const avgMB2 = meses.reduce((a,m)=>a+m.mbPct,0)/12;
+      const pe2    = avgMB2>0 ? fixedTot/(avgMB2/100) : 0;
+      const peU2   = inp.precio>0 ? Math.ceil(pe2/inp.precio) : 0;
+      const planPayload = JSON.stringify({
         nombreUser: inp.nombreUser,
         correo:     inp.email,
         empresa:    inp.nombre,
@@ -863,16 +862,19 @@ function calcular() {
           {l:'EBITDA Mes 12',         v: fmt(meses[11].ebit), neg: meses[11].ebit<0},
         ],
         eerr: [
-          ['Concepto',      'Mes 1',                       'Mes 12'],
-          ['Ingresos',       fmt(meses[0].ing),             fmt(meses[11].ing)],
-          ['Costo Variable', fmt(-meses[0].cv),             fmt(-meses[11].cv)],
-          ['MARGEN BRUTO',   fmt(meses[0].mb),              fmt(meses[11].mb)],
-          ['% Margen',       meses[0].mbPct.toFixed(1)+'%', meses[11].mbPct.toFixed(1)+'%'],
-          ['Costos Fijos',   fmt(-fixedTot),                fmt(-fixedTot)],
-          ['EBITDA',         fmt(meses[0].ebit),            fmt(meses[11].ebit)],
+          ['Concepto',      'Mes 1',                        'Mes 12'],
+          ['Ingresos',       fmt(meses[0].ing),              fmt(meses[11].ing)],
+          ['Costo Variable', fmt(-meses[0].cv),              fmt(-meses[11].cv)],
+          ['MARGEN BRUTO',   fmt(meses[0].mb),               fmt(meses[11].mb)],
+          ['% Margen',       meses[0].mbPct.toFixed(1)+'%',  meses[11].mbPct.toFixed(1)+'%'],
+          ['Costos Fijos',   fmt(-fixedTot),                 fmt(-fixedTot)],
+          ['EBITDA',         fmt(meses[0].ebit),             fmt(meses[11].ebit)],
         ]
-      })
-    }).catch(()=>{});
+      });
+      fetch('/api/enviar-plan', {
+        method:'POST', headers:{'Content-Type':'application/json'}, body: planPayload
+      }).catch(e => console.error('[enviar-plan fetch error]', e));
+    } catch(e) { console.error('[enviar-plan build error]', e); }
   }
 
   renderResults();
