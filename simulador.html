@@ -688,8 +688,8 @@ function showBench4() {
   const userNombre = val('s1NombreUser') || 'tú';
   const { ing1, mb1 } = calcMb1();
 
-  // Threshold: gross margin must cover at least one basic salary
-  const canAffordTeam = mb1 >= 1200000;
+  // Threshold: gross margin must cover at least a basic founder retiro
+  const canAffordTeam = mb1 >= 800000;
 
   // Suggest founder salary as ~30% of gross margin, rounded to nearest 50K, capped at 5M
   const founderSueldo = canAffordTeam
@@ -738,8 +738,22 @@ function usarBench4() {
   const b = BENCH[tipo];
   if (!b) return;
   const { mb1 } = calcMb1();
-  // Solo agregar equipo si hay margen suficiente
-  if (mb1 >= 1200000) b.staff.forEach(([rol, sueldo]) => addTeam(rol, sueldo));
+  const canAffordTeam = mb1 >= 800000;
+
+  if (canAffordTeam) {
+    // Agregar equipo sugerido
+    b.staff.forEach(([rol, sueldo]) => addTeam(rol, sueldo));
+    // Completar sueldo del founder si está vacío
+    const firstRow = document.querySelector('.team-row');
+    if (firstRow) {
+      const id = firstRow.id.replace('tr','');
+      const suelEl = document.getElementById('tSueldo'+id);
+      if (suelEl && !suelEl.value) {
+        suelEl.value = Math.min(Math.round(mb1 * 0.30 / 50000) * 50000, 5000000);
+      }
+    }
+  }
+
   if (b.arr   > 0) document.getElementById('s4Arr').value   = b.arr;
   if (b.soft  > 0) document.getElementById('s4Soft').value  = b.soft;
   if (b.cont  > 0) document.getElementById('s4Cont').value  = b.cont;
@@ -824,10 +838,40 @@ function calcular() {
   resData = { inp, meses, fixedTot, teamTotal, overhead, cvPorc };
 
   if (inp.email) {
+    // Guardar lead
     fetch('/api/lead', {
       method:'POST', headers:{'Content-Type':'application/json'},
       body:JSON.stringify({ nombre:inp.nombre, correo:inp.email,
         descripcion:`Simulador — ${inp.tipo} | Precio: $${fmtRaw(inp.precio)} | Vol: ${inp.vol} uds/mes | Crec: ${inp.crec}%` })
+    }).catch(()=>{});
+
+    // Enviar plan por correo
+    const avgMB2 = meses.reduce((a,m)=>a+m.mbPct,0)/12;
+    const pe2    = avgMB2>0 ? fixedTot/(avgMB2/100) : 0;
+    const peU2   = inp.precio>0 ? Math.ceil(pe2/inp.precio) : 0;
+    fetch('/api/enviar-plan', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        nombreUser: inp.nombreUser,
+        correo:     inp.email,
+        empresa:    inp.nombre,
+        tipo:       inp.tipo,
+        kpis: [
+          {l:'Margen Bruto Promedio', v: avgMB2.toFixed(1)+'%'},
+          {l:'Costos Fijos / Mes',    v: fmt(fixedTot)},
+          {l:'Punto de Equilibrio',   v: fmt(pe2)+(peU2>0?' (~'+peU2+' uds)':'')},
+          {l:'EBITDA Mes 12',         v: fmt(meses[11].ebit), neg: meses[11].ebit<0},
+        ],
+        eerr: [
+          ['Concepto',      'Mes 1',                       'Mes 12'],
+          ['Ingresos',       fmt(meses[0].ing),             fmt(meses[11].ing)],
+          ['Costo Variable', fmt(-meses[0].cv),             fmt(-meses[11].cv)],
+          ['MARGEN BRUTO',   fmt(meses[0].mb),              fmt(meses[11].mb)],
+          ['% Margen',       meses[0].mbPct.toFixed(1)+'%', meses[11].mbPct.toFixed(1)+'%'],
+          ['Costos Fijos',   fmt(-fixedTot),                fmt(-fixedTot)],
+          ['EBITDA',         fmt(meses[0].ebit),            fmt(meses[11].ebit)],
+        ]
+      })
     }).catch(()=>{});
   }
 
