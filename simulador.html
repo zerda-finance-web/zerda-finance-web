@@ -15,207 +15,183 @@
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --dark:        #0F2035;
-      --accent:      #00BDD0;
-      --accent-dark: #009BAB;
-      --white:       #FFFFFF;
-      --bg:          #F2F5F9;
-      --card:        #FFFFFF;
-      --border:      #E2E8F0;
-      --text:        #0F2035;
-      --muted:       #64748B;
-      --success:     #10B981;
-      --danger:      #EF4444;
-      --warning:     #F59E0B;
-      --radius:      12px;
+      --dark:  #0F2035; --accent: #00BDD0; --acc2: #009BAB;
+      --bg:    #F2F5F9; --card:   #FFFFFF; --border: #E2E8F0;
+      --text:  #0F2035; --muted:  #64748B;
+      --green: #10B981; --red:    #EF4444; --yellow: #F59E0B;
+      --r: 12px;
     }
-    html, body { min-height: 100%; font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); }
+    html,body { min-height:100%; font-family:'Plus Jakarta Sans',sans-serif; background:var(--bg); color:var(--text); }
 
     /* ── HEADER ── */
-    .page-header {
-      background: linear-gradient(140deg, #0A1625 0%, #0F2035 60%, #162D4A 100%);
-      padding: 18px 28px;
-      display: flex; align-items: center; justify-content: space-between;
-      position: sticky; top: 0; z-index: 100;
-    }
-    .page-header img { height: 30px; }
-    .header-title { color: white; font-size: 15px; font-weight: 700; }
-    .header-back { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 13px; transition: color 0.2s; }
-    .header-back:hover { color: var(--accent); }
+    .ph { background:linear-gradient(140deg,#0A1625,#0F2035 60%,#162D4A); padding:16px 28px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+    .ph img { height:28px; }
+    .ph-back { color:rgba(255,255,255,.5); text-decoration:none; font-size:13px; transition:color .2s; }
+    .ph-back:hover { color:var(--accent); }
 
-    /* ── WIZARD CONTAINER ── */
-    .wizard-container { max-width: 680px; margin: 0 auto; padding: 36px 20px 100px; }
+    /* ── LAYOUT ── */
+    .wz { max-width:680px; margin:0 auto; padding:32px 20px 80px; }
 
     /* ── PROGRESS ── */
-    .progress-wrap { margin-bottom: 32px; }
-    .progress-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .step-label { font-size: 12px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; }
-    .step-count { font-size: 12px; color: var(--muted); }
-    .progress-bg { height: 5px; background: var(--border); border-radius: 99px; overflow: hidden; }
-    .progress-fill { height: 100%; background: var(--accent); border-radius: 99px; transition: width 0.4s ease; }
+    .prog { margin-bottom:28px; }
+    .prog-info { display:flex; justify-content:space-between; margin-bottom:8px; }
+    .prog-lbl { font-size:11px; color:var(--muted); font-weight:800; text-transform:uppercase; letter-spacing:.6px; }
+    .prog-ct  { font-size:11px; color:var(--muted); }
+    .prog-bg  { height:4px; background:var(--border); border-radius:99px; overflow:hidden; }
+    .prog-fill { height:100%; background:var(--accent); border-radius:99px; transition:width .4s; }
 
     /* ── CARD ── */
-    .card {
-      background: var(--card); border-radius: 20px; padding: 36px 40px;
-      box-shadow: 0 2px 20px rgba(15,32,53,0.07);
-    }
-    @media(max-width: 520px) { .card { padding: 24px 20px; } }
-    .card-title { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
-    .card-subtitle { font-size: 14px; color: var(--muted); margin-bottom: 32px; line-height: 1.5; }
+    .card { background:var(--card); border-radius:20px; padding:32px 36px; box-shadow:0 2px 20px rgba(15,32,53,.07); }
+    @media(max-width:520px){ .card{ padding:22px 18px; } }
+    .card-title { font-size:21px; font-weight:800; margin-bottom:5px; }
+    .card-sub   { font-size:14px; color:var(--muted); margin-bottom:28px; line-height:1.5; }
 
     /* ── FORM ── */
-    .form-group { margin-bottom: 20px; }
-    label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; }
-    label .opt { font-weight: 400; color: var(--muted); }
-    input[type="text"], input[type="number"], input[type="email"], select, textarea {
-      width: 100%; padding: 12px 16px; border-radius: var(--radius);
-      border: 1.5px solid var(--border); font-size: 15px; font-family: inherit;
-      color: var(--text); outline: none; transition: border-color 0.2s; background: white;
+    .fg { margin-bottom:18px; }
+    label { display:block; font-size:13px; font-weight:700; margin-bottom:5px; }
+    label .opt { font-weight:400; color:var(--muted); }
+    input[type="text"],input[type="number"],input[type="email"],select {
+      width:100%; padding:11px 13px; border-radius:var(--r);
+      border:1.5px solid var(--border); font-size:15px; font-family:inherit;
+      color:var(--text); outline:none; transition:border-color .2s; background:white;
     }
-    input:focus, select:focus, textarea:focus { border-color: var(--accent); }
-    .has-prefix { padding-left: 38px; }
-    .has-suffix { padding-right: 46px; }
-    .input-wrap { position: relative; }
-    .input-pre { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 14px; color: var(--muted); pointer-events: none; font-weight: 600; }
-    .input-suf { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 13px; color: var(--muted); pointer-events: none; font-weight: 600; }
-    .helper { font-size: 12px; color: var(--muted); margin-top: 5px; line-height: 1.4; }
-    .error-msg { font-size: 12px; color: var(--danger); margin-top: 8px; display: none; font-weight: 600; }
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    @media(max-width: 500px) { .two-col { grid-template-columns: 1fr; } }
+    input:focus,select:focus { border-color:var(--accent); }
+    .helper { font-size:12px; color:var(--muted); margin-top:4px; line-height:1.4; }
+    .err { font-size:12px; color:var(--red); margin-top:6px; font-weight:600; display:none; }
+    .two { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    @media(max-width:500px){ .two{ grid-template-columns:1fr; } }
 
-    /* ── SECTION LABEL ── */
-    .sec-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.7px; color: var(--muted); margin-bottom: 14px; }
-    .divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+    /* ── INPUT GROUP ── */
+    .ig { display:flex; align-items:center; border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; background:white; transition:border-color .2s; }
+    .ig:focus-within { border-color:var(--accent); }
+    .ig input { border:none; outline:none; padding:11px 10px; font-size:15px; font-family:inherit; width:100%; background:transparent; color:var(--text); -moz-appearance:textfield; }
+    .ig input::-webkit-outer-spin-button,.ig input::-webkit-inner-spin-button { -webkit-appearance:none; }
+    .ig-sym { padding:0 5px 0 13px; font-size:14px; color:var(--muted); font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ig-suf { padding:0 13px 0 5px; font-size:13px; color:var(--muted); font-weight:700; white-space:nowrap; flex-shrink:0; }
+
+    /* ── SECTION ── */
+    .sec-lbl { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.7px; color:var(--muted); margin-bottom:12px; }
+    .divider  { border:none; border-top:1px solid var(--border); margin:22px 0; }
+
+    /* ── BENCHMARK ── */
+    .bench { background:#F0FBFF; border:1.5px solid #BAE6FD; border-radius:14px; padding:16px 20px; margin-bottom:22px; display:none; }
+    .bench-head { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:10px; flex-wrap:wrap; }
+    .bench-head strong { font-size:14px; }
+    .bench-nota { font-size:12px; color:#0369A1; margin-bottom:12px; line-height:1.5; }
+    .bench-grid { display:grid; grid-template-columns:1fr 1fr; gap:5px 20px; margin-bottom:12px; }
+    .bench-row  { display:flex; justify-content:space-between; align-items:center; font-size:13px; }
+    .bench-row span { color:var(--muted); }
+    .bench-row strong { color:var(--dark); }
+    .btn-bench { display:inline-flex; align-items:center; gap:5px; padding:7px 14px; border-radius:var(--r); border:none; background:var(--accent); color:var(--dark); font-size:12px; font-weight:700; font-family:inherit; cursor:pointer; transition:all .2s; white-space:nowrap; }
+    .btn-bench:hover { background:var(--acc2); }
+
+    /* ── PASARELA TOGGLE ── */
+    .pas-toggle { display:flex; align-items:center; gap:8px; margin-bottom:6px; cursor:pointer; }
+    .pas-toggle input[type=checkbox] { width:16px; height:16px; accent-color:var(--accent); cursor:pointer; }
+    .pas-toggle span { font-size:12px; color:var(--muted); }
 
     /* ── TEAM ── */
-    .team-row {
-      display: grid; grid-template-columns: 1fr 1fr auto;
-      gap: 10px; align-items: center; margin-bottom: 10px;
-    }
-    @media(max-width: 480px) { .team-row { grid-template-columns: 1fr auto; } .team-row .sueldo-col { display: none; } }
-    .btn-remove {
-      width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid var(--border);
-      background: white; cursor: pointer; display: flex; align-items: center; justify-content: center;
-      color: var(--muted); font-size: 20px; line-height: 1; transition: all 0.2s; flex-shrink: 0;
-    }
-    .btn-remove:hover { border-color: var(--danger); color: var(--danger); }
-    .btn-add {
-      display: flex; align-items: center; gap: 6px; padding: 10px 16px;
-      border-radius: var(--radius); border: 1.5px dashed var(--border); background: transparent;
-      color: var(--accent); font-size: 13px; font-weight: 700; font-family: inherit;
-      cursor: pointer; transition: all 0.2s; margin-top: 4px;
-    }
-    .btn-add:hover { border-color: var(--accent); background: rgba(0,189,208,0.05); }
+    .team-row { display:grid; grid-template-columns:1fr 1fr auto; gap:8px; align-items:center; margin-bottom:8px; }
+    @media(max-width:480px){ .team-row{ grid-template-columns:1fr auto; } .team-sueldo{ display:none; } }
+    .btn-rm { width:32px; height:32px; border-radius:8px; border:1.5px solid var(--border); background:white; cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:18px; line-height:1; transition:all .2s; flex-shrink:0; }
+    .btn-rm:hover { border-color:var(--red); color:var(--red); }
+    .btn-add { display:flex; align-items:center; gap:6px; padding:9px 14px; border-radius:var(--r); border:1.5px dashed var(--border); background:transparent; color:var(--accent); font-size:13px; font-weight:700; font-family:inherit; cursor:pointer; transition:all .2s; margin-top:4px; }
+    .btn-add:hover { border-color:var(--accent); background:rgba(0,189,208,.05); }
 
-    /* ── NAVIGATION ── */
-    .nav-btns { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; gap: 12px; }
-    .btn { padding: 12px 26px; border-radius: var(--radius); border: none; font-size: 14px; font-weight: 700; font-family: inherit; cursor: pointer; transition: all 0.2s; }
-    .btn-primary { background: var(--accent); color: var(--dark); }
-    .btn-primary:hover { background: var(--accent-dark); }
-    .btn-lg { padding: 14px 32px; font-size: 15px; }
-    .btn-outline { background: transparent; color: var(--muted); border: 1.5px solid var(--border); }
-    .btn-outline:hover { color: var(--text); border-color: #CBD5E1; }
+    /* ── NAV ── */
+    .nav { display:flex; justify-content:space-between; align-items:center; margin-top:26px; gap:12px; }
+    .btn { padding:11px 24px; border-radius:var(--r); border:none; font-size:14px; font-weight:700; font-family:inherit; cursor:pointer; transition:all .2s; }
+    .btn-p { background:var(--accent); color:var(--dark); }
+    .btn-p:hover { background:var(--acc2); }
+    .btn-lg { padding:13px 28px; font-size:15px; }
+    .btn-o { background:transparent; color:var(--muted); border:1.5px solid var(--border); }
+    .btn-o:hover { color:var(--text); border-color:#CBD5E1; }
 
     /* ── STEPS ── */
-    .step { display: none; }
-    .step.active { display: block; }
+    .step { display:none; }
+    .step.active { display:block; }
 
-    /* ── MARGIN PREVIEW ── */
-    .margin-preview {
-      margin-top: 16px; padding: 14px 18px; background: #F0FEFF;
-      border-radius: 12px; border: 1.5px solid #A5F3FC; display: none;
-    }
-    .margin-preview span { font-size: 13px; font-weight: 700; }
+    /* ── RESULTS ── */
+    .res-hdr { text-align:center; margin-bottom:22px; }
+    .badge { display:inline-block; padding:3px 12px; background:rgba(0,189,208,.12); color:var(--accent); border-radius:99px; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; margin-bottom:10px; }
+    .res-hdr h2 { font-size:26px; font-weight:800; margin-bottom:4px; }
+    .res-hdr p  { font-size:13px; color:var(--muted); }
 
-    /* ── RESULTADOS ── */
-    .result-header { text-align: center; margin-bottom: 28px; }
-    .badge {
-      display: inline-block; padding: 4px 14px; background: rgba(0,189,208,0.12);
-      color: var(--accent); border-radius: 99px; font-size: 11px; font-weight: 800;
-      text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px;
-    }
-    .result-header h2 { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
-    .result-header p { font-size: 14px; color: var(--muted); }
+    /* KPIs: 2x2 grid full-width */
+    .kpi-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px; }
+    @media(max-width:500px){ .kpi-grid{ grid-template-columns:1fr; } }
+    .kpi { background:white; border-radius:14px; padding:16px 18px; box-shadow:0 2px 10px rgba(15,32,53,.06); border-left:4px solid var(--accent); }
+    .kpi.g { border-left-color:var(--green); }
+    .kpi.r { border-left-color:var(--red); }
+    .kpi.y { border-left-color:var(--yellow); }
+    .kpi-lbl { font-size:10px; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px; }
+    .kpi-val { font-size:22px; font-weight:800; line-height:1.2; }
+    .kpi-sub { font-size:11px; color:var(--muted); margin-top:3px; line-height:1.3; }
+    .kpi-ex  { font-size:11px; color:var(--accent); margin-top:2px; font-weight:700; }
 
-    .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
-    @media(max-width: 500px) { .kpi-grid { grid-template-columns: 1fr; } }
+    /* Chart: full-width below KPIs */
+    .chart-card { background:white; border-radius:14px; padding:18px; box-shadow:0 2px 10px rgba(15,32,53,.06); margin-bottom:16px; }
+    .chart-card h4 { font-size:13px; font-weight:700; margin-bottom:12px; }
+    .chart-box { position:relative; height:200px; }
 
-    .kpi-card {
-      background: white; border-radius: 16px; padding: 20px 22px;
-      box-shadow: 0 2px 12px rgba(15,32,53,0.06); border-left: 4px solid var(--accent);
-    }
-    .kpi-card.green  { border-left-color: var(--success); }
-    .kpi-card.red    { border-left-color: var(--danger); }
-    .kpi-card.yellow { border-left-color: var(--warning); }
-    .kpi-label { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-    .kpi-value { font-size: 24px; font-weight: 800; }
-    .kpi-sub   { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+    /* TABLE con primera columna fija */
+    .tbl-wrap { overflow-x:auto; border-radius:14px; box-shadow:0 2px 10px rgba(15,32,53,.06); margin-bottom:20px; }
+    table { width:100%; border-collapse:collapse; font-size:12px; background:white; min-width:760px; }
+    thead th { padding:10px 12px; text-align:right; font-weight:700; font-size:11px; color:white; background:var(--dark); white-space:nowrap; }
+    thead th:first-child { text-align:left; min-width:180px; position:sticky; left:0; z-index:3; background:var(--dark); }
+    tbody td { padding:8px 12px; text-align:right; border-bottom:1px solid #F1F5F9; white-space:nowrap; }
+    tbody td:first-child { text-align:left; position:sticky; left:0; background:white; z-index:1; border-right:1px solid var(--border); }
+    tr.sec-r td { background:#F8FAFC; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); padding:6px 12px; }
+    tr.sec-r td:first-child { background:#F8FAFC; }
+    tr.sub-r td { font-weight:800; background:#F1F5F9; }
+    tr.sub-r td:first-child { background:#F1F5F9; }
+    tr.ebit-r td { font-weight:800; font-size:12px; }
+    tr.ebit-r td:first-child { background:white; }
 
-    .chart-card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 2px 12px rgba(15,32,53,0.06); margin-bottom: 24px; }
-    .chart-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 16px; }
+    /* DOWNLOADS */
+    .dl-row { display:flex; gap:10px; margin-bottom:20px; }
+    .btn-dl { flex:1; display:flex; align-items:center; justify-content:center; gap:7px; padding:13px; border-radius:var(--r); border:none; font-size:13px; font-weight:700; font-family:inherit; cursor:pointer; transition:all .2s; }
+    .btn-pdf  { background:#FEE2E2; color:#B91C1C; }
+    .btn-pdf:hover  { background:#FECACA; }
+    .btn-xlsx { background:#D1FAE5; color:#065F46; }
+    .btn-xlsx:hover { background:#A7F3D0; }
 
-    .table-wrap { overflow-x: auto; border-radius: 16px; box-shadow: 0 2px 12px rgba(15,32,53,0.06); margin-bottom: 24px; }
-    table { width: 100%; border-collapse: collapse; font-size: 12px; background: white; min-width: 760px; }
-    thead th { padding: 11px 13px; text-align: right; font-weight: 700; font-size: 11px; color: white; background: var(--dark); white-space: nowrap; }
-    thead th:first-child { text-align: left; min-width: 140px; }
-    tbody td { padding: 9px 13px; text-align: right; border-bottom: 1px solid #F1F5F9; white-space: nowrap; }
-    tbody td:first-child { text-align: left; }
-    tbody tr:hover td { background: #FAFBFC; }
-    tr.sec-row td { background: #F8FAFC; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); padding: 7px 13px; }
-    tr.subtotal td { font-weight: 800; background: #F1F5F9; }
-    tr.ebitda-row td { font-weight: 800; font-size: 13px; background: #F0FFF4; }
-    tr.ebitda-neg td { background: #FFF5F5; }
+    /* CTA */
+    .cta { background:linear-gradient(135deg,#0A1625,#162D4A); border-radius:18px; padding:32px; text-align:center; color:white; margin-bottom:16px; }
+    .cta h3 { font-size:19px; font-weight:800; margin-bottom:7px; }
+    .cta p  { font-size:13px; opacity:.65; margin-bottom:20px; line-height:1.5; }
+    .btn-cta { display:inline-block; padding:13px 28px; background:var(--accent); color:var(--dark); font-size:14px; font-weight:800; border-radius:var(--r); text-decoration:none; font-family:inherit; border:none; cursor:pointer; }
+    .btn-cta:hover { background:var(--acc2); }
 
-    .dl-row { display: flex; gap: 12px; margin-bottom: 24px; }
-    .btn-dl {
-      flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 14px; border-radius: var(--radius); border: none; font-size: 14px;
-      font-weight: 700; font-family: inherit; cursor: pointer; transition: all 0.2s;
-    }
-    .btn-pdf   { background: #FEE2E2; color: #B91C1C; }
-    .btn-pdf:hover { background: #FECACA; }
-    .btn-xlsx  { background: #D1FAE5; color: #065F46; }
-    .btn-xlsx:hover { background: #A7F3D0; }
+    /* EDIT PANEL (bottom) */
+    .edit-panel { background:#FFFBEB; border:1.5px solid #FDE68A; border-radius:14px; padding:16px 20px; margin-bottom:16px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+    .edit-panel p { font-size:13px; color:#92400E; }
+    .btn-edit { padding:8px 16px; border-radius:var(--r); border:none; background:var(--yellow); color:var(--dark); font-size:13px; font-weight:700; font-family:inherit; cursor:pointer; }
+    .btn-edit:hover { background:#D97706; color:white; }
 
-    .cta-box {
-      background: linear-gradient(135deg, #0A1625 0%, #162D4A 100%);
-      border-radius: 20px; padding: 36px; text-align: center; color: white;
-    }
-    .cta-box h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
-    .cta-box p  { font-size: 14px; opacity: 0.65; margin-bottom: 22px; line-height: 1.5; }
-    .btn-cta {
-      display: inline-block; padding: 14px 30px; background: var(--accent); color: var(--dark);
-      font-size: 15px; font-weight: 800; border-radius: var(--radius); text-decoration: none;
-      font-family: inherit; border: none; cursor: pointer; transition: all 0.2s;
-    }
-    .btn-cta:hover { background: var(--accent-dark); }
-
-    .restart-wrap { text-align: center; margin-top: 20px; }
-    .btn-restart {
-      padding: 9px 20px; border-radius: var(--radius); border: 1.5px solid var(--border);
-      background: white; color: var(--muted); font-size: 13px; font-weight: 600;
-      font-family: inherit; cursor: pointer; transition: all 0.2s;
-    }
-    .btn-restart:hover { color: var(--text); border-color: #CBD5E1; }
+    .restart { text-align:center; margin-top:12px; }
+    .btn-rst { padding:8px 18px; border-radius:var(--r); border:1.5px solid var(--border); background:white; color:var(--muted); font-size:13px; font-weight:600; font-family:inherit; cursor:pointer; }
+    .btn-rst:hover { color:var(--text); }
   </style>
 </head>
 <body>
 
-<header class="page-header">
-  <img src="logos/Logo oficial white.png" alt="Zerda Finance" onerror="this.outerHTML='<span class=\'header-title\'>Zerda Finance</span>'">
-  <a href="/" class="header-back">← Volver al sitio</a>
+<header class="ph">
+  <img src="logos/Logo oficial white.png" alt="Zerda Finance"
+    onerror="this.outerHTML='<span style=\'color:white;font-weight:800;font-size:15px\'>Zerda Finance</span>'">
+  <a href="/" class="ph-back">← Volver al sitio</a>
 </header>
 
-<div class="wizard-container">
+<div class="wz">
 
   <!-- PROGRESS -->
-  <div class="progress-wrap" id="progressWrap">
-    <div class="progress-info">
-      <span class="step-label" id="stepLabel">Tu negocio</span>
-      <span class="step-count" id="stepCount">Paso 1 de 4</span>
+  <div class="prog" id="progWrap">
+    <div class="prog-info">
+      <span class="prog-lbl" id="progLabel">Tu negocio</span>
+      <span class="prog-ct"  id="progCount">Paso 1 de 4</span>
     </div>
-    <div class="progress-bg">
-      <div class="progress-fill" id="progressFill" style="width:25%"></div>
+    <div class="prog-bg">
+      <div class="prog-fill" id="progFill" style="width:25%"></div>
     </div>
   </div>
 
@@ -223,21 +199,41 @@
   <div class="step active" id="step1">
     <div class="card">
       <h2 class="card-title">Cuéntame sobre tu negocio</h2>
-      <p class="card-subtitle">Vamos a construir tu plan financiero paso a paso. En 4 pasos tendrás una proyección a 12 meses lista para descargar.</p>
+      <p class="card-sub">En 4 pasos tendrás tu proyección financiera a 12 meses lista para descargar.</p>
 
-      <div class="form-group">
+      <div class="two">
+        <div class="fg">
+          <label>Tu nombre</label>
+          <input type="text" id="s1NombreUser" placeholder="Ej: María González">
+        </div>
+        <div class="fg">
+          <label>Tu rol en la empresa</label>
+          <select id="s1Rol">
+            <option value="">Selecciona...</option>
+            <option value="Founder / CEO">Founder / CEO</option>
+            <option value="Co-founder">Co-founder</option>
+            <option value="Gerente General">Gerente General</option>
+            <option value="Gerente de Área">Gerente de Área</option>
+            <option value="Ejecutivo">Ejecutivo</option>
+            <option value="Socio">Socio</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="fg">
         <label>Nombre del negocio</label>
-        <input type="text" id="nombreNegocio" placeholder="Ej: Mi Empresa SPA">
+        <input type="text" id="s1Nombre" placeholder="Ej: Mi Empresa SPA">
       </div>
 
-      <div class="form-group">
-        <label>Tu email <span class="opt">(opcional — te guardamos el plan)</span></label>
-        <input type="email" id="email" placeholder="tu@email.com">
+      <div class="fg">
+        <label>Tu email</label>
+        <input type="email" id="s1Email" placeholder="tu@email.com">
+        <p class="helper">Te enviamos el resumen al terminar.</p>
       </div>
 
-      <div class="form-group">
+      <div class="fg">
         <label>Tipo de negocio</label>
-        <select id="tipoNegocio">
+        <select id="s1Tipo">
           <option value="">Selecciona...</option>
           <option value="E-commerce">E-commerce / Tienda online</option>
           <option value="SaaS">SaaS / Software</option>
@@ -247,12 +243,13 @@
           <option value="Fintech">Fintech / Créditos</option>
           <option value="Otro">Otro</option>
         </select>
-        <p class="error-msg" id="err1">Completa nombre del negocio y tipo.</p>
       </div>
 
-      <div class="nav-btns">
+      <p class="err" id="e1">Completa nombre, email y tipo de negocio.</p>
+
+      <div class="nav">
         <div></div>
-        <button class="btn btn-primary btn-lg" onclick="goTo(2)">Continuar →</button>
+        <button class="btn btn-p btn-lg" onclick="goTo(2)">Continuar →</button>
       </div>
     </div>
   </div>
@@ -261,43 +258,43 @@
   <div class="step" id="step2">
     <div class="card">
       <h2 class="card-title">Tus ingresos</h2>
-      <p class="card-subtitle">¿Cuánto cobras y cuánto vendes hoy? Usa los números reales de este mes.</p>
+      <p class="card-sub">¿Cuánto cobras y cuánto vendes hoy? Usa los números reales de este mes.</p>
 
-      <div class="form-group">
-        <label>¿Qué vendes? <span class="opt">(descríbelo con tus palabras)</span></label>
-        <input type="text" id="productoNombre" placeholder="Ej: Consulta médica, Kit de maquillaje, Suscripción mensual...">
+      <div class="fg">
+        <label>¿Qué vendes? <span class="opt">(con tus palabras)</span></label>
+        <input type="text" id="s2Prod" placeholder="Ej: Consulta médica, Kit de maquillaje, Suscripción mensual...">
       </div>
 
-      <div class="two-col">
-        <div class="form-group">
+      <div class="two">
+        <div class="fg">
           <label>Precio de venta (ticket promedio)</label>
-          <div class="input-wrap">
-            <span class="input-pre">$</span>
-            <input type="number" id="precio" class="has-prefix" placeholder="50000" min="0">
+          <div class="ig">
+            <span class="ig-sym">$</span>
+            <input type="number" id="s2Precio" placeholder="50000" min="0">
           </div>
           <p class="helper">Cuánto paga un cliente en promedio</p>
         </div>
-        <div class="form-group">
+        <div class="fg">
           <label>Unidades / clientes por mes</label>
-          <input type="number" id="volumen" placeholder="25" min="0">
-          <p class="helper">Ventas del mes actual (punto de partida)</p>
+          <input type="number" id="s2Vol" placeholder="25" min="0">
+          <p class="helper">Ventas del mes actual</p>
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="fg">
         <label>Crecimiento mensual esperado</label>
-        <div class="input-wrap">
-          <input type="number" id="crecimiento" class="has-suffix" placeholder="10" min="0" max="300">
-          <span class="input-suf">%</span>
+        <div class="ig">
+          <input type="number" id="s2Crec" placeholder="10" min="0" max="300">
+          <span class="ig-suf">% / mes</span>
         </div>
-        <p class="helper">¿Cuánto esperas crecer cada mes? Si no sabes, usa entre 5% y 15%.</p>
+        <p class="helper">Si no sabes, usa entre 5% y 15%. Puedes ajustarlo después.</p>
       </div>
 
-      <p class="error-msg" id="err2">Ingresa el precio de venta y las unidades mensuales.</p>
+      <p class="err" id="e2">Ingresa el precio de venta y las unidades mensuales.</p>
 
-      <div class="nav-btns">
-        <button class="btn btn-outline" onclick="goTo(1)">← Anterior</button>
-        <button class="btn btn-primary btn-lg" onclick="goTo(3)">Continuar →</button>
+      <div class="nav">
+        <button class="btn btn-o" onclick="goTo(1)">← Anterior</button>
+        <button class="btn btn-p btn-lg" onclick="goTo(3)">Continuar →</button>
       </div>
     </div>
   </div>
@@ -306,51 +303,78 @@
   <div class="step" id="step3">
     <div class="card">
       <h2 class="card-title">Costos variables</h2>
-      <p class="card-subtitle">Los costos que aumentan cuando vendes más. Exprésalos como % de cada venta. Si un costo no aplica, deja en 0.</p>
+      <p class="card-sub">Los costos que aumentan cuando vendes más. Valores ya ajustados a tu rubro — edítalos si tus números son distintos.</p>
 
-      <div class="two-col">
-        <div class="form-group">
-          <label>Costo del producto / servicio</label>
-          <div class="input-wrap">
-            <input type="number" id="cogsPorc" class="has-suffix" placeholder="30" min="0" max="100">
-            <span class="input-suf">%</span>
+      <!-- Benchmark box -->
+      <div class="bench" id="bench3">
+        <div class="bench-head">
+          <strong>💡 Referencia para <span id="b3Tipo"></span></strong>
+          <button class="btn-bench" onclick="resetBench()">↺ Restaurar referencia</button>
+        </div>
+        <p class="bench-nota" id="b3Nota"></p>
+        <div class="bench-grid">
+          <div class="bench-row"><span>Costo variable sugerido</span><strong id="b3Cv"></strong></div>
+          <div class="bench-row"><span>Marketing</span><strong id="b3Mkt"></strong></div>
+          <div class="bench-row"><span>Comisión ventas</span><strong id="b3Com"></strong></div>
+          <div class="bench-row"><span>Margen bruto esperado</span><strong id="b3Margen" style="color:var(--green)"></strong></div>
+        </div>
+      </div>
+
+      <div class="two">
+        <div class="fg">
+          <label>Costo variable del producto / servicio</label>
+          <div class="ig">
+            <input type="number" id="s3Cogs" placeholder="30" min="0" max="100">
+            <span class="ig-suf">%</span>
           </div>
           <p class="helper">Materiales, insumos, producción, envío</p>
         </div>
-        <div class="form-group">
+        <div class="fg">
           <label>Marketing / Publicidad</label>
-          <div class="input-wrap">
-            <input type="number" id="mktPorc" class="has-suffix" placeholder="10" min="0" max="100">
-            <span class="input-suf">%</span>
+          <div class="ig">
+            <input type="number" id="s3Mkt" placeholder="10" min="0" max="100">
+            <span class="ig-suf">%</span>
           </div>
           <p class="helper">Google Ads, Meta Ads, influencers</p>
         </div>
-        <div class="form-group">
+        <div class="fg">
           <label>Comisión de ventas</label>
-          <div class="input-wrap">
-            <input type="number" id="comPorc" class="has-suffix" placeholder="5" min="0" max="100">
-            <span class="input-suf">%</span>
+          <div class="ig">
+            <input type="number" id="s3Com" placeholder="5" min="0" max="100">
+            <span class="ig-suf">%</span>
           </div>
           <p class="helper">% que le pagas al vendedor o canal</p>
         </div>
-        <div class="form-group">
-          <label>Pasarela de pago</label>
-          <div class="input-wrap">
-            <input type="number" id="pasPorc" class="has-suffix" placeholder="3" min="0" max="100">
-            <span class="input-suf">%</span>
+        <div class="fg">
+          <!-- PASARELA: toggle condicional -->
+          <label>
+            Pasarela de pago
+            <span class="opt">—
+              <label class="pas-toggle" style="display:inline-flex;margin-left:4px">
+                <input type="checkbox" id="hasPas" onchange="togglePas()">
+                <span>Aplica en mi negocio</span>
+              </label>
+            </span>
+          </label>
+          <div id="pasWrap" style="display:none">
+            <div class="ig">
+              <input type="number" id="s3Pas" placeholder="3" min="0" max="100">
+              <span class="ig-suf">%</span>
+            </div>
           </div>
           <p class="helper">Transbank, Stripe, Mercado Pago...</p>
         </div>
       </div>
 
-      <div class="margin-preview" id="marginPreview">
-        <span>Margen bruto estimado: <strong id="marginVal" style="font-size:15px">—</strong></span>
+      <div id="marginPrev" style="display:none;margin-top:4px;padding:12px 16px;background:#F0FEFF;border-radius:12px;border:1.5px solid #A5F3FC;">
+        <span style="font-size:13px;font-weight:700;color:#0369A1">Margen bruto: </span>
+        <span id="marginVal" style="font-size:16px;font-weight:800"></span>
         <span id="marginMsg" style="font-size:12px;color:var(--muted);margin-left:8px"></span>
       </div>
 
-      <div class="nav-btns">
-        <button class="btn btn-outline" onclick="goTo(2)">← Anterior</button>
-        <button class="btn btn-primary btn-lg" onclick="goTo(4)">Continuar →</button>
+      <div class="nav">
+        <button class="btn btn-o" onclick="goTo(2)">← Anterior</button>
+        <button class="btn btn-p btn-lg" onclick="goTo(4)">Continuar →</button>
       </div>
     </div>
   </div>
@@ -359,51 +383,48 @@
   <div class="step" id="step4">
     <div class="card">
       <h2 class="card-title">Costos fijos</h2>
-      <p class="card-subtitle">Los costos que pagas cada mes sin importar cuánto vendas.</p>
+      <p class="card-sub">Los costos que pagas cada mes sin importar cuánto vendas.</p>
 
-      <p class="sec-label">Equipo</p>
+      <!-- Benchmark fijos -->
+      <div class="bench" id="bench4">
+        <div class="bench-head">
+          <strong>💡 Equipo sugerido para <span id="b4Tipo"></span></strong>
+          <button class="btn-bench" onclick="usarBench4()">Agregar sugeridos →</button>
+        </div>
+        <p class="bench-nota" id="b4Nota"></p>
+      </div>
+
+      <p class="sec-lbl">Equipo</p>
       <div id="teamRows"></div>
       <button class="btn-add" onclick="addTeam()">+ Agregar persona</button>
 
       <hr class="divider">
-      <p class="sec-label">Otros gastos fijos mensuales</p>
+      <p class="sec-lbl">Otros gastos fijos mensuales</p>
 
-      <div class="two-col">
-        <div class="form-group">
+      <div class="two">
+        <div class="fg">
           <label>Arriendo</label>
-          <div class="input-wrap">
-            <span class="input-pre">$</span>
-            <input type="number" id="arriendo" class="has-prefix" placeholder="500000" min="0">
-          </div>
+          <div class="ig"><span class="ig-sym">$</span><input type="number" id="s4Arr"  placeholder="0" min="0"></div>
         </div>
-        <div class="form-group">
+        <div class="fg">
           <label>Software / TI</label>
-          <div class="input-wrap">
-            <span class="input-pre">$</span>
-            <input type="number" id="software" class="has-prefix" placeholder="200000" min="0">
-          </div>
+          <div class="ig"><span class="ig-sym">$</span><input type="number" id="s4Soft" placeholder="0" min="0"></div>
         </div>
-        <div class="form-group">
+        <div class="fg">
           <label>Contador / Legal</label>
-          <div class="input-wrap">
-            <span class="input-pre">$</span>
-            <input type="number" id="contador" class="has-prefix" placeholder="150000" min="0">
-          </div>
+          <div class="ig"><span class="ig-sym">$</span><input type="number" id="s4Cont" placeholder="0" min="0"></div>
         </div>
-        <div class="form-group">
+        <div class="fg">
           <label>Otros gastos fijos</label>
-          <div class="input-wrap">
-            <span class="input-pre">$</span>
-            <input type="number" id="otrosFijos" class="has-prefix" placeholder="0" min="0">
-          </div>
+          <div class="ig"><span class="ig-sym">$</span><input type="number" id="s4Otros" placeholder="0" min="0"></div>
         </div>
       </div>
 
-      <p class="error-msg" id="err4">Agrega al menos un integrante del equipo con sueldo.</p>
+      <p class="err" id="e4">Agrega al menos una persona del equipo con sueldo.</p>
 
-      <div class="nav-btns">
-        <button class="btn btn-outline" onclick="goTo(3)">← Anterior</button>
-        <button class="btn btn-primary btn-lg" onclick="calcular()">Ver mi plan financiero →</button>
+      <div class="nav">
+        <button class="btn btn-o" onclick="goTo(3)">← Anterior</button>
+        <button class="btn btn-p btn-lg" onclick="calcular()">Ver mi plan financiero →</button>
       </div>
     </div>
   </div>
@@ -411,493 +432,733 @@
   <!-- ── STEP 5: RESULTADOS ── -->
   <div class="step" id="step5">
 
-    <div class="result-header">
+    <div class="res-hdr">
       <div class="badge">Plan Financiero · 12 meses</div>
       <h2 id="resTitle">Tu Plan Financiero</h2>
-      <p id="resSubtitle">Proyección basada en tus supuestos</p>
+      <p id="resSub">Proyección basada en tus supuestos</p>
     </div>
 
+    <!-- KPIs 2x2 -->
     <div class="kpi-grid" id="kpiGrid"></div>
 
+    <!-- Chart full-width -->
     <div class="chart-card">
       <h4>Evolución mensual — Ingresos vs EBITDA</h4>
-      <canvas id="myChart" height="240"></canvas>
+      <div class="chart-box">
+        <canvas id="myChart"></canvas>
+      </div>
     </div>
 
-    <div class="table-wrap">
+    <!-- Tabla EERR -->
+    <div class="tbl-wrap">
       <table id="eerrTable"></table>
     </div>
 
+    <!-- Descargas -->
     <div class="dl-row">
       <button class="btn-dl btn-pdf"  onclick="dlPDF()">📄 Descargar PDF</button>
       <button class="btn-dl btn-xlsx" onclick="dlExcel()">📊 Descargar Excel</button>
     </div>
 
-    <div class="cta-box">
+    <!-- CTA -->
+    <div class="cta">
       <h3>¿Quieres convertir este plan en acción real?</h3>
       <p>Un modelo financiero solo vale si se usa para tomar decisiones.<br>Agenda un diagnóstico con Oscar y transforma tus números en claridad.</p>
       <a href="/#diagnostico" class="btn-cta">Agendar diagnóstico gratuito</a>
     </div>
 
-    <div class="restart-wrap">
-      <button class="btn-restart" onclick="location.reload()">↺ Hacer otro plan</button>
+    <!-- Editar supuestos — al final -->
+    <div class="edit-panel">
+      <p>¿Quieres ajustar algún supuesto? Vuelve al formulario con todos tus datos guardados.</p>
+      <button class="btn-edit" onclick="goTo(1)">✏ Editar supuestos</button>
+    </div>
+
+    <div class="restart">
+      <button class="btn-rst" onclick="location.reload()">↺ Hacer otro plan desde cero</button>
     </div>
 
   </div>
 
-</div><!-- /wizard-container -->
+</div><!-- /wz -->
 
 <script>
-// ── STATE ─────────────────────────────────────────────────────────────
-let step = 1;
-let data = null;   // computed result
-let chart = null;
-let teamIdx = 0;
+// ── BENCHMARKS POR RUBRO ─────────────────────────────────────────────
+const BENCH = {
+  'E-commerce': {
+    cv:35, mkt:12, com:5, pas:3, margen:'40–55%',
+    nota:'El costo variable incluye el costo del producto + envío. En e-commerce, un margen bruto saludable está sobre el 40%.',
+    staffNota:'Para un e-commerce en etapa inicial, sugerimos roles complementarios a ti. Puedes ajustar sueldos según tu realidad.',
+    staff:[['Operaciones / Bodega',600000],['Atención al cliente',500000]],
+    arr:300000, soft:100000, cont:80000, otros:100000
+  },
+  'SaaS': {
+    cv:8, mkt:20, com:10, pas:3, margen:'60–80%',
+    nota:'El costo variable en SaaS es bajo: hosting, APIs y herramientas de soporte. El margen alto es lo que hace escalable este modelo.',
+    staffNota:'En SaaS, la inversión clave está en producto y retención. Si eres técnico, el complemento es comercial — y viceversa.',
+    staff:[['Desarrollador',1500000],['Customer Success',800000]],
+    arr:0, soft:500000, cont:150000, otros:150000
+  },
+  'Servicios': {
+    cv:25, mkt:8, com:8, pas:0, margen:'55–70%',
+    nota:'El costo variable incluye el tiempo del equipo que ejecuta el servicio. Si terciarizas parte del servicio, suma ese costo aquí.',
+    staffNota:'En servicios, el equipo ejecutor es el mayor costo. Estructura que se escala con la demanda.',
+    staff:[['Consultor / Ejecutor',1200000],['Administración',700000]],
+    arr:300000, soft:150000, cont:100000, otros:100000
+  },
+  'Clínica / Salud': {
+    cv:40, mkt:5, com:0, pas:2, margen:'50–60%',
+    nota:'El costo variable incluye insumos médicos y el sueldo variable del profesional clínico. El marketing en salud tiende a ser bajo.',
+    staffNota:'Una clínica necesita al menos el profesional clínico y alguien de administración. El arriendo suele ser el mayor costo fijo.',
+    staff:[['Profesional de salud',1500000],['Secretaria / Admisión',700000]],
+    arr:800000, soft:100000, cont:100000, otros:150000
+  },
+  'Restaurante': {
+    cv:30, mkt:5, com:12, pas:3, margen:'50–60%',
+    nota:'El costo variable del producto (food cost) idealmente bajo 30%. La comisión incluye plataformas de delivery como Rappi o Uber Eats.',
+    staffNota:'Un restaurante pequeño parte con cocinero + caja. El arriendo es clave — idealmente no supera el 10% de las ventas.',
+    staff:[['Cocinero',700000],['Caja / Atención',500000]],
+    arr:600000, soft:80000, cont:80000, otros:150000
+  },
+  'Fintech': {
+    cv:30, mkt:15, com:5, pas:2, margen:'45–60%',
+    nota:'El costo variable incluye costo de fondeo o provisión por pérdida esperada. Ajusta según tu modelo de negocio específico.',
+    staffNota:'Fintech requiere análisis de riesgo y equipo comercial. El software suele ser un gasto fijo relevante.',
+    staff:[['Analista de riesgo',1200000],['Comercial',900000]],
+    arr:400000, soft:300000, cont:200000, otros:200000
+  },
+  'Otro': {
+    cv:30, mkt:10, com:5, pas:0, margen:'45–60%',
+    nota:'Ajusta los porcentajes según los costos reales de tu negocio. Puedes consultar con Oscar para afinar tu estructura.',
+    staffNota:'Estructura de equipo para una PYME en etapa inicial. Ajusta según tu modelo de negocio.',
+    staff:[['Operaciones',800000],['Administración',600000]],
+    arr:300000, soft:100000, cont:80000, otros:100000
+  }
+};
 
-const STEP_LABELS = ['', 'Tu negocio', 'Tus ingresos', 'Costos variables', 'Costos fijos'];
+// ── STATE ────────────────────────────────────────────────────────────
+let curStep = 1;
+let resData = null;
+let chart   = null;
+let teamIdx = 0;
+let benchApplied = false; // prevents overwriting manual edits
+
+const STEP_LABELS = ['','Tu negocio','Tus ingresos','Costos variables','Costos fijos'];
 const MONTHS = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 
 window.addEventListener('DOMContentLoaded', () => {
-  addTeam(); // start with one row
-  ['cogsPorc','mktPorc','comPorc','pasPorc'].forEach(id =>
-    document.getElementById(id).addEventListener('input', updateMarginPreview)
-  );
+  addTeam(); // first row for the user themselves
+  ['s3Cogs','s3Mkt','s3Com','s3Pas'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', updateMargin);
+  });
 });
 
-// ── NAVIGATION ────────────────────────────────────────────────────────
+// ── NAVIGATION ───────────────────────────────────────────────────────
 function goTo(n) {
-  if (n > step && !validate(step)) return;
-  document.getElementById('step' + step).classList.remove('active');
-  step = n;
-  document.getElementById('step' + step).classList.add('active');
+  if (n > curStep && !validate(curStep)) return;
+  document.getElementById('step'+curStep).classList.remove('active');
+  curStep = n;
+  document.getElementById('step'+curStep).classList.add('active');
 
-  const pw = document.getElementById('progressWrap');
+  const pw = document.getElementById('progWrap');
   if (n <= 4) {
     pw.style.display = 'block';
-    document.getElementById('stepLabel').textContent = STEP_LABELS[n];
-    document.getElementById('stepCount').textContent  = `Paso ${n} de 4`;
-    document.getElementById('progressFill').style.width = (n / 4 * 100) + '%';
+    document.getElementById('progLabel').textContent = STEP_LABELS[n];
+    document.getElementById('progCount').textContent = `Paso ${n} de 4`;
+    document.getElementById('progFill').style.width  = (n/4*100)+'%';
+    if (n === 3) showBench3();
+    if (n === 4) showBench4();
   } else {
     pw.style.display = 'none';
   }
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 function validate(n) {
   if (n === 1) {
-    const ok = v('nombreNegocio').trim() && v('tipoNegocio');
-    toggle('err1', !ok);
-    return ok;
+    const ok = val('s1Nombre').trim() && val('s1Email').trim() && val('s1Tipo');
+    show('e1', !ok); return !!ok;
   }
   if (n === 2) {
-    const ok = +v('precio') > 0 && +v('volumen') > 0;
-    toggle('err2', !ok);
-    return ok;
+    const ok = num('s2Precio') > 0 && num('s2Vol') > 0;
+    show('e2', !ok); return ok;
   }
   if (n === 4) {
-    const team = getTeam();
-    const ok = team.length > 0;
-    toggle('err4', !ok);
-    return ok;
+    const ok = getTeam().length > 0;
+    show('e4', !ok); return ok;
   }
   return true;
 }
 
-function v(id) { return document.getElementById(id)?.value ?? ''; }
-function n(id) { return parseFloat(v(id)) || 0; }
-function toggle(id, show) { document.getElementById(id).style.display = show ? 'block' : 'none'; }
+const val  = id => document.getElementById(id)?.value ?? '';
+const num  = id => parseFloat(val(id)) || 0;
+const show = (id, v) => { document.getElementById(id).style.display = v ? 'block' : 'none'; };
 
-// ── MARGIN PREVIEW ────────────────────────────────────────────────────
-function updateMarginPreview() {
-  const total = n('cogsPorc') + n('mktPorc') + n('comPorc') + n('pasPorc');
+// ── PASARELA TOGGLE ──────────────────────────────────────────────────
+function togglePas() {
+  const checked = document.getElementById('hasPas').checked;
+  document.getElementById('pasWrap').style.display = checked ? 'block' : 'none';
+  if (!checked) {
+    const el = document.getElementById('s3Pas');
+    if (el) el.value = '';
+  }
+  updateMargin();
+}
+
+// ── MARGIN PREVIEW ───────────────────────────────────────────────────
+function updateMargin() {
+  const pasVal = document.getElementById('hasPas')?.checked ? num('s3Pas') : 0;
+  const total  = num('s3Cogs') + num('s3Mkt') + num('s3Com') + pasVal;
   const margin = 100 - total;
-  const prev = document.getElementById('marginPreview');
-  const val  = document.getElementById('marginVal');
-  const msg  = document.getElementById('marginMsg');
+  const prev = document.getElementById('marginPrev');
+  const mVal = document.getElementById('marginVal');
+  const mMsg = document.getElementById('marginMsg');
   prev.style.display = 'block';
-  val.textContent = margin.toFixed(1) + '%';
-  val.style.color = margin >= 30 ? '#059669' : margin >= 10 ? '#D97706' : '#DC2626';
-  msg.textContent = margin >= 40 ? '— Saludable' : margin >= 20 ? '— Aceptable' : margin >= 0 ? '— Bajo, revisa tus costos' : '— Tus costos variables superan el 100%';
+  mVal.textContent = margin.toFixed(1) + '%';
+  mVal.style.color = margin >= 30 ? '#059669' : margin >= 10 ? '#D97706' : '#DC2626';
+  mMsg.textContent = margin >= 40 ? '— Saludable ✓'
+    : margin >= 20 ? '— Aceptable'
+    : margin >= 0  ? '— Bajo, revisa costos'
+    : '— Costos superan el precio';
 }
 
-// ── TEAM ──────────────────────────────────────────────────────────────
-function addTeam() {
+// ── BENCHMARKS ───────────────────────────────────────────────────────
+function showBench3() {
+  const tipo = val('s1Tipo');
+  const b = BENCH[tipo];
+  if (!b) return;
+
+  document.getElementById('b3Tipo').textContent   = tipo;
+  document.getElementById('b3Nota').textContent   = b.nota;
+  document.getElementById('b3Cv').textContent     = b.cv + '%';
+  document.getElementById('b3Mkt').textContent    = b.mkt + '%';
+  document.getElementById('b3Com').textContent    = b.com + '%';
+  document.getElementById('b3Margen').textContent = b.margen;
+  document.getElementById('bench3').style.display = 'block';
+
+  // Auto-fill only on first visit
+  if (!benchApplied) {
+    benchApplied = true;
+    document.getElementById('s3Cogs').value = b.cv;
+    document.getElementById('s3Mkt').value  = b.mkt;
+    document.getElementById('s3Com').value  = b.com;
+    // Pasarela: enable and fill only if > 0 in benchmark
+    if (b.pas > 0) {
+      document.getElementById('hasPas').checked = true;
+      document.getElementById('pasWrap').style.display = 'block';
+      document.getElementById('s3Pas').value = b.pas;
+    }
+    updateMargin();
+  }
+}
+
+function resetBench() {
+  benchApplied = false;
+  showBench3();
+  // Force re-apply
+  benchApplied = false;
+  const tipo = val('s1Tipo');
+  const b = BENCH[tipo];
+  if (!b) return;
+  document.getElementById('s3Cogs').value = b.cv;
+  document.getElementById('s3Mkt').value  = b.mkt;
+  document.getElementById('s3Com').value  = b.com;
+  if (b.pas > 0) {
+    document.getElementById('hasPas').checked = true;
+    document.getElementById('pasWrap').style.display = 'block';
+    document.getElementById('s3Pas').value = b.pas;
+  } else {
+    document.getElementById('hasPas').checked = false;
+    document.getElementById('pasWrap').style.display = 'none';
+  }
+  updateMargin();
+}
+
+function calcMb1() {
+  const ing1  = num('s2Precio') * num('s2Vol');
+  const pasPct = document.getElementById('hasPas')?.checked ? num('s3Pas') : 0;
+  const cvPct  = (num('s3Cogs') + num('s3Mkt') + num('s3Com') + pasPct) / 100;
+  return { ing1, mb1: ing1 * (1 - cvPct) };
+}
+
+function showBench4() {
+  const tipo = val('s1Tipo');
+  const b = BENCH[tipo];
+  if (!b) return;
+  const userNombre = val('s1NombreUser') || 'tú';
+  const { ing1, mb1 } = calcMb1();
+
+  // Threshold: gross margin must cover at least one basic salary
+  const canAffordTeam = mb1 >= 1200000;
+
+  // Suggest founder salary as ~30% of gross margin, rounded to nearest 50K, capped at 5M
+  const founderSueldo = canAffordTeam
+    ? Math.min(Math.round(mb1 * 0.30 / 50000) * 50000, 5000000)
+    : 0;
+
+  let nota;
+  if (!canAffordTeam) {
+    nota = `Con el margen bruto proyectado del mes 1 (${fmtShort(Math.round(mb1))}), aún no hay holgura para cubrir sueldos. Agrega personas cuando el negocio lo justifique — por ahora enfócate en validar ingresos.`;
+  } else {
+    nota = b.staffNota + ` Basado en tus ingresos proyectados (${fmtShort(Math.round(ing1))}/mes), te sugerimos un retiro para el founder de ${fmtShort(founderSueldo)}/mes. Ajusta a tu realidad.`;
+  }
+
+  document.getElementById('b4Tipo').textContent = tipo;
+  document.getElementById('b4Nota').textContent = nota;
+  document.getElementById('bench4').style.display = 'block';
+
+  // Pre-fill overhead if empty (siempre, independiente del tamaño)
+  if (!num('s4Arr')   && b.arr   > 0) document.getElementById('s4Arr').value   = b.arr;
+  if (!num('s4Soft')  && b.soft  > 0) document.getElementById('s4Soft').value  = b.soft;
+  if (!num('s4Cont')  && b.cont  > 0) document.getElementById('s4Cont').value  = b.cont;
+  if (!num('s4Otros') && b.otros > 0) document.getElementById('s4Otros').value = b.otros;
+
+  // Pre-fill first team row with founder info
+  const firstRow = document.querySelector('.team-row');
+  if (firstRow) {
+    const id    = firstRow.id.replace('tr','');
+    const rolEl  = document.getElementById('tRol'+id);
+    const suelEl = document.getElementById('tSueldo'+id);
+    if (rolEl && !rolEl.value) {
+      const userRol = val('s1Rol') || 'Founder / CEO';
+      rolEl.value = userNombre + ' (' + userRol + ')';
+    }
+    if (suelEl && !suelEl.value) {
+      if (canAffordTeam && founderSueldo > 0) {
+        suelEl.value = founderSueldo;
+      } else {
+        suelEl.placeholder = 'Tu retiro / sueldo';
+      }
+    }
+  }
+}
+
+function usarBench4() {
+  const tipo = val('s1Tipo');
+  const b = BENCH[tipo];
+  if (!b) return;
+  const { mb1 } = calcMb1();
+  // Solo agregar equipo si hay margen suficiente
+  if (mb1 >= 1200000) b.staff.forEach(([rol, sueldo]) => addTeam(rol, sueldo));
+  if (b.arr   > 0) document.getElementById('s4Arr').value   = b.arr;
+  if (b.soft  > 0) document.getElementById('s4Soft').value  = b.soft;
+  if (b.cont  > 0) document.getElementById('s4Cont').value  = b.cont;
+  if (b.otros > 0) document.getElementById('s4Otros').value = b.otros;
+}
+
+// ── TEAM ────────────────────────────────────────────────────────────
+function addTeam(rol='', sueldo='') {
   if (document.querySelectorAll('.team-row').length >= 8) return;
-  const id = ++teamIdx;
-  const row = document.createElement('div');
-  row.className = 'team-row';
-  row.id = 'tr' + id;
-  row.innerHTML = `
-    <input type="text"   placeholder="Rol (ej: Vendedor)"  id="tRol${id}">
-    <div class="input-wrap sueldo-col">
-      <span class="input-pre">$</span>
-      <input type="number" class="has-prefix" placeholder="800000" id="tSueldo${id}" min="0">
+  const id  = ++teamIdx;
+  const div = document.createElement('div');
+  div.className = 'team-row';
+  div.id = 'tr'+id;
+  div.innerHTML = `
+    <input type="text" placeholder="Rol (ej: Vendedor)" value="${rol}" id="tRol${id}">
+    <div class="ig team-sueldo">
+      <span class="ig-sym">$</span>
+      <input type="number" placeholder="800000" value="${sueldo||''}" id="tSueldo${id}" min="0">
     </div>
-    <button class="btn-remove" onclick="rmTeam(${id})" title="Eliminar">×</button>`;
-  document.getElementById('teamRows').appendChild(row);
+    <button class="btn-rm" onclick="rmTeam(${id})" title="Eliminar">×</button>`;
+  document.getElementById('teamRows').appendChild(div);
 }
 
-function rmTeam(id) {
-  document.getElementById('tr' + id)?.remove();
-}
+function rmTeam(id) { document.getElementById('tr'+id)?.remove(); }
 
 function getTeam() {
   return Array.from(document.querySelectorAll('.team-row')).map(row => {
-    const id = row.id.replace('tr', '');
+    const id = row.id.replace('tr','');
     return {
-      rol:    (document.getElementById('tRol' + id)?.value || '').trim() || 'Equipo',
-      sueldo: parseFloat(document.getElementById('tSueldo' + id)?.value) || 0
+      rol:    (document.getElementById('tRol'+id)?.value||'').trim() || 'Equipo',
+      sueldo: parseFloat(document.getElementById('tSueldo'+id)?.value)||0
     };
   }).filter(r => r.sueldo > 0);
 }
 
-// ── CALCULATION ───────────────────────────────────────────────────────
+// ── CALCULATION ──────────────────────────────────────────────────────
 function calcular() {
   if (!validate(4)) return;
 
-  const inputs = {
-    nombre:   v('nombreNegocio').trim(),
-    email:    v('email').trim(),
-    tipo:     v('tipoNegocio'),
-    producto: v('productoNombre').trim(),
-    precio:   n('precio'),
-    volumen:  n('volumen'),
-    crec:     n('crecimiento'),
-    cogs:     n('cogsPorc'),
-    mkt:      n('mktPorc'),
-    com:      n('comPorc'),
-    pas:      n('pasPorc'),
-    team:     getTeam(),
-    arriendo: n('arriendo'),
-    software: n('software'),
-    contador: n('contador'),
-    otros:    n('otrosFijos'),
+  const pasActivo = document.getElementById('hasPas')?.checked;
+  const inp = {
+    nombreUser: val('s1NombreUser').trim(),
+    rolUser:    val('s1Rol'),
+    nombre:     val('s1Nombre').trim(),
+    email:      val('s1Email').trim(),
+    tipo:       val('s1Tipo'),
+    prod:       val('s2Prod').trim(),
+    precio:     num('s2Precio'),
+    vol:        num('s2Vol'),
+    crec:       num('s2Crec'),
+    cv:         num('s3Cogs'),
+    mkt:        num('s3Mkt'),
+    com:        num('s3Com'),
+    pas:        pasActivo ? num('s3Pas') : 0,
+    team:       getTeam(),
+    arr:        num('s4Arr'),
+    soft:       num('s4Soft'),
+    cont:       num('s4Cont'),
+    otros:      num('s4Otros'),
   };
 
-  const cvPorc = (inputs.cogs + inputs.mkt + inputs.com + inputs.pas) / 100;
-  const teamTotal = inputs.team.reduce((a, t) => a + t.sueldo, 0);
-  const overheadTotal = inputs.arriendo + inputs.software + inputs.contador + inputs.otros;
-  const costosFijos = teamTotal + overheadTotal;
+  const cvPorc    = (inp.cv + inp.mkt + inp.com + inp.pas) / 100;
+  const teamTotal = inp.team.reduce((a,t)=>a+t.sueldo, 0);
+  const overhead  = inp.arr + inp.soft + inp.cont + inp.otros;
+  const fixedTot  = teamTotal + overhead;
 
   const now = new Date();
   const meses = [];
-  let unidades = inputs.volumen;
+  let unidades = inp.vol;
 
   for (let i = 0; i < 12; i++) {
-    if (i > 0) unidades = unidades * (1 + inputs.crec / 100);
-    const ingresos      = inputs.precio * unidades;
-    const costoVar      = ingresos * cvPorc;
-    const margenBruto   = ingresos - costoVar;
-    const ebitda        = margenBruto - costosFijos;
-    const mo = (now.getMonth() + i) % 12;
-    const yr = now.getFullYear() + Math.floor((now.getMonth() + i) / 12);
-    meses.push({ label: MONTHS[mo] + ' ' + String(yr).slice(2), unidades: Math.round(unidades), ingresos, costoVar, margenBruto, margenPct: ingresos > 0 ? margenBruto / ingresos * 100 : 0, costosFijos, ebitda });
+    if (i > 0) unidades *= (1 + inp.crec/100);
+    const ing  = inp.precio * unidades;
+    const cv   = ing * cvPorc;
+    const mb   = ing - cv;
+    const ebit = mb - fixedTot;
+    const mo   = (now.getMonth()+i) % 12;
+    const yr   = now.getFullYear() + Math.floor((now.getMonth()+i)/12);
+    meses.push({ label:MONTHS[mo]+' '+String(yr).slice(2), unidades:Math.round(unidades), ing, cv, mb, mbPct:ing>0?mb/ing*100:0, fixedTot, ebit });
   }
 
-  data = { inputs, meses, costosFijos, cvPorc, teamTotal, overheadTotal };
+  resData = { inp, meses, fixedTot, teamTotal, overhead, cvPorc };
 
-  // Capture lead if email provided
-  if (inputs.email) {
+  if (inp.email) {
     fetch('/api/lead', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        nombre:      inputs.nombre,
-        correo:      inputs.email,
-        descripcion: `Simulador — ${inputs.tipo} | Precio: $${fmtRaw(inputs.precio)} | Volumen: ${inputs.volumen} uds/mes | Crec: ${inputs.crec}%`
-      })
-    }).catch(() => {});
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ nombre:inp.nombre, correo:inp.email,
+        descripcion:`Simulador — ${inp.tipo} | Precio: $${fmtRaw(inp.precio)} | Vol: ${inp.vol} uds/mes | Crec: ${inp.crec}%` })
+    }).catch(()=>{});
   }
 
   renderResults();
   goTo(5);
 }
 
-// ── RENDER RESULTS ────────────────────────────────────────────────────
+// ── RENDER ───────────────────────────────────────────────────────────
 function renderResults() {
-  const { inputs, meses, costosFijos } = data;
+  const { inp, meses, fixedTot, teamTotal, overhead } = resData;
 
-  document.getElementById('resTitle').textContent = inputs.nombre || 'Tu Plan Financiero';
-  document.getElementById('resSubtitle').textContent =
-    `Proyección 12 meses · ${new Date().toLocaleDateString('es-CL')}`;
+  document.getElementById('resTitle').textContent = inp.nombre || 'Tu Plan Financiero';
+  document.getElementById('resSub').textContent   = `Proyección 12 meses · ${new Date().toLocaleDateString('es-CL')}`;
 
-  // KPIs
-  const avgMargen = meses.reduce((a, m) => a + m.margenPct, 0) / 12;
-  const pe = avgMargen > 0 ? costosFijos / (avgMargen / 100) : 0;
-  const burnMeses = meses.filter(m => m.ebitda < 0);
-  const burnProm  = burnMeses.length > 0 ? burnMeses.reduce((a, m) => a + m.ebitda, 0) / burnMeses.length : 0;
-  const mes12     = meses[11].ebitda;
+  const avgMB   = meses.reduce((a,m)=>a+m.mbPct,0)/12;
+  const pe      = avgMB>0 ? fixedTot/(avgMB/100) : 0;
+  const peUnits = inp.precio>0 ? Math.ceil(pe/inp.precio) : 0;
+  const burnMs  = meses.filter(m=>m.ebit<0);
+  const burnProm= burnMs.length ? burnMs.reduce((a,m)=>a+m.ebit,0)/burnMs.length : 0;
+  const ebit12  = meses[11].ebit;
+  let caja=0, runway=null;
+  for(let i=0;i<12;i++){ caja+=meses[i].ebit; if(caja>=0&&runway===null) runway=i+1; }
 
-  // Runway: months until cumulative EBITDA first turns positive
-  let caja = 0, runway = null;
-  for (let i = 0; i < 12; i++) {
-    caja += meses[i].ebitda;
-    if (caja >= 0 && runway === null) runway = i + 1;
-  }
-
-  const kpiGrid = document.getElementById('kpiGrid');
-  kpiGrid.innerHTML = `
-    <div class="kpi-card ${avgMargen >= 30 ? 'green' : avgMargen >= 10 ? '' : 'red'}">
-      <div class="kpi-label">Margen Bruto Promedio</div>
-      <div class="kpi-value">${avgMargen.toFixed(1)}%</div>
-      <div class="kpi-sub">${avgMargen >= 40 ? 'Saludable ✓' : avgMargen >= 20 ? 'Aceptable — puede mejorar' : 'Bajo — revisar estructura de costos'}</div>
+  // KPI cards
+  document.getElementById('kpiGrid').innerHTML = `
+    <div class="kpi ${avgMB>=30?'g':avgMB>=10?'':'r'}">
+      <div class="kpi-lbl">Margen Bruto</div>
+      <div class="kpi-val">${avgMB.toFixed(1)}%</div>
+      <div class="kpi-sub">${avgMB>=40?'Saludable ✓':avgMB>=20?'Aceptable':'Bajo — revisar costos'}</div>
     </div>
-    <div class="kpi-card yellow">
-      <div class="kpi-label">Punto de Equilibrio</div>
-      <div class="kpi-value">${fmt(pe)}</div>
-      <div class="kpi-sub">ventas mensuales para cubrir todos los costos fijos</div>
+    <div class="kpi y">
+      <div class="kpi-lbl">Punto de Equilibrio</div>
+      <div class="kpi-val">${fmt(pe)}</div>
+      <div class="kpi-sub">ventas mensuales mínimas</div>
+      <div class="kpi-ex">≈ ${peUnits.toLocaleString('es-CL')} unidades / mes</div>
     </div>
-    <div class="kpi-card ${burnProm < 0 ? 'red' : 'green'}">
-      <div class="kpi-label">Burn Rate</div>
-      <div class="kpi-value">${burnProm < 0 ? fmt(burnProm) : '$0'}</div>
-      <div class="kpi-sub">${burnProm < 0 ? 'Quema de caja mensual mientras creces' : 'Sin quema de caja desde el inicio'}</div>
+    <div class="kpi ${burnProm<0?'r':'g'}">
+      <div class="kpi-lbl">Burn Rate</div>
+      <div class="kpi-val">${burnProm<0?fmt(burnProm):'$0'}</div>
+      <div class="kpi-sub">${burnProm<0?'Quema mensual promedio':'Sin quema de caja ✓'}</div>
     </div>
-    <div class="kpi-card ${mes12 >= 0 ? 'green' : 'red'}">
-      <div class="kpi-label">Resultado Mes 12</div>
-      <div class="kpi-value">${fmt(mes12)}</div>
-      <div class="kpi-sub">${mes12 >= 0 ? 'En positivo al final del año ✓' : runway ? `Equilibrio proyectado: mes ${runway}` : 'Aún en negativo al año — revisa supuestos'}</div>
+    <div class="kpi ${ebit12>=0?'g':'r'}">
+      <div class="kpi-lbl">Resultado Mes 12</div>
+      <div class="kpi-val">${fmt(ebit12)}</div>
+      <div class="kpi-sub">${ebit12>=0?'En positivo al año ✓':runway?`Equilibrio en mes ${runway}`:'Negativo al año — ajusta'}</div>
     </div>`;
 
-  // Chart
+  // Chart: barras para Ingresos + línea para EBITDA
   if (chart) chart.destroy();
-  const ctx = document.getElementById('myChart').getContext('2d');
-  chart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: meses.map(m => m.label),
-      datasets: [
+  chart = new Chart(document.getElementById('myChart').getContext('2d'), {
+    type:'bar',
+    data:{
+      labels:meses.map(m=>m.label),
+      datasets:[
         {
-          label: 'Ingresos',
-          data: meses.map(m => m.ingresos),
-          backgroundColor: 'rgba(0,189,208,0.18)',
-          borderColor: '#00BDD0',
-          borderWidth: 2,
-          borderRadius: 4,
-          order: 2
+          type:'bar',
+          label:'Ingresos',
+          data:meses.map(m=>m.ing),
+          backgroundColor:'rgba(0,189,208,.18)',
+          borderColor:'#00BDD0',
+          borderWidth:1.5,
+          borderRadius:3,
+          order:2
         },
         {
-          label: 'EBITDA',
-          data: meses.map(m => m.ebitda),
-          backgroundColor: meses.map(m => m.ebitda >= 0 ? 'rgba(16,185,129,0.35)' : 'rgba(239,68,68,0.35)'),
-          borderColor: meses.map(m => m.ebitda >= 0 ? '#10B981' : '#EF4444'),
-          borderWidth: 2,
-          borderRadius: 4,
-          order: 1
+          type:'line',
+          label:'EBITDA',
+          data:meses.map(m=>m.ebit),
+          borderColor:'#10B981',
+          backgroundColor:'rgba(16,185,129,.08)',
+          borderWidth:2.5,
+          pointRadius:4,
+          pointBackgroundColor:meses.map(m=>m.ebit>=0?'#10B981':'#EF4444'),
+          pointBorderColor:'white',
+          pointBorderWidth:1.5,
+          tension:0.35,
+          fill:true,
+          order:1
         }
       ]
     },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { labels: { font: { family: 'Plus Jakarta Sans', size: 12 } } },
-        tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${fmt(ctx.raw)}` } }
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{ labels:{ font:{family:'Plus Jakarta Sans',size:11}, boxWidth:12, usePointStyle:true } },
+        tooltip:{ callbacks:{ label:c=>` ${c.dataset.label}: ${fmt(c.raw)}` } }
       },
-      scales: {
-        y: {
-          ticks: { callback: v => fmtShort(v), font: { family: 'Plus Jakarta Sans', size: 11 } },
-          grid: { color: '#F1F5F9' }
+      scales:{
+        y:{
+          ticks:{ callback:v=>fmtShort(v), font:{family:'Plus Jakarta Sans',size:10}, maxTicksLimit:6 },
+          grid:{ color:'#F1F5F9' }
         },
-        x: {
-          ticks: { font: { family: 'Plus Jakarta Sans', size: 11 } },
-          grid: { display: false }
+        x:{
+          ticks:{ font:{family:'Plus Jakarta Sans',size:10}, maxRotation:0, maxTicksLimit:12 },
+          grid:{ display:false }
         }
       }
     }
   });
 
   // EERR Table
-  const { team, arriendo, software, contador, otros } = inputs;
-  const table = document.getElementById('eerrTable');
-  const cols  = ['Concepto', ...meses.map(m => m.label)];
-
-  const th = cols.map(c => `<th>${c}</th>`).join('');
-  const addSec  = label  => `<tr class="sec-row"><td colspan="${cols.length}">${label}</td></tr>`;
-  const addRow  = (label, vals, bold, colorFn) => {
-    const tds = vals.map((v, i) => {
-      const color = colorFn ? colorFn(v, i) : '';
-      const style = (bold || color) ? ` style="${bold ? 'font-weight:700;' : ''}${color ? 'color:' + color + ';' : ''}"` : '';
-      return `<td${style}>${fmt(v)}</td>`;
-    }).join('');
-    return `<tr><td${bold ? ' style="font-weight:700"' : ''}>${label}</td>${tds}</tr>`;
-  };
+  const { cv, mkt, com, pas, arr, soft, cont, otros } = inp;
+  const cols = ['Concepto',...meses.map(m=>m.label)];
+  const th   = cols.map(c=>`<th>${c}</th>`).join('');
+  const row  = (lbl,vals,cls='') => `<tr class="${cls}"><td>${lbl}</td>${vals.map(v=>`<td>${fmt(v)}</td>`).join('')}</tr>`;
+  const sec  = lbl => `<tr class="sec-r"><td colspan="${cols.length}">${lbl}</td></tr>`;
 
   let html = `<thead><tr>${th}</tr></thead><tbody>`;
-  html += addSec('INGRESOS');
-  html += addRow('Ventas netas', meses.map(m => m.ingresos));
+  html += sec('INGRESOS');
+  html += row('Ventas netas', meses.map(m=>m.ing));
 
-  html += addSec('COSTOS VARIABLES');
-  html += addRow(`COGS / Producto (${inputs.cogs}%)`,      meses.map(m => -(m.ingresos * inputs.cogs / 100)));
-  if (inputs.mkt > 0) html += addRow(`Marketing (${inputs.mkt}%)`, meses.map(m => -(m.ingresos * inputs.mkt / 100)));
-  if (inputs.com > 0) html += addRow(`Comisión ventas (${inputs.com}%)`, meses.map(m => -(m.ingresos * inputs.com / 100)));
-  if (inputs.pas > 0) html += addRow(`Pasarela de pago (${inputs.pas}%)`, meses.map(m => -(m.ingresos * inputs.pas / 100)));
+  html += sec('COSTOS VARIABLES');
+  if (cv  > 0) html += row(`Costo variable del producto (${cv}%)`,  meses.map(m=>-(m.ing*cv/100)));
+  if (mkt > 0) html += row(`Marketing (${mkt}%)`,                   meses.map(m=>-(m.ing*mkt/100)));
+  if (com > 0) html += row(`Comisión ventas (${com}%)`,             meses.map(m=>-(m.ing*com/100)));
+  if (pas > 0) html += row(`Pasarela de pago (${pas}%)`,            meses.map(m=>-(m.ing*pas/100)));
 
-  // Margen Bruto subtotal
-  html += `<tr class="subtotal"><td>MARGEN BRUTO</td>${meses.map(m => `<td style="font-weight:700">${fmt(m.margenBruto)}</td>`).join('')}</tr>`;
-  html += `<tr><td style="font-size:11px;color:var(--muted)">% Margen</td>${meses.map(m => `<td style="font-size:11px;color:var(--muted)">${m.margenPct.toFixed(1)}%</td>`).join('')}</tr>`;
+  html += `<tr class="sub-r"><td>MARGEN BRUTO</td>${meses.map(m=>`<td>${fmt(m.mb)}</td>`).join('')}</tr>`;
+  html += `<tr><td style="font-size:11px;color:var(--muted)">% Margen</td>${meses.map(m=>`<td style="font-size:11px;color:var(--muted)">${m.mbPct.toFixed(1)}%</td>`).join('')}</tr>`;
 
-  html += addSec('COSTOS FIJOS');
-  team.forEach(t => { html += addRow(t.rol, meses.map(() => -t.sueldo)); });
-  if (arriendo > 0) html += addRow('Arriendo',       meses.map(() => -arriendo));
-  if (software > 0) html += addRow('Software / TI',  meses.map(() => -software));
-  if (contador > 0) html += addRow('Contador / Legal', meses.map(() => -contador));
-  if (otros > 0)    html += addRow('Otros gastos',   meses.map(() => -otros));
+  html += sec('COSTOS FIJOS');
+  const teamDetail = inp.team.map(t=>`${t.rol}: $${fmtRaw(t.sueldo)}`).join(' · ');
+  html += `<tr><td title="${teamDetail}">Equipo <span style="font-size:11px;color:var(--muted);font-weight:400">(${inp.team.length} pers.) — ver detalle →</span></td>${meses.map(()=>`<td>${fmt(-teamTotal)}</td>`).join('')}</tr>`;
+  if (arr  > 0) html += row('Arriendo',        meses.map(()=>-arr));
+  if (soft > 0) html += row('Software / TI',   meses.map(()=>-soft));
+  if (cont > 0) html += row('Contador / Legal', meses.map(()=>-cont));
+  if (otros> 0) html += row('Otros gastos',    meses.map(()=>-otros));
 
-  // EBITDA
-  const allPos = meses.every(m => m.ebitda >= 0);
-  html += `<tr class="${allPos ? 'ebitda-row' : 'ebitda-row ebitda-neg'}">
-    <td style="font-weight:800">EBITDA</td>
-    ${meses.map(m => `<td style="font-weight:800;color:${m.ebitda >= 0 ? 'var(--success)' : 'var(--danger)'}">${fmt(m.ebitda)}</td>`).join('')}
-  </tr>`;
-
+  html += `<tr class="ebit-r"><td style="font-weight:800">EBITDA</td>${meses.map(m=>`<td style="font-weight:800;color:${m.ebit>=0?'var(--green)':'var(--red)'}">${fmt(m.ebit)}</td>`).join('')}</tr>`;
   html += '</tbody>';
-  table.innerHTML = html;
+  document.getElementById('eerrTable').innerHTML = html;
 }
 
-// ── FORMAT HELPERS ────────────────────────────────────────────────────
+// ── HELPERS ──────────────────────────────────────────────────────────
 function fmt(n) {
-  if (n === undefined || n === null) return '';
+  if (n===undefined||n===null) return '';
   const abs = Math.abs(Math.round(n));
-  const str = '$' + abs.toLocaleString('es-CL');
-  return n < 0 ? '(' + str + ')' : str;
+  const s = '$'+abs.toLocaleString('es-CL');
+  return n<0?'('+s+')':s;
 }
 function fmtRaw(n) { return Math.round(n).toLocaleString('es-CL'); }
 function fmtShort(n) {
-  const a = Math.abs(n);
-  const s = n < 0 ? '-' : '';
-  if (a >= 1e6) return s + '$' + (a / 1e6).toFixed(1) + 'M';
-  if (a >= 1e3) return s + '$' + (a / 1e3).toFixed(0) + 'K';
-  return s + '$' + a;
+  const a=Math.abs(n), s=n<0?'-':'';
+  if(a>=1e6) return s+'$'+(a/1e6).toFixed(1)+'M';
+  if(a>=1e3) return s+'$'+(a/1e3).toFixed(0)+'K';
+  return s+'$'+a;
 }
 
-// ── PDF EXPORT ────────────────────────────────────────────────────────
+// ── PDF ──────────────────────────────────────────────────────────────
 function dlPDF() {
-  const { jsPDF } = window.jspdf;
-  const { inputs, meses, costosFijos } = data;
-  const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-  const W = 297, accent = [0, 189, 208], dark = [15, 32, 53];
+  const {jsPDF} = window.jspdf;
+  const {inp,meses,fixedTot,teamTotal,overhead} = resData;
+  const doc = new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+  const W=297, H=210;
+  const dark=[15,32,53], teal=[0,189,208], gray=[100,116,139], lightBg=[248,250,252];
 
-  // Header bar
-  doc.setFillColor(...dark);
-  doc.rect(0, 0, W, 30, 'F');
-  doc.setTextColor(255, 255, 255);
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(15);
-  doc.text('ZERDA FINANCE — Plan Financiero 12 meses', 14, 14);
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(10);
-  doc.setTextColor(180, 200, 220);
-  doc.text(`${inputs.nombre}  ·  ${inputs.tipo}  ·  ${new Date().toLocaleDateString('es-CL')}`, 14, 23);
+  // Header
+  doc.setFillColor(...dark); doc.rect(0,0,W,28,'F');
+  doc.setFillColor(...teal); doc.rect(0,26,W,2,'F');
+  doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(16);
+  doc.text('ZERDA FINANCE',14,12);
+  doc.setFont('helvetica','normal'); doc.setFontSize(9.5); doc.setTextColor(...teal);
+  doc.text('Plan Financiero Proyectado — 12 Meses',14,21);
+  doc.setTextColor(180,200,220); doc.setFontSize(8);
+  doc.text(inp.nombre+' · '+inp.tipo, W-14, 12, {align:'right'});
+  doc.text(new Date().toLocaleDateString('es-CL'), W-14, 21, {align:'right'});
 
-  // KPI bar
-  const avgMargen = meses.reduce((a, m) => a + m.margenPct, 0) / 12;
-  const pe = avgMargen > 0 ? costosFijos / (avgMargen / 100) : 0;
-  doc.setFillColor(242, 245, 249);
-  doc.roundedRect(14, 34, W - 28, 20, 3, 3, 'F');
-  const kpis = [
-    { l: 'Margen Bruto Prom.', v: avgMargen.toFixed(1) + '%' },
-    { l: 'Costos Fijos / mes',  v: fmt(costosFijos) },
-    { l: 'Punto de Equilibrio', v: fmt(pe) },
-    { l: 'EBITDA Mes 12',       v: fmt(meses[11].ebitda) },
+  // KPI cards
+  const avgMB=meses.reduce((a,m)=>a+m.mbPct,0)/12;
+  const pe=avgMB>0?fixedTot/(avgMB/100):0;
+  const peU=inp.precio>0?Math.ceil(pe/inp.precio):0;
+  const kpis=[
+    {l:'Margen Bruto Promedio', v:avgMB.toFixed(1)+'%'},
+    {l:'Costos Fijos / Mes',    v:fmt(fixedTot)},
+    {l:'Punto de Equilibrio',   v:fmt(pe)+(peU>0?' (~'+peU+' uds)':'')},
+    {l:'EBITDA Mes 12',         v:fmt(meses[11].ebit), ebit:meses[11].ebit},
   ];
-  kpis.forEach((k, i) => {
-    const x = 18 + i * 68;
-    doc.setFont('helvetica', 'normal').setFontSize(8).setTextColor(100, 116, 139);
-    doc.text(k.l, x, 41);
-    doc.setFont('helvetica', 'bold').setFontSize(11).setTextColor(...dark);
-    doc.text(k.v, x, 50);
+  const cW=64, cH=25, cY=31, gap=3;
+  kpis.forEach((k,i)=>{
+    const x=14+i*(cW+gap);
+    doc.setFillColor(255,255,255); doc.roundedRect(x,cY,cW,cH,2,2,'F');
+    doc.setFillColor(...teal);     doc.rect(x,cY,cW,2.5,'F');
+    doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(...gray);
+    doc.text(k.l, x+4, cY+9);
+    doc.setFont('helvetica','bold'); doc.setFontSize(11);
+    if(k.ebit!==undefined) doc.setTextColor(...(k.ebit>=0?[16,185,129]:[239,68,68]));
+    else doc.setTextColor(...dark);
+    doc.text(k.v, x+4, cY+20);
   });
 
-  // Table
-  const head = [['Concepto', ...meses.map(m => m.label)]];
-  const body = [
-    ['Ingresos',      ...meses.map(m => fmt(m.ingresos))],
-    ['Costo Variable',...meses.map(m => fmt(-m.costoVar))],
-    ['MARGEN BRUTO',  ...meses.map(m => fmt(m.margenBruto))],
-    ['% Margen',      ...meses.map(m => m.margenPct.toFixed(1) + '%')],
-    ['Costos Fijos',  ...meses.map(m => fmt(-m.costosFijos))],
-    ['EBITDA',        ...meses.map(m => fmt(m.ebitda))],
-  ];
+  // Section label + divider
+  const tblY=cY+cH+8;
+  doc.setFont('helvetica','bold'); doc.setFontSize(7.5); doc.setTextColor(...gray);
+  doc.text('ESTADO DE RESULTADOS PROYECTADO', 14, tblY-3);
+  doc.setFillColor(...teal); doc.rect(14,tblY-1.5,W-28,0.5,'F');
 
-  doc.autoTable({
-    head, body, startY: 58,
-    styles: { font: 'helvetica', fontSize: 8, cellPadding: 3 },
-    headStyles: { fillColor: dark, textColor: [255,255,255], fontStyle: 'bold', fontSize: 8 },
-    alternateRowStyles: { fillColor: [248, 250, 252] },
-    didParseCell: ({ row, column, cell }) => {
-      if (row.index === 2 || row.index === 5) cell.styles.fontStyle = 'bold';
-      if (row.index === 5 && column.index > 0) {
-        const ebitda = meses[column.index - 1]?.ebitda ?? 0;
-        cell.styles.textColor = ebitda >= 0 ? [16, 185, 129] : [239, 68, 68];
+  // EERR table
+  const head=[['Concepto',...meses.map(m=>m.label)]];
+  const body=[
+    ['Ingresos',          ...meses.map(m=>fmtShort(m.ing))],
+    ['Costo Variable',    ...meses.map(m=>fmtShort(-m.cv))],
+    ['MARGEN BRUTO',      ...meses.map(m=>fmtShort(m.mb))],
+    ['% Margen',          ...meses.map(m=>m.mbPct.toFixed(1)+'%')],
+    ['Equipo',            ...meses.map(()=>fmtShort(-teamTotal))],
+    ['Otros Costos Fijos',...meses.map(()=>fmtShort(-overhead))],
+    ['EBITDA',            ...meses.map(m=>fmtShort(m.ebit))],
+  ];
+  doc.autoTable({head,body,startY:tblY,
+    margin:{left:14,right:14},
+    styles:{font:'helvetica',fontSize:7.5,cellPadding:{top:2.5,bottom:2.5,left:3,right:2}},
+    headStyles:{fillColor:dark,textColor:[255,255,255],fontStyle:'bold',fontSize:8},
+    alternateRowStyles:{fillColor:lightBg},
+    columnStyles:{0:{cellWidth:36,fontStyle:'bold'}},
+    didParseCell:({row,column,cell})=>{
+      if(row.index===2||row.index===6){
+        cell.styles.fontStyle='bold'; cell.styles.fillColor=[226,240,253];
+      }
+      if(row.index===3){
+        cell.styles.textColor=gray; cell.styles.fontStyle='italic'; cell.styles.fontSize=7;
+      }
+      if(row.index===6&&column.index>0){
+        const e=meses[column.index-1]?.ebit??0;
+        cell.styles.textColor=e>=0?[16,185,129]:[239,68,68];
       }
     }
   });
 
   // Footer
-  const pH = doc.internal.pageSize.height;
-  doc.setFontSize(8).setFont('helvetica', 'normal').setTextColor(160, 160, 160);
-  doc.text('Generado por Zerda Finance · www.zerdafinance.com · oscar@zerdafinance.com', 14, pH - 7);
+  doc.setFillColor(...teal); doc.rect(0,H-9,W,0.4,'F');
+  doc.setFontSize(7).setFont('helvetica','normal').setTextColor(150,150,150);
+  doc.text('Generado por Zerda Finance · www.zerdafinance.com · oscar@zerdafinance.com',14,H-4);
+  doc.setTextColor(...teal); doc.text('CONFIDENCIAL',W-14,H-4,{align:'right'});
 
-  doc.save(`Plan-Financiero-${inputs.nombre || 'Zerda'}-${new Date().toISOString().slice(0,10)}.pdf`);
+  doc.save(`Plan-Financiero-${inp.nombre||'Zerda'}-${new Date().toISOString().slice(0,10)}.pdf`);
 }
 
-// ── EXCEL EXPORT ──────────────────────────────────────────────────────
+// ── EXCEL ────────────────────────────────────────────────────────────
 function dlExcel() {
-  const { inputs, meses } = data;
+  const {inp,meses,fixedTot,teamTotal} = resData;
   const wb = XLSX.utils.book_new();
 
-  // Sheet 1: Supuestos
-  const S = [
-    ['PLAN FINANCIERO — ZERDA FINANCE'],
-    [],
-    ['DATOS DEL NEGOCIO'],
-    ['Nombre',              inputs.nombre],
-    ['Tipo de negocio',     inputs.tipo],
-    ['Producto / Servicio', inputs.producto],
-    [],
-    ['INGRESOS'],
-    ['Precio (ticket promedio)',       inputs.precio],
-    ['Volumen inicial (unidades/mes)', inputs.volumen],
-    ['Crecimiento mensual',            inputs.crec / 100],
-    [],
-    ['COSTOS VARIABLES (% sobre ventas)'],
-    ['COGS / Costo del producto', inputs.cogs / 100],
-    ['Marketing / Ads',           inputs.mkt  / 100],
-    ['Comisión de ventas',        inputs.com  / 100],
-    ['Pasarela de pago',          inputs.pas  / 100],
-    [],
-    ['COSTOS FIJOS MENSUALES', 'Monto'],
-    ...inputs.team.map(t => [t.rol, t.sueldo]),
-    ['Arriendo',       inputs.arriendo],
-    ['Software / TI',  inputs.software],
-    ['Contador / Legal', inputs.contador],
-    ['Otros gastos fijos', inputs.otros],
-  ];
-  const ws1 = XLSX.utils.aoa_to_sheet(S);
-  XLSX.utils.book_append_sheet(wb, ws1, 'Supuestos');
+  const cur = v=>({t:'n',v:+v,z:'$#,##0'});
+  const pct = v=>({t:'n',v:+v,z:'0.0%'});
+  const str = v=>({t:'s',v:String(v||'')});
+  const num = v=>({t:'n',v:+v});
 
-  // Sheet 2: EERR
-  const E = [
-    ['ESTADO DE RESULTADOS PROYECTADO — 12 MESES'],
+  // Supuestos
+  const S=[
+    [str('PLAN FINANCIERO — ZERDA FINANCE')],
     [],
-    ['Concepto', ...meses.map(m => m.label)],
-    ['Ingresos',       ...meses.map(m => m.ingresos)],
-    ['Costo Variable', ...meses.map(m => -m.costoVar)],
-    ['MARGEN BRUTO',   ...meses.map(m => m.margenBruto)],
-    ['% Margen Bruto', ...meses.map(m => m.margenPct / 100)],
+    [str('EMPRESA'),             str(inp.nombre)],
+    [str('Responsable'),         str(inp.nombreUser+' ('+inp.rolUser+')')],
+    [str('Tipo de negocio'),     str(inp.tipo)],
+    [str('Producto / Servicio'), str(inp.prod)],
     [],
-    ...inputs.team.map(t   => [t.rol,            ...meses.map(() => -t.sueldo)]),
-    ...(inputs.arriendo > 0 ? [['Arriendo',       ...meses.map(() => -inputs.arriendo)]] : []),
-    ...(inputs.software > 0 ? [['Software / TI',  ...meses.map(() => -inputs.software)]] : []),
-    ...(inputs.contador > 0 ? [['Contador / Legal',...meses.map(() => -inputs.contador)]] : []),
-    ...(inputs.otros    > 0 ? [['Otros gastos',   ...meses.map(() => -inputs.otros)]]    : []),
-    ['EBITDA',         ...meses.map(m => m.ebitda)],
+    [str('SUPUESTOS DE INGRESOS')],
+    [str('Precio (ticket promedio)'),       cur(inp.precio)],
+    [str('Volumen inicial (unidades/mes)'), num(inp.vol)],
+    [str('Crecimiento mensual esperado'),   pct(inp.crec/100)],
+    [],
+    [str('COSTOS VARIABLES (% sobre ventas)')],
+    [str('Costo variable del producto'), pct(inp.cv/100)],
+    [str('Marketing / Ads'),             pct(inp.mkt/100)],
+    [str('Comision de ventas'),          pct(inp.com/100)],
+    ...(inp.pas>0?[[str('Pasarela de pago'), pct(inp.pas/100)]]:[]),
+    [],
+    [str('EQUIPO'), str('Sueldo Mensual')],
+    ...inp.team.map(t=>[str(t.rol), cur(t.sueldo)]),
+    [],
+    [str('OTROS COSTOS FIJOS'), str('Monto Mensual')],
+    ...(inp.arr  >0?[[str('Arriendo'),        cur(inp.arr )]]:[]),
+    ...(inp.soft >0?[[str('Software / TI'),   cur(inp.soft)]]:[]),
+    ...(inp.cont >0?[[str('Contador / Legal'),cur(inp.cont)]]:[]),
+    ...(inp.otros>0?[[str('Otros gastos'),    cur(inp.otros)]]:[]),
+    [],
+    [str('Total Costos Fijos Mensuales'), cur(fixedTot)],
+    [],
+    [str('Zerda Finance · www.zerdafinance.com')],
   ];
-  const ws2 = XLSX.utils.aoa_to_sheet(E);
-  XLSX.utils.book_append_sheet(wb, ws2, 'EERR');
+  const wsS=XLSX.utils.aoa_to_sheet(S);
+  wsS['!cols']=[{wch:34},{wch:22}];
+  XLSX.utils.book_append_sheet(wb, wsS, 'Supuestos');
 
-  XLSX.writeFile(wb, `Plan-Financiero-${inputs.nombre || 'Zerda'}-${new Date().toISOString().slice(0,10)}.xlsx`);
+  // EERR
+  const mL=meses.map(m=>str(m.label));
+  const E=[
+    [str('ESTADO DE RESULTADOS PROYECTADO — 12 MESES')],
+    [],
+    [str('Concepto'),...mL],
+    [str('Ingresos'),       ...meses.map(m=>cur(m.ing))],
+    [str('Costo Variable'), ...meses.map(m=>cur(-m.cv))],
+    [str('MARGEN BRUTO'),   ...meses.map(m=>cur(m.mb))],
+    [str('% Margen Bruto'), ...meses.map(m=>pct(m.mbPct/100))],
+    [],
+    [str('COSTOS FIJOS')],
+    [str('Equipo'),         ...meses.map(()=>cur(-teamTotal))],
+    ...(inp.arr  >0?[[str('Arriendo'),        ...meses.map(()=>cur(-inp.arr ))]]:[]),
+    ...(inp.soft >0?[[str('Software / TI'),   ...meses.map(()=>cur(-inp.soft))]]:[]),
+    ...(inp.cont >0?[[str('Contador / Legal'),...meses.map(()=>cur(-inp.cont))]]:[]),
+    ...(inp.otros>0?[[str('Otros gastos'),    ...meses.map(()=>cur(-inp.otros))]]:[]),
+    [],
+    [str('EBITDA'),         ...meses.map(m=>cur(m.ebit))],
+  ];
+  const wsE=XLSX.utils.aoa_to_sheet(E);
+  wsE['!cols']=[{wch:28},...meses.map(()=>({wch:13}))];
+  wsE['!views']=[{state:'frozen',xSplit:1,ySplit:3}];
+  XLSX.utils.book_append_sheet(wb, wsE, 'EERR');
+
+  // KPIs
+  const avgMB=meses.reduce((a,m)=>a+m.mbPct,0)/12;
+  const pe=avgMB>0?fixedTot/(avgMB/100):0;
+  const peU=inp.precio>0?Math.ceil(pe/inp.precio):0;
+  const K=[
+    [str('KPIs — RESUMEN FINANCIERO')],
+    [],
+    [str('Indicador'),              str('Valor')],
+    [str('Margen Bruto Promedio'),  pct(avgMB/100)],
+    [str('Costos Fijos Mensuales'), cur(fixedTot)],
+    [str('Punto de Equilibrio'),    cur(pe)],
+    [str('Unidades de Equilibrio'), num(peU)],
+    [str('Ingresos Mes 1'),         cur(meses[0].ing)],
+    [str('Ingresos Mes 12'),        cur(meses[11].ing)],
+    [str('EBITDA Mes 1'),           cur(meses[0].ebit)],
+    [str('EBITDA Mes 12'),          cur(meses[11].ebit)],
+  ];
+  const wsK=XLSX.utils.aoa_to_sheet(K);
+  wsK['!cols']=[{wch:30},{wch:20}];
+  XLSX.utils.book_append_sheet(wb, wsK, 'KPIs');
+
+  XLSX.writeFile(wb,`Plan-Financiero-${inp.nombre||'Zerda'}-${new Date().toISOString().slice(0,10)}.xlsx`);
 }
 </script>
-
 </body>
 </html>
