@@ -145,8 +145,8 @@
     thead th:first-child { text-align:left; min-width:180px; position:sticky; left:0; z-index:3; background:var(--dark); }
     tbody td { padding:8px 12px; text-align:right; border-bottom:1px solid #F1F5F9; white-space:nowrap; }
     tbody td:first-child { text-align:left; position:sticky; left:0; background:white; z-index:1; border-right:1px solid var(--border); }
-    tr.sec-r td { background:#F8FAFC; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); padding:6px 12px; position:static; }
-    tr.sec-r td:first-child { background:#F8FAFC; position:static; }
+    tr.sec-r td { background:#F8FAFC; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); padding:6px 12px; }
+    tr.sec-r td:first-child { background:#F8FAFC; }
     tr.sub-r td { font-weight:800; background:#F1F5F9; }
     tr.sub-r td:first-child { background:#F1F5F9; }
     tr.ebit-r td { font-weight:800; font-size:12px; }
@@ -983,7 +983,7 @@ function renderResults() {
   const cols = ['Concepto',...meses.map(m=>m.label)];
   const th   = cols.map(c=>`<th>${c}</th>`).join('');
   const row  = (lbl,vals,cls='') => `<tr class="${cls}"><td>${lbl}</td>${vals.map(v=>`<td>${fmt(v)}</td>`).join('')}</tr>`;
-  const sec  = lbl => `<tr class="sec-r"><td colspan="${cols.length}">${lbl}</td></tr>`;
+  const sec  = lbl => `<tr class="sec-r"><td>${lbl}</td>${Array(cols.length-1).fill('<td></td>').join('')}</tr>`;
 
   let html = `<thead><tr>${th}</tr></thead><tbody>`;
   html += sec('INGRESOS');
