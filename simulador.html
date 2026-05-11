@@ -493,51 +493,62 @@ const BENCH = {
     nota:'El costo variable incluye el costo del producto + envío. En e-commerce, un margen bruto saludable está sobre el 40%.',
     staffNota:'Para un e-commerce en etapa inicial, sugerimos roles complementarios a ti. Puedes ajustar sueldos según tu realidad.',
     staff:[['Operaciones / Bodega',600000],['Atención al cliente',500000]],
-    arr:300000, soft:100000, cont:80000, otros:100000
+    arrPct:0.020, arrMin:250000, softPct:0.008, softMin:100000, contPct:0.005, contMin:80000, otrosPct:0.008, otrosMin:100000
   },
   'SaaS': {
     cv:8, mkt:20, com:10, pas:3, margen:'60–80%',
     nota:'El costo variable en SaaS es bajo: hosting, APIs y herramientas de soporte. El margen alto es lo que hace escalable este modelo.',
     staffNota:'En SaaS, la inversión clave está en producto y retención. Si eres técnico, el complemento es comercial — y viceversa.',
     staff:[['Desarrollador',1500000],['Customer Success',800000]],
-    arr:0, soft:500000, cont:150000, otros:150000
+    arrPct:0, arrMin:0, softPct:0.040, softMin:500000, contPct:0.012, contMin:150000, otrosPct:0.012, otrosMin:150000
   },
   'Servicios': {
     cv:25, mkt:8, com:8, pas:0, margen:'55–70%',
     nota:'El costo variable incluye el tiempo del equipo que ejecuta el servicio. Si terciarizas parte del servicio, suma ese costo aquí.',
     staffNota:'En servicios, el equipo ejecutor es el mayor costo. Estructura que se escala con la demanda.',
     staff:[['Consultor / Ejecutor',1200000],['Administración',700000]],
-    arr:300000, soft:150000, cont:100000, otros:100000
+    arrPct:0.050, arrMin:300000, softPct:0.012, softMin:150000, contPct:0.008, contMin:100000, otrosPct:0.008, otrosMin:100000
   },
   'Clínica / Salud': {
     cv:40, mkt:5, com:0, pas:2, margen:'50–60%',
     nota:'El costo variable incluye insumos médicos y el sueldo variable del profesional clínico. El marketing en salud tiende a ser bajo.',
     staffNota:'Una clínica necesita al menos el profesional clínico y alguien de administración. El arriendo suele ser el mayor costo fijo.',
     staff:[['Profesional de salud',1500000],['Secretaria / Admisión',700000]],
-    arr:800000, soft:100000, cont:100000, otros:150000
+    arrPct:0.080, arrMin:800000, softPct:0.008, softMin:100000, contPct:0.008, contMin:100000, otrosPct:0.012, otrosMin:150000
   },
   'Restaurante': {
     cv:30, mkt:5, com:12, pas:3, margen:'50–60%',
     nota:'El costo variable del producto (food cost) idealmente bajo 30%. La comisión incluye plataformas de delivery como Rappi o Uber Eats.',
     staffNota:'Un restaurante pequeño parte con cocinero + caja. El arriendo es clave — idealmente no supera el 10% de las ventas.',
     staff:[['Cocinero',700000],['Caja / Atención',500000]],
-    arr:600000, soft:80000, cont:80000, otros:150000
+    arrPct:0.080, arrMin:600000, softPct:0.006, softMin:80000, contPct:0.006, contMin:80000, otrosPct:0.015, otrosMin:150000
   },
   'Fintech': {
     cv:30, mkt:15, com:5, pas:2, margen:'45–60%',
     nota:'El costo variable incluye costo de fondeo o provisión por pérdida esperada. Ajusta según tu modelo de negocio específico.',
     staffNota:'Fintech requiere análisis de riesgo y equipo comercial. El software suele ser un gasto fijo relevante.',
     staff:[['Analista de riesgo',1200000],['Comercial',900000]],
-    arr:400000, soft:300000, cont:200000, otros:200000
+    arrPct:0.040, arrMin:400000, softPct:0.025, softMin:300000, contPct:0.015, contMin:200000, otrosPct:0.015, otrosMin:200000
   },
   'Otro': {
     cv:30, mkt:10, com:5, pas:0, margen:'45–60%',
     nota:'Ajusta los porcentajes según los costos reales de tu negocio. Puedes consultar con Oscar para afinar tu estructura.',
     staffNota:'Estructura de equipo para una PYME en etapa inicial. Ajusta según tu modelo de negocio.',
     staff:[['Operaciones',800000],['Administración',600000]],
-    arr:300000, soft:100000, cont:80000, otros:100000
+    arrPct:0.030, arrMin:300000, softPct:0.008, softMin:100000, contPct:0.006, contMin:80000, otrosPct:0.008, otrosMin:100000
   }
 };
+
+// Calcula gastos fijos proporcionales al ingreso mensual con un mínimo base
+function calcOverhead(b, ing) {
+  const fix = (pct, min) => pct === 0 ? 0 : Math.max(Math.round(ing * pct / 10000) * 10000, min);
+  return {
+    arr:   fix(b.arrPct,   b.arrMin),
+    soft:  fix(b.softPct,  b.softMin),
+    cont:  fix(b.contPct,  b.contMin),
+    otros: fix(b.otrosPct, b.otrosMin),
+  };
+}
 
 // ── STATE ────────────────────────────────────────────────────────────
 let curStep = 1;
@@ -692,12 +703,15 @@ function showBench4() {
   const userNombre = val('s1NombreUser') || 'tú';
   const { ing1, mb1 } = calcMb1();
 
-  // Threshold: gross margin must cover at least a basic founder retiro
   const canAffordTeam = mb1 >= 800000;
 
-  // Suggest founder salary as ~30% of gross margin, rounded to nearest 50K, capped at 5M
-  const founderSueldo = canAffordTeam
+  // Founder salary: 30% of gross margin but always above highest staff salary
+  const maxStaff = b.staff.reduce((mx, [,s]) => Math.max(mx, s), 0);
+  const baseFounder = canAffordTeam
     ? Math.min(Math.round(mb1 * 0.30 / 50000) * 50000, 5000000)
+    : 0;
+  const founderSueldo = canAffordTeam
+    ? Math.max(baseFounder, Math.round(maxStaff * 1.2 / 50000) * 50000)
     : 0;
 
   let nota;
@@ -711,11 +725,12 @@ function showBench4() {
   document.getElementById('b4Nota').textContent = nota;
   document.getElementById('bench4').style.display = 'block';
 
-  // Pre-fill overhead if empty (siempre, independiente del tamaño)
-  if (!num('s4Arr')   && b.arr   > 0) document.getElementById('s4Arr').value   = b.arr;
-  if (!num('s4Soft')  && b.soft  > 0) document.getElementById('s4Soft').value  = b.soft;
-  if (!num('s4Cont')  && b.cont  > 0) document.getElementById('s4Cont').value  = b.cont;
-  if (!num('s4Otros') && b.otros > 0) document.getElementById('s4Otros').value = b.otros;
+  // Pre-fill overhead proporcional al ingreso si está vacío
+  const oh = calcOverhead(b, ing1);
+  if (!num('s4Arr')   && oh.arr   > 0) document.getElementById('s4Arr').value   = oh.arr;
+  if (!num('s4Soft')  && oh.soft  > 0) document.getElementById('s4Soft').value  = oh.soft;
+  if (!num('s4Cont')  && oh.cont  > 0) document.getElementById('s4Cont').value  = oh.cont;
+  if (!num('s4Otros') && oh.otros > 0) document.getElementById('s4Otros').value = oh.otros;
 
   // Pre-fill first team row with founder info
   const firstRow = document.querySelector('.team-row');
@@ -758,10 +773,12 @@ function usarBench4() {
     }
   }
 
-  if (b.arr   > 0) document.getElementById('s4Arr').value   = b.arr;
-  if (b.soft  > 0) document.getElementById('s4Soft').value  = b.soft;
-  if (b.cont  > 0) document.getElementById('s4Cont').value  = b.cont;
-  if (b.otros > 0) document.getElementById('s4Otros').value = b.otros;
+  const { ing1: ingU } = calcMb1();
+  const ohU = calcOverhead(b, ingU);
+  if (ohU.arr   > 0) document.getElementById('s4Arr').value   = ohU.arr;
+  if (ohU.soft  > 0) document.getElementById('s4Soft').value  = ohU.soft;
+  if (ohU.cont  > 0) document.getElementById('s4Cont').value  = ohU.cont;
+  if (ohU.otros > 0) document.getElementById('s4Otros').value = ohU.otros;
 }
 
 // ── TEAM ────────────────────────────────────────────────────────────
