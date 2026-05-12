@@ -176,6 +176,78 @@
     .restart { text-align:center; margin-top:12px; }
     .btn-rst { padding:8px 18px; border-radius:var(--r); border:1.5px solid var(--border); background:white; color:var(--muted); font-size:13px; font-weight:600; font-family:inherit; cursor:pointer; }
     .btn-rst:hover { color:var(--text); }
+
+    /* ── ESCENARIOS ── */
+    .scen-wrap { background:white; border-radius:14px; padding:18px; box-shadow:0 2px 10px rgba(15,32,53,.06); margin-bottom:16px; }
+    .feat-hdr { margin-bottom:14px; }
+    .feat-hdr h4 { font-size:14px; font-weight:800; margin-bottom:2px; }
+    .feat-hdr p  { font-size:12px; color:var(--muted); }
+    .scen-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:12px; }
+    @media(max-width:500px){ .scen-grid{ grid-template-columns:1fr; } }
+    .scen-col { border-radius:11px; padding:13px; border:2px solid transparent; }
+    .scen-col.pes { background:#FEF2F2; border-color:#FCA5A5; }
+    .scen-col.rel { background:#F0FBFF; border-color:#BAE6FD; }
+    .scen-col.opt { background:#F0FDF4; border-color:#86EFAC; }
+    .scen-lbl { font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.7px; margin-bottom:2px; }
+    .scen-col.pes .scen-lbl { color:#B91C1C; }
+    .scen-col.rel .scen-lbl { color:var(--acc2); }
+    .scen-col.opt .scen-lbl { color:#059669; }
+    .scen-name { font-size:13px; font-weight:800; margin-bottom:1px; }
+    .scen-col.pes .scen-name { color:#7F1D1D; }
+    .scen-col.rel .scen-name { color:var(--dark); }
+    .scen-col.opt .scen-name { color:#14532D; }
+    .scen-desc { font-size:10px; color:var(--muted); margin-bottom:10px; }
+    .scen-metric { display:flex; justify-content:space-between; align-items:baseline; padding:4px 0; border-bottom:1px solid rgba(0,0,0,.05); font-size:11px; }
+    .scen-metric span { color:var(--muted); }
+    .scen-metric strong { font-weight:700; }
+    .s-pos { color:var(--green) !important; }
+    .s-neg { color:var(--red)   !important; }
+    .scen-verdict { margin-top:9px; padding:6px 10px; border-radius:6px; font-size:10px; font-weight:700; text-align:center; }
+    .scen-col.pes .scen-verdict { background:#FEE2E2; color:#B91C1C; }
+    .scen-col.rel .scen-verdict { background:#CFFAFE; color:var(--acc2); }
+    .scen-col.opt .scen-verdict { background:#DCFCE7; color:#166534; }
+    .scen-insight { background:#FFFBEB; border:1.5px solid #FDE68A; border-radius:10px; padding:11px 14px; font-size:12px; line-height:1.55; color:#78350F; }
+    .scen-insight strong { color:#92400E; }
+
+    /* ── META AL REVÉS ── */
+    .meta-wrap { background:white; border-radius:14px; padding:18px; box-shadow:0 2px 10px rgba(15,32,53,.06); margin-bottom:16px; }
+    .meta-ig-wrap { margin-bottom:18px; }
+    .meta-ig-wrap label { display:block; font-size:13px; font-weight:700; margin-bottom:5px; }
+    .meta-ig { display:flex; align-items:center; border:2px solid var(--accent); border-radius:var(--r); overflow:hidden; background:white; max-width:230px; }
+    .meta-ig:focus-within { box-shadow:0 0 0 3px rgba(0,189,208,.15); }
+    .meta-ig .ig-sym { padding:0 5px 0 12px; font-size:14px; color:var(--muted); font-weight:700; }
+    .meta-ig input { border:none; outline:none; padding:10px 8px; font-size:17px; font-weight:700; font-family:inherit; width:100%; background:transparent; color:var(--text); -moz-appearance:textfield; }
+    .meta-ig input::-webkit-outer-spin-button,.meta-ig input::-webkit-inner-spin-button { -webkit-appearance:none; }
+    .meta-res { display:none; }
+    .meta-res.visible { display:block; animation:fadeInMeta .3s ease; }
+    @keyframes fadeInMeta { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:none} }
+    .meta-compare { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+    @media(max-width:420px){ .meta-compare{ flex-direction:column; gap:6px; } }
+    .meta-cmp-box { flex:1; border-radius:11px; padding:13px; text-align:center; }
+    .meta-cmp-box.hoy  { background:var(--bg); border:2px solid var(--border); }
+    .meta-cmp-box.goal { background:linear-gradient(135deg,var(--dark),#1a3a5c); border:2px solid var(--accent); }
+    .meta-cmp-lbl { font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.6px; margin-bottom:4px; }
+    .meta-cmp-box.hoy  .meta-cmp-lbl { color:var(--muted); }
+    .meta-cmp-box.goal .meta-cmp-lbl { color:rgba(255,255,255,.5); }
+    .meta-cmp-num { font-size:36px; font-weight:800; line-height:1; margin-bottom:3px; }
+    .meta-cmp-box.hoy  .meta-cmp-num { color:var(--text); }
+    .meta-cmp-box.goal .meta-cmp-num { color:var(--accent); }
+    .meta-cmp-unit { font-size:10px; }
+    .meta-cmp-box.hoy  .meta-cmp-unit { color:var(--muted); }
+    .meta-cmp-box.goal .meta-cmp-unit { color:rgba(255,255,255,.55); }
+    .meta-cmp-arrow { font-size:20px; color:var(--muted); font-weight:800; flex-shrink:0; }
+    .meta-pill { display:inline-flex; padding:5px 13px; border-radius:99px; font-size:11px; font-weight:700; margin-bottom:10px; }
+    .meta-pill.positive { background:#DCFCE7; color:#166534; }
+    .meta-pill.neutral  { background:#FEF9C3; color:#713F12; }
+    .meta-pill.negative { background:#FEE2E2; color:#B91C1C; }
+    .meta-prog { margin-bottom:10px; }
+    .meta-prog-labels { display:flex; justify-content:space-between; font-size:10px; color:var(--muted); margin-bottom:4px; }
+    .meta-prog-bg { height:7px; background:var(--border); border-radius:99px; overflow:hidden; }
+    .meta-prog-fill { height:100%; border-radius:99px; transition:width .5s ease; background:linear-gradient(90deg,var(--accent),#059669); }
+    .meta-alerta { border-radius:9px; padding:10px 13px; font-size:12px; line-height:1.55; }
+    .meta-alerta.positive { background:#DCFCE7; color:#166534; }
+    .meta-alerta.negative { background:#FEF2F2; color:#B91C1C; }
+    .meta-alerta.neutral  { background:#FEF9C3; color:#713F12; }
   </style>
 </head>
 <body>
@@ -450,6 +522,58 @@
       <h4>Evolución mensual — Ingresos vs EBITDA</h4>
       <div class="chart-box">
         <canvas id="myChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Escenarios P/R/O -->
+    <div class="scen-wrap">
+      <div class="feat-hdr">
+        <h4>Escenarios: ¿tu plan es frágil o robusto?</h4>
+        <p>Qué pasa si las ventas varían un 20% respecto a tu proyección</p>
+      </div>
+      <div class="scen-grid" id="scenGrid"></div>
+      <div class="scen-insight" id="scenInsight"></div>
+    </div>
+
+    <!-- Meta al revés -->
+    <div class="meta-wrap">
+      <div class="feat-hdr">
+        <h4>¿Cuánto tengo que vender para ganar $X?</h4>
+        <p>Ingresa tu meta de ganancia mensual y calcula cuántos clientes necesitas</p>
+      </div>
+      <div class="meta-ig-wrap">
+        <label>¿Cuánto quieres ganar al mes?</label>
+        <div class="meta-ig">
+          <span class="ig-sym">$</span>
+          <input type="number" id="metaTarget" placeholder="500.000" min="0" step="50000" oninput="calcMeta()">
+        </div>
+        <p class="helper">Lo que quieres que te quede libre después de pagar todos los costos</p>
+      </div>
+      <div class="meta-res" id="metaRes">
+        <div class="meta-compare">
+          <div class="meta-cmp-box hoy">
+            <div class="meta-cmp-lbl">Hoy vendes</div>
+            <div class="meta-cmp-num" id="metaHoy">—</div>
+            <div class="meta-cmp-unit" id="metaHoyUnit">unidades / mes</div>
+          </div>
+          <div class="meta-cmp-arrow">→</div>
+          <div class="meta-cmp-box goal">
+            <div class="meta-cmp-lbl">Para tu meta</div>
+            <div class="meta-cmp-num" id="metaUnits">—</div>
+            <div class="meta-cmp-unit" id="metaUnitsUnit">unidades / mes</div>
+          </div>
+        </div>
+        <div class="meta-pill" id="metaPill"></div>
+        <div class="meta-prog">
+          <div class="meta-prog-labels">
+            <span>Tu plan actual</span>
+            <span id="metaProgMax"></span>
+          </div>
+          <div class="meta-prog-bg">
+            <div class="meta-prog-fill" id="metaProgFill"></div>
+          </div>
+        </div>
+        <div class="meta-alerta" id="metaAlerta"></div>
       </div>
     </div>
 
@@ -1026,6 +1150,124 @@ function renderResults() {
   html += `<tr class="ebit-r"><td style="font-weight:800">EBITDA</td>${meses.map(m=>`<td style="font-weight:800;color:${m.ebit>=0?'var(--green)':'var(--red)'}">${fmt(m.ebit)}</td>`).join('')}</tr>`;
   html += '</tbody>';
   document.getElementById('eerrTable').innerHTML = html;
+
+  renderScenarios();
+  renderMeta();
+}
+
+// ── ESCENARIOS P/R/O ─────────────────────────────────────────────────
+function renderScenarios() {
+  const { inp, fixedTot, cvPorc } = resData;
+  const configs = [
+    { mult:0.80, delta:'-20% ventas', cssClass:'pes', label:'Pesimista', icon:'▼' },
+    { mult:1.00, delta:'tu plan base', cssClass:'rel', label:'Realista',  icon:'●' },
+    { mult:1.20, delta:'+20% ventas',  cssClass:'opt', label:'Optimista', icon:'▲' },
+  ];
+
+  let html = '';
+  const resultados = [];
+
+  configs.forEach(cfg => {
+    let u = inp.vol * cfg.mult;
+    const ms = [];
+    for (let i = 0; i < 12; i++) {
+      if (i > 0) u *= (1 + inp.crec / 100);
+      const ing  = inp.precio * u;
+      const mb   = ing * (1 - cvPorc);
+      const ebit = mb - fixedTot;
+      ms.push({ ing, mbPct: ing > 0 ? mb/ing*100 : 0, ebit });
+    }
+    const avgMB    = ms.reduce((a,m) => a + m.mbPct, 0) / 12;
+    const ebit12   = ms[11].ebit;
+    const ebitAnual = ms.reduce((a,m) => a + m.ebit, 0);
+    let mesEquil = null, caja = 0;
+    for (let i = 0; i < 12; i++) { caja += ms[i].ebit; if (caja >= 0 && mesEquil === null) mesEquil = i + 1; }
+
+    resultados.push({ ebit12, ebitAnual, mesEquil });
+
+    const verdict = ebit12 >= 0 ? 'En positivo al mes 12 ✓'
+      : mesEquil ? `Equilibrio en mes ${mesEquil}` : 'Negativo todo el año';
+
+    html += `
+    <div class="scen-col ${cfg.cssClass}">
+      <div class="scen-lbl">${cfg.icon} ${cfg.label}</div>
+      <div class="scen-name">${cfg.label === 'Realista' ? 'Tu plan base' : cfg.label}</div>
+      <div class="scen-desc">${cfg.delta}</div>
+      <div class="scen-metric"><span>Ingresos mes 12</span><strong>${fmtShort(Math.round(ms[11].ing))}</strong></div>
+      <div class="scen-metric"><span>Margen bruto prom.</span><strong>${avgMB.toFixed(1)}%</strong></div>
+      <div class="scen-metric"><span>EBITDA mes 12</span><strong class="${ebit12>=0?'s-pos':'s-neg'}">${fmtShort(Math.round(ebit12))}</strong></div>
+      <div class="scen-metric"><span>EBITDA anualizado</span><strong class="${ebitAnual>=0?'s-pos':'s-neg'}">${fmtShort(Math.round(ebitAnual))}</strong></div>
+      <div class="scen-verdict">${verdict}</div>
+    </div>`;
+  });
+
+  document.getElementById('scenGrid').innerHTML = html;
+
+  const [pes, rel, opt] = resultados;
+  let insight;
+  if      (pes.ebit12 >= 0) insight = `<strong>Tu plan es sólido:</strong> incluso con un 20% menos de ventas sigues siendo rentable al mes 12. La estructura de costos está bien calibrada.`;
+  else if (rel.ebit12 >= 0) insight = `<strong>Tu plan base funciona, pero tiene poco margen:</strong> si las ventas caen un 20% el negocio termina el año en rojo. Considera reducir algún costo fijo o aumentar el precio antes de escalar.`;
+  else if (opt.ebit12 >= 0) insight = `<strong>Solo llegas a positivo en el escenario optimista:</strong> el plan necesita ajustes estructurales. Revisa pricing o costos fijos antes de comprometer más inversión.`;
+  else                       insight = `<strong>Ningún escenario llega a positivo en el año:</strong> el equilibrio está fuera del horizonte de 12 meses. Revisa la estructura de costos o el modelo de precios.`;
+
+  document.getElementById('scenInsight').innerHTML = '💡 ' + insight;
+}
+
+// ── META AL REVÉS ─────────────────────────────────────────────────────
+let _metaVol, _metaFixed, _metaMargenPct, _metaPrecio;
+
+function renderMeta() {
+  const { inp, fixedTot, cvPorc } = resData;
+  _metaVol      = inp.vol;
+  _metaFixed    = fixedTot;
+  _metaMargenPct = (1 - cvPorc) * 100;
+  _metaPrecio   = inp.precio;
+
+  const unitLabel = inp.prod ? inp.prod.slice(0, 22) + ' / mes' : 'unidades / mes';
+  document.getElementById('metaHoy').textContent      = inp.vol;
+  document.getElementById('metaHoyUnit').textContent  = unitLabel;
+  document.getElementById('metaUnitsUnit').textContent = unitLabel;
+}
+
+function calcMeta() {
+  const target = parseFloat(document.getElementById('metaTarget').value) || 0;
+  const resEl  = document.getElementById('metaRes');
+  if (target <= 0 || !_metaPrecio) { resEl.classList.remove('visible'); return; }
+
+  const ingNec = (_metaFixed + target) / (_metaMargenPct / 100);
+  const uNec   = Math.ceil(ingNec / _metaPrecio);
+  const diff   = uNec - _metaVol;
+  const diffPct = Math.abs(Math.round((diff / _metaVol) * 100));
+
+  document.getElementById('metaUnits').textContent = uNec.toLocaleString('es-CL');
+
+  const pillEl = document.getElementById('metaPill');
+  if (diff <= 0) {
+    pillEl.className   = 'meta-pill positive';
+    pillEl.textContent = '✓ Ya lo alcanzas con tu plan actual';
+  } else {
+    pillEl.className   = diff <= _metaVol * 0.4 ? 'meta-pill neutral' : 'meta-pill negative';
+    pillEl.textContent = `Te faltan ${diff.toLocaleString('es-CL')} más (+${diffPct}%)`;
+  }
+
+  const fillPct = Math.min((_metaVol / uNec) * 100, 100).toFixed(0);
+  document.getElementById('metaProgFill').style.width = fillPct + '%';
+  document.getElementById('metaProgMax').textContent  = `Meta: ${uNec.toLocaleString('es-CL')}`;
+
+  const alertEl = document.getElementById('metaAlerta');
+  if (diff <= 0) {
+    alertEl.className = 'meta-alerta positive';
+    alertEl.innerHTML = `<strong>Buenas noticias:</strong> con ${_metaVol} unidades al mes ya estás generando la ganancia que buscas. Tu plan actual ya te lleva ahí.`;
+  } else if (diff <= _metaVol * 0.4) {
+    alertEl.className = 'meta-alerta neutral';
+    alertEl.innerHTML = `<strong>Estás cerca:</strong> con ${diff} más al mes llegas a tu meta. Enfócate en ventas durante los próximos 2–3 meses y lo tienes.`;
+  } else {
+    const veces = (uNec / _metaVol).toFixed(1);
+    alertEl.className = 'meta-alerta negative';
+    alertEl.innerHTML = `<strong>La brecha es grande:</strong> necesitas <strong>${veces}x</strong> lo que vendes hoy (${uNec.toLocaleString('es-CL')} vs ${_metaVol}). Antes de empujar ventas, vale la pena revisar si puedes subir el precio o bajar algún costo fijo.`;
+  }
+
+  resEl.classList.add('visible');
 }
 
 // ── HELPERS ──────────────────────────────────────────────────────────
