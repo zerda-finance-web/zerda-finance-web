@@ -1177,16 +1177,17 @@ function renderScenarios() {
       const ebit = mb - fixedTot;
       ms.push({ ing, mbPct: ing > 0 ? mb/ing*100 : 0, ebit });
     }
-    const avgMB    = ms.reduce((a,m) => a + m.mbPct, 0) / 12;
-    const ebit12   = ms[11].ebit;
+    const avgMB     = ms.reduce((a,m) => a + m.mbPct, 0) / 12;
+    const ebit12    = ms[11].ebit;
     const ebitAnual = ms.reduce((a,m) => a + m.ebit, 0);
-    let mesEquil = null, caja = 0;
-    for (let i = 0; i < 12; i++) { caja += ms[i].ebit; if (caja >= 0 && mesEquil === null) mesEquil = i + 1; }
+    let mesPosEbit  = null;
+    for (let i = 0; i < 12; i++) { if (ms[i].ebit >= 0 && mesPosEbit === null) mesPosEbit = i + 1; }
 
-    resultados.push({ ebit12, ebitAnual, mesEquil });
+    resultados.push({ ebit12, ebitAnual, mesPosEbit });
 
-    const verdict = ebit12 >= 0 ? 'En positivo al mes 12 ✓'
-      : mesEquil ? `Equilibrio en mes ${mesEquil}` : 'Negativo todo el año';
+    const verdict = mesPosEbit
+      ? (mesPosEbit === 1 ? 'Positivo desde el mes 1 ✓' : `Positivo desde el mes ${mesPosEbit} ✓`)
+      : 'Negativo todo el año';
 
     html += `
     <div class="scen-col ${cfg.cssClass}">
@@ -1205,10 +1206,16 @@ function renderScenarios() {
 
   const [pes, rel, opt] = resultados;
   let insight;
-  if      (pes.ebit12 >= 0) insight = `<strong>Tu plan es sólido:</strong> incluso con un 20% menos de ventas sigues siendo rentable al mes 12. La estructura de costos está bien calibrada.`;
-  else if (rel.ebit12 >= 0) insight = `<strong>Tu plan base funciona, pero tiene poco margen:</strong> si las ventas caen un 20% el negocio termina el año en rojo. Considera reducir algún costo fijo o aumentar el precio antes de escalar.`;
-  else if (opt.ebit12 >= 0) insight = `<strong>Solo llegas a positivo en el escenario optimista:</strong> el plan necesita ajustes estructurales. Revisa pricing o costos fijos antes de comprometer más inversión.`;
-  else                       insight = `<strong>Ningún escenario llega a positivo en el año:</strong> el equilibrio está fuera del horizonte de 12 meses. Revisa la estructura de costos o el modelo de precios.`;
+  if (pes.mesPosEbit) {
+    insight = `<strong>Tu plan es sólido:</strong> incluso con un 20% menos de ventas el negocio llega a positivo en el mes ${pes.mesPosEbit}. La estructura de costos está bien calibrada.`;
+  } else if (rel.mesPosEbit) {
+    const mesOpt = opt.mesPosEbit && opt.mesPosEbit < rel.mesPosEbit ? ` — en el escenario optimista lo logra en el mes ${opt.mesPosEbit}` : '';
+    insight = `<strong>Tu plan base llega a positivo en el mes ${rel.mesPosEbit}${mesOpt}.</strong> Si las ventas caen un 20%, el negocio no alcanza equilibrio en el año. Consolida tu estructura antes de escalar.`;
+  } else if (opt.mesPosEbit) {
+    insight = `<strong>Solo llegas a positivo en el escenario optimista</strong> (mes ${opt.mesPosEbit}). El plan necesita ajustes estructurales — revisa pricing o costos fijos antes de comprometer más inversión.`;
+  } else {
+    insight = `<strong>Ningún escenario llega a positivo en el año:</strong> el equilibrio está fuera del horizonte de 12 meses. Revisa la estructura de costos o el modelo de precios.`;
+  }
 
   document.getElementById('scenInsight').innerHTML = '💡 ' + insight;
 }
