@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Template: Servicios Zerda Finance</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #162243; --cyan: #00B4E6; --cyan-light: #5CD3F5;
+    --white: #FFFFFF; --off-white: #F0F6FF; --green: #2DB37A;
+  }
+  body { font-family: 'Poppins', sans-serif; background: #0D1520; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; gap: 32px; }
+  .hint { color: #4A6088; font-size: 13px; text-align: center; margin-bottom: 8px; }
+  .slide { width: 1080px; height: 1080px; position: relative; overflow: hidden; flex-shrink: 0; }
+  .label { color: #4A6088; font-size: 13px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 16px; text-align: center; }
+
+  /* ── Elementos comunes ── */
+  .logo-mark { position: absolute; bottom: 52px; right: 60px; }
+  .logo-mark img { height: 40px; }
+  .logo-mark.inv img { filter: brightness(0) invert(1); opacity: 0.7; }
+  .counter { position: absolute; top: 52px; left: 60px; font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.05em; }
+  .swipe-cta { position: absolute; bottom: 52px; left: 60px; font-size: 18px; font-weight: 700; color: var(--cyan); display: flex; align-items: center; gap: 12px; }
+  .swipe-cta::before { content: ''; display: block; width: 36px; height: 2px; background: var(--cyan); }
+
+  /* ══ SLIDE 1 — SCROLL STOPPER ══ */
+  .s1 { background: var(--navy); }
+  .s1 .bar { position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: linear-gradient(180deg, var(--cyan), #005580); }
+  .s1 .glow { position: absolute; right: -80px; top: -80px; width: 700px; height: 700px; background: radial-gradient(circle, #00B4E618 0%, transparent 65%); border-radius: 50%; }
+  .s1 .content { position: absolute; left: 80px; right: 80px; top: 50%; transform: translateY(-55%); }
+  .s1 .tag { background: var(--cyan); color: var(--navy); font-size: 15px; font-weight: 800; padding: 7px 20px; border-radius: 4px; letter-spacing: 0.12em; text-transform: uppercase; display: inline-block; margin-bottom: 44px; }
+  /* ✏️ EDITAR: hook — 1 pregunta que identifique al cliente */
+  .s1 h1 { font-size: 88px; font-weight: 900; color: var(--white); line-height: 0.95; letter-spacing: -2px; }
+  .s1 h1 span { color: var(--cyan); }
+  /* ✏️ EDITAR: 1 línea que valida el dolor */
+  .s1 .punch { margin-top: 36px; font-size: 26px; color: #8AADCC; font-weight: 500; max-width: 680px; line-height: 1.4; }
+
+  /* ══ SLIDE 2 — PARA QUIÉN ES ══ */
+  .s2 { background: var(--off-white); }
+  .s2 .topbar { position: absolute; top: 0; left: 0; right: 0; height: 10px; background: linear-gradient(90deg, var(--navy), var(--cyan)); }
+  .s2 .content { position: absolute; inset: 80px; display: flex; flex-direction: column; justify-content: center; }
+  .s2 .eye { font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; }
+  /* ✏️ EDITAR: a quién va dirigido */
+  .s2 h2 { font-size: 64px; font-weight: 900; color: var(--navy); line-height: 1.05; margin-bottom: 44px; }
+  .s2 h2 span { color: var(--cyan); }
+  /* ✏️ EDITAR: 3 perfiles de cliente ideal */
+  .s2 .bullets { display: flex; flex-direction: column; gap: 20px; }
+  .s2 .b { display: flex; align-items: center; gap: 18px; font-size: 22px; color: #2A3F6B; font-weight: 600; }
+  .s2 .b::before { content: ''; display: block; min-width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); }
+
+  /* ══ SLIDE 3 — LOS SERVICIOS ══ */
+  .s3 { background: var(--navy); }
+  .s3 .glow { position: absolute; left: -100px; bottom: -100px; width: 600px; height: 600px; background: radial-gradient(circle, #00B4E610 0%, transparent 70%); border-radius: 50%; }
+  .s3 .content { position: absolute; inset: 72px; display: flex; flex-direction: column; }
+  .s3 .eye { font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; }
+  .s3 h2 { font-size: 52px; font-weight: 900; color: var(--white); line-height: 1.1; margin-bottom: 40px; }
+  /* ✏️ EDITAR: los 5 servicios */
+  .s3 .services { display: flex; flex-direction: column; gap: 18px; flex: 1; justify-content: center; }
+  .s3 .svc { display: flex; align-items: center; gap: 24px; padding: 18px 24px; background: rgba(255,255,255,0.05); border-left: 4px solid var(--cyan); border-radius: 0 8px 8px 0; }
+  .s3 .svc .ico { font-size: 32px; min-width: 44px; text-align: center; }
+  .s3 .svc-title { font-size: 20px; font-weight: 700; color: var(--white); margin-bottom: 2px; }
+  .s3 .svc-sub { font-size: 14px; color: #6A8DB8; }
+
+  /* ══ SLIDE 4 — METODOLOGÍA CORE ══ */
+  .s4 { background: var(--white); }
+  .s4 .topbar { position: absolute; top: 0; left: 0; right: 0; height: 10px; background: linear-gradient(90deg, var(--navy), var(--cyan)); }
+  .s4 .content { position: absolute; inset: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .s4 .eye { font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; }
+  .s4 h2 { font-size: 58px; font-weight: 900; color: var(--navy); line-height: 1.1; margin-bottom: 52px; }
+  .s4 .core { display: flex; gap: 0; align-items: stretch; width: 100%; }
+  /* ✏️ EDITAR: las 4 etapas de la metodología */
+  .s4 .step { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 28px 16px; position: relative; }
+  .s4 .step:not(:last-child)::after { content: '→'; position: absolute; right: -14px; top: 50%; transform: translateY(-50%); font-size: 28px; color: var(--cyan); font-weight: 900; z-index: 1; }
+  .s4 .step-num { width: 64px; height: 64px; border-radius: 50%; background: var(--navy); color: var(--cyan); font-size: 28px; font-weight: 900; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+  .s4 .step-word { font-size: 22px; font-weight: 900; color: var(--navy); margin-bottom: 6px; }
+  .s4 .step-desc { font-size: 13px; color: #5A6E90; line-height: 1.4; text-align: center; }
+
+  /* ══ SLIDE 5 — PROCESO ══ */
+  .s5 { background: var(--navy); }
+  .s5 .glow { position: absolute; right: -80px; top: -80px; width: 600px; height: 600px; background: radial-gradient(circle, #00B4E614 0%, transparent 65%); border-radius: 50%; }
+  .s5 .content { position: absolute; inset: 80px; display: flex; flex-direction: column; justify-content: center; }
+  .s5 .eye { font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; }
+  .s5 h2 { font-size: 60px; font-weight: 900; color: var(--white); line-height: 1.1; margin-bottom: 48px; }
+  /* ✏️ EDITAR: 4 etapas del proceso con descripción */
+  .s5 .steps { display: flex; flex-direction: column; gap: 28px; }
+  .s5 .st { display: flex; gap: 24px; align-items: flex-start; }
+  .s5 .num { font-size: 48px; font-weight: 900; color: rgba(0,180,230,0.18); line-height: 1; min-width: 56px; }
+  .s5 .st h3 { font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .s5 .st p { font-size: 15px; color: #6A8DB8; }
+
+  /* ══ SLIDE 6 — POR QUÉ ZERDA ══ */
+  .s6 { background: var(--off-white); }
+  .s6 .topbar { position: absolute; top: 0; left: 0; right: 0; height: 10px; background: linear-gradient(90deg, var(--navy), var(--cyan)); }
+  .s6 .sidebar { position: absolute; left: 0; top: 10px; bottom: 0; width: 300px; background: var(--navy); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px 32px; gap: 0; }
+  .s6 .sidebar img { height: 52px; filter: brightness(0) invert(1); margin-bottom: 28px; }
+  .s6 .sidebar .big { color: var(--cyan); font-size: 72px; font-weight: 900; line-height: 1; }
+  .s6 .sidebar .years { color: var(--white); font-size: 20px; font-weight: 700; text-align: center; margin-top: 8px; }
+  .s6 .main { position: absolute; left: 348px; right: 52px; top: 50%; transform: translateY(-50%); }
+  .s6 .eye { font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; }
+  /* ✏️ EDITAR: titular de diferenciación */
+  .s6 h2 { font-size: 54px; font-weight: 900; color: var(--navy); line-height: 1.1; margin-bottom: 36px; }
+  /* ✏️ EDITAR: 3 diferenciadores clave */
+  .s6 .diffs { display: flex; flex-direction: column; gap: 20px; }
+  .s6 .d { display: flex; gap: 16px; align-items: flex-start; }
+  .s6 .d .check { width: 28px; height: 28px; border-radius: 50%; background: var(--cyan); display: flex; align-items: center; justify-content: center; color: var(--navy); font-size: 14px; font-weight: 900; flex-shrink: 0; margin-top: 2px; }
+  .s6 .d h3 { font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 2px; }
+  .s6 .d p { font-size: 14px; color: #5A6E90; }
+  .s6 .bottombar { position: absolute; bottom: 0; left: 0; right: 0; height: 7px; background: linear-gradient(90deg, var(--navy), var(--cyan)); }
+
+  /* ══ SLIDE 7 — CTA ══ */
+  .s7 { background: var(--navy); display: flex; align-items: center; justify-content: center; }
+  .s7 .bg { position: absolute; inset: 0; background: radial-gradient(ellipse at center, #00B4E615 0%, transparent 70%); }
+  .s7 .ring1 { position: absolute; width: 900px; height: 900px; border: 1px solid #FFFFFF05; border-radius: 50%; }
+  .s7 .ring2 { position: absolute; width: 660px; height: 660px; border: 1px solid #FFFFFF08; border-radius: 50%; }
+  .s7 .content { position: relative; z-index: 1; text-align: center; padding: 0 100px; display: flex; flex-direction: column; align-items: center; }
+  .s7 .eye { font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 28px; }
+  .s7 .line { width: 72px; height: 4px; background: var(--cyan); margin: 0 auto 44px; border-radius: 2px; }
+  /* ✏️ EDITAR: llamada a acción principal */
+  .s7 h2 { font-size: 72px; font-weight: 900; color: var(--white); line-height: 1.05; margin-bottom: 28px; }
+  .s7 h2 span { color: var(--cyan); }
+  /* ✏️ EDITAR: instrucción concreta de qué hacer */
+  .s7 .cta-text { font-size: 24px; color: #6A8DB8; margin-bottom: 52px; }
+  .s7 .btn { background: var(--cyan); color: var(--navy); font-size: 22px; font-weight: 800; padding: 20px 52px; border-radius: 6px; display: inline-block; letter-spacing: 0.05em; }
+  .s7 .handle { margin-top: 36px; font-size: 18px; color: #4A6088; }
+  .s7 .handle span { color: var(--cyan); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<p class="hint">Desplázate para ver los 7 slides · Edita donde dice ✏️ EDITAR</p>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 1 — SCROLL STOPPER
+     Regla: 1 pregunta que duela, hook claro, máx 8 palabras en h1
+     ══════════════════════════════════════════ -->
+<div class="slide s1">
+  <div class="bar"></div>
+  <div class="glow"></div>
+  <div class="counter">1/7 · Zerda Finance</div>
+  <div class="content">
+    <div class="tag">Nuestros Servicios</div>
+    <!-- ✏️ EDITAR: pregunta/afirmación hook -->
+    <h1>¿Necesitas un<br><span>CFO</span> pero no<br>a tiempo<br>completo?</h1>
+    <!-- ✏️ EDITAR: amplía el gancho con 1 línea -->
+    <p class="punch">Eso exactamente es lo que hacemos — sin el sueldo de gerente.</p>
+  </div>
+  <div class="swipe-cta">Desliza para ver cómo</div>
+</div>
+<p class="label">SLIDE 1 — SCROLL STOPPER</p>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 2 — PARA QUIÉN ES
+     Regla: perfilar al cliente ideal, 3 bullets concretos
+     ══════════════════════════════════════════ -->
+<div class="slide s2">
+  <div class="topbar"></div>
+  <div class="counter">2/7 · Zerda Finance</div>
+  <div class="content">
+    <div class="eye">¿Para quién?</div>
+    <!-- ✏️ EDITAR: titular del perfil -->
+    <h2>Emprendedores y<br>PYMEs que quieren<br>crecer <span>con orden</span></h2>
+    <!-- ✏️ EDITAR: 3 perfiles de cliente -->
+    <div class="bullets">
+      <div class="b">Negocios que venden bien pero la caja no alcanza</div>
+      <div class="b">Startups que necesitan modelo antes de levantar capital</div>
+      <div class="b">PYMEs que quieren saber realmente cuánto están ganando</div>
+    </div>
+  </div>
+  <div class="swipe-cta">Qué hacemos exactamente</div>
+</div>
+<p class="label">SLIDE 2 — PARA QUIÉN ES</p>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 3 — LOS SERVICIOS
+     Regla: lista visual, cada ítem independiente y entendible
+     ══════════════════════════════════════════ -->
+<div class="slide s3">
+  <div class="glow"></div>
+  <div class="counter">3/7 · Zerda Finance</div>
+  <div class="content">
+    <div class="eye">Lo que hacemos</div>
+    <!-- ✏️ EDITAR: titular de servicios -->
+    <h2>5 servicios, 1 objetivo:<br>que entiendas tus números</h2>
+    <!-- ✏️ EDITAR: los 5 servicios con ícono, nombre y descripción corta -->
+    <div class="services">
+      <div class="svc">
+        <div class="ico">🔍</div>
+        <div>
+          <div class="svc-title">Diagnóstico financiero</div>
+          <div class="svc-sub">Qué está fallando y por qué — en lenguaje humano</div>
+        </div>
+      </div>
+      <div class="svc">
+        <div class="ico">📊</div>
+        <div>
+          <div class="svc-title">Plan financiero</div>
+          <div class="svc-sub">EERR + flujo de caja proyectado a 12–24 meses</div>
+        </div>
+      </div>
+      <div class="svc">
+        <div class="ico">💰</div>
+        <div>
+          <div class="svc-title">Pricing estratégico</div>
+          <div class="svc-sub">Precio basado en costos + benchmarking de mercado</div>
+        </div>
+      </div>
+      <div class="svc">
+        <div class="ico">📈</div>
+        <div>
+          <div class="svc-title">KPIs clave</div>
+          <div class="svc-sub">CAC, margen, runway, unit economics que importan</div>
+        </div>
+      </div>
+      <div class="svc">
+        <div class="ico">🤝</div>
+        <div>
+          <div class="svc-title">Acompañamiento mensual</div>
+          <div class="svc-sub">EERR vs plan, flujo real vs proyectado, decisiones en tiempo real</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="swipe-cta">Nuestra metodología</div>
+</div>
+<p class="label">SLIDE 3 — LOS SERVICIOS</p>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 4 — METODOLOGÍA CORE
+     Regla: visual, memorable, 4 palabras que definen el proceso
+     ══════════════════════════════════════════ -->
+<div class="slide s4">
+  <div class="topbar"></div>
+  <div class="counter">4/7 · Zerda Finance</div>
+  <div class="content">
+    <div class="eye">Metodología</div>
+    <!-- ✏️ EDITAR: titular de la metodología -->
+    <h2>El método <span style="color:var(--cyan)">CORE</span><br>de Zerda Finance</h2>
+    <!-- ✏️ EDITAR: las 4 fases con nombre + descripción -->
+    <div class="core">
+      <div class="step">
+        <div class="step-num">C</div>
+        <div class="step-word">Claridad</div>
+        <div class="step-desc">Entendemos tu modelo de negocio tal como es hoy</div>
+      </div>
+      <div class="step">
+        <div class="step-num">O</div>
+        <div class="step-word">Orden</div>
+        <div class="step-desc">Estructura de ingresos, costos y márgenes reales</div>
+      </div>
+      <div class="step">
+        <div class="step-num">R</div>
+        <div class="step-word">Rentabilidad</div>
+        <div class="step-desc">Identificamos qué genera y qué destruye caja</div>
+      </div>
+      <div class="step">
+        <div class="step-num">E</div>
+        <div class="step-word">Escalabilidad</div>
+        <div class="step-desc">Plan para crecer sin que los costos te coman</div>
+      </div>
+    </div>
+  </div>
+  <div class="swipe-cta">El proceso paso a paso</div>
+</div>
+<p class="label">SLIDE 4 — METODOLOGÍA CORE</p>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 5 — PROCESO
+     Regla: cómo trabajamos, claro y accionable
+     ══════════════════════════════════════════ -->
+<div class="slide s5">
+  <div class="glow"></div>
+  <div class="counter">5/7 · Zerda Finance</div>
+  <div class="content">
+    <div class="eye">Cómo trabajamos</div>
+    <!-- ✏️ EDITAR: titular del proceso -->
+    <h2>De cero a modelo<br>en 4 etapas</h2>
+    <!-- ✏️ EDITAR: 4 pasos del proceso con descripción corta -->
+    <div class="steps">
+      <div class="st">
+        <div class="num">1</div>
+        <div>
+          <h3>Diagnóstico inicial</h3>
+          <p>Revisamos tu situación actual — sin juicios, solo datos</p>
+        </div>
+      </div>
+      <div class="st">
+        <div class="num">2</div>
+        <div>
+          <h3>Plan de acción</h3>
+          <p>Construimos el modelo con supuestos reales de tu negocio</p>
+        </div>
+      </div>
+      <div class="st">
+        <div class="num">3</div>
+        <div>
+          <h3>Implementación</h3>
+          <p>No te dejamos con un Excel — te acompañamos a usarlo</p>
+        </div>
+      </div>
+      <div class="st">
+        <div class="num">4</div>
+        <div>
+          <h3>Seguimiento mensual</h3>
+          <p>Real vs plan, decisiones ajustadas, sin sorpresas</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="swipe-cta">Por qué Zerda</div>
+</div>
+<p class="label">SLIDE 5 — EL PROCESO</p>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 6 — POR QUÉ ZERDA FINANCE
+     Regla: credibilidad + diferenciación, no vender — convencer
+     ══════════════════════════════════════════ -->
+<div class="slide s6">
+  <div class="topbar"></div>
+  <div class="counter">6/7 · Zerda Finance</div>
+  <div class="sidebar">
+    <div class="big">+15</div>
+    <div class="years">años en finanzas corporativas y startups</div>
+  </div>
+  <div class="main">
+    <div class="eye">Por qué elegirnos</div>
+    <!-- ✏️ EDITAR: titular del diferenciador -->
+    <h2>No somos<br>contadores.<br>Somos tu partner<br>estratégico.</h2>
+    <!-- ✏️ EDITAR: 3 diferenciadores concretos -->
+    <div class="diffs">
+      <div class="d">
+        <div class="check">✓</div>
+        <div>
+          <h3>Sin teoría, con implementación</h3>
+          <p>Te ayudamos a usar el modelo para decidir, no para archivarlo</p>
+        </div>
+      </div>
+      <div class="d">
+        <div class="check">✓</div>
+        <div>
+          <h3>Experiencia en ambos mundos</h3>
+          <p>Corporativo (Citibank, Carey) + startups y PYMEs reales</p>
+        </div>
+      </div>
+      <div class="d">
+        <div class="check">✓</div>
+        <div>
+          <h3>Lenguaje humano, no académico</h3>
+          <p>Explicamos los números como si fuera una conversación</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bottombar"></div>
+</div>
+<p class="label">SLIDE 6 — POR QUÉ ZERDA FINANCE</p>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 7 — CTA
+     Regla: 1 acción clara, sin ambigüedad, con fricción mínima
+     ══════════════════════════════════════════ -->
+<div class="slide s7">
+  <div class="bg"></div>
+  <div class="ring1"></div>
+  <div class="ring2"></div>
+  <div class="counter">7/7 · Zerda Finance</div>
+  <div class="content">
+    <div class="eye">Primer paso</div>
+    <div class="line"></div>
+    <!-- ✏️ EDITAR: llamada a acción principal -->
+    <h2>Empecemos<br>con un<br><span>diagnóstico</span></h2>
+    <!-- ✏️ EDITAR: instrucción concreta -->
+    <p class="cta-text">Escríbenos directo — te respondemos en 24 horas.</p>
+    <div class="btn">Escríbenos hoy</div>
+    <div class="handle">DM o visita <span>@zerdafinance</span></div>
+  </div>
+</div>
+<p class="label">SLIDE 7 — CTA</p>
+
+</body>
+</html>

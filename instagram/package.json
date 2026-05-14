@@ -1,0 +1,15 @@
+{
+  "name": "zerda-instagram-poster",
+  "version": "1.0.0",
+  "description": "Publica el carrusel de Zerda Finance en Instagram automáticamente",
+  "type": "module",
+  "scripts": {
+    "post": "node post.js"
+  },
+  "dependencies": {
+    "puppeteer": "^24.15.0",
+    "axios": "^1.7.0",
+    "form-data": "^4.0.0",
+    "dotenv": "^16.4.0"
+  }
+}

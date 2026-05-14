@@ -14,3 +14,5 @@ Logo y Manual de Uso/
 *.docx
 *.pdf
 DS_Store
+.env
+instagram/slides/

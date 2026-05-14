@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carrusel Zerda Finance</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #162243;
+    --navy-mid: #1E3060;
+    --cyan: #00B4E6;
+    --cyan-light: #5CD3F5;
+    --white: #FFFFFF;
+    --off-white: #F0F6FF;
+    --gray: #8899BB;
+    --slide-size: 1080px;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #0D1520;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    gap: 32px;
+  }
+
+  .nav-hint {
+    color: var(--gray);
+    font-size: 14px;
+    text-align: center;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+
+  /* ── SLIDE WRAPPER ── */
+  .slide {
+    width: var(--slide-size);
+    height: var(--slide-size);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  /* ══════════════════════════════════════════
+     SLIDE 1 — COVER
+  ══════════════════════════════════════════ */
+  .s1 {
+    background: var(--navy);
+  }
+  .s1 .bg-shape {
+    position: absolute;
+    right: -80px;
+    top: -80px;
+    width: 650px;
+    height: 650px;
+    background: radial-gradient(circle at 60% 40%, #00B4E622 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .s1 .line-accent {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 8px;
+    background: linear-gradient(180deg, var(--cyan) 0%, #0077AA 100%);
+  }
+  .s1 .photo-container {
+    position: absolute;
+    right: 0; bottom: 0;
+    width: 460px;
+    height: 560px;
+    overflow: hidden;
+  }
+  .s1 .photo-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    filter: grayscale(15%);
+  }
+  .s1 .photo-fade {
+    position: absolute;
+    right: 0; bottom: 0;
+    width: 460px;
+    height: 560px;
+    background: linear-gradient(90deg, var(--navy) 0%, transparent 35%),
+                linear-gradient(0deg, var(--navy) 0%, transparent 20%);
+  }
+  .s1 .content {
+    position: absolute;
+    left: 64px;
+    top: 80px;
+    width: 620px;
+  }
+  .s1 .tag {
+    display: inline-block;
+    background: var(--cyan);
+    color: var(--navy);
+    font-size: 18px;
+    font-weight: 700;
+    padding: 6px 20px;
+    border-radius: 4px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 36px;
+  }
+  .s1 .headline {
+    font-size: 72px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.05;
+    margin-bottom: 28px;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  }
+  .s1 .headline span { color: var(--cyan); }
+  .s1 .sub {
+    font-size: 26px;
+    font-weight: 400;
+    color: #A8C0E0;
+    line-height: 1.5;
+    max-width: 480px;
+  }
+  .s1 .cta-pill {
+    position: absolute;
+    bottom: 72px;
+    left: 64px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--cyan);
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .s1 .cta-pill::before {
+    content: '';
+    display: block;
+    width: 48px;
+    height: 3px;
+    background: var(--cyan);
+  }
+  .s1 .logo-area {
+    position: absolute;
+    bottom: 60px;
+    right: 64px;
+  }
+  .s1 .logo-area img {
+    height: 52px;
+    filter: brightness(0) invert(1);
+    opacity: 0.85;
+  }
+  .slide-num {
+    position: absolute;
+    top: 44px;
+    right: 64px;
+    color: #FFFFFF22;
+    font-size: 120px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -4px;
+    user-select: none;
+  }
+
+  /* ══════════════════════════════════════════
+     SLIDE 2 — EL PROBLEMA
+  ══════════════════════════════════════════ */
+  .s2 {
+    background: var(--off-white);
+  }
+  .s2 .top-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 12px;
+    background: linear-gradient(90deg, var(--navy) 0%, var(--cyan) 100%);
+  }
+  .s2 .content {
+    position: absolute;
+    inset: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .s2 .eyebrow {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--cyan);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .s2 .big-stat {
+    font-size: 160px;
+    font-weight: 900;
+    color: var(--navy);
+    line-height: 0.9;
+    margin-bottom: 4px;
+    letter-spacing: -6px;
+  }
+  .s2 .big-stat span { color: var(--cyan); }
+  .s2 .stat-label {
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.3;
+    margin-bottom: 60px;
+    max-width: 700px;
+  }
+  .s2 .problems {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .s2 .problem-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 23px;
+    color: #2A3F6B;
+    font-weight: 500;
+  }
+  .s2 .problem-item .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--cyan);
+    flex-shrink: 0;
+  }
+  .s2 .logo-area {
+    position: absolute;
+    bottom: 50px;
+    right: 64px;
+  }
+  .s2 .logo-area img {
+    height: 44px;
+    opacity: 0.5;
+  }
+
+  /* ══════════════════════════════════════════
+     SLIDE 3 — QUÉ ES ZERDA
+  ══════════════════════════════════════════ */
+  .s3 {
+    background: var(--navy);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .s3 .bg-circle {
+    position: absolute;
+    bottom: -200px;
+    right: -200px;
+    width: 700px;
+    height: 700px;
+    border: 2px solid #FFFFFF08;
+    border-radius: 50%;
+  }
+  .s3 .bg-circle2 {
+    position: absolute;
+    top: -150px;
+    left: -150px;
+    width: 500px;
+    height: 500px;
+    border: 2px solid #FFFFFF06;
+    border-radius: 50%;
+  }
+  .s3 .content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 0 100px;
+  }
+  .s3 .logo-big {
+    margin-bottom: 60px;
+  }
+  .s3 .logo-big img {
+    height: 80px;
+    filter: brightness(0) invert(1);
+  }
+  .s3 .divider {
+    width: 80px;
+    height: 4px;
+    background: var(--cyan);
+    margin: 0 auto 48px;
+    border-radius: 2px;
+  }
+  .s3 .headline {
+    font-size: 50px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 36px;
+  }
+  .s3 .headline span { color: var(--cyan); }
+  .s3 .sub {
+    font-size: 26px;
+    color: #7A9CC8;
+    line-height: 1.6;
+    font-weight: 400;
+    margin-bottom: 60px;
+  }
+  .s3 .highlight-box {
+    background: var(--cyan);
+    color: var(--navy);
+    font-size: 22px;
+    font-weight: 700;
+    padding: 20px 40px;
+    border-radius: 8px;
+    display: inline-block;
+  }
+
+  /* ══════════════════════════════════════════
+     SLIDE 4 — SERVICIOS
+  ══════════════════════════════════════════ */
+  .s4 {
+    background: var(--white);
+  }
+  .s4 .left-bar {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 320px;
+    background: var(--navy);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+  }
+  .s4 .left-bar img {
+    height: 60px;
+    filter: brightness(0) invert(1);
+    margin-bottom: 40px;
+  }
+  .s4 .left-title {
+    color: var(--white);
+    font-size: 32px;
+    font-weight: 800;
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+  .s4 .left-sub {
+    color: var(--cyan);
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .s4 .services-list {
+    position: absolute;
+    left: 360px;
+    right: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .s4 .service-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  .s4 .service-num {
+    font-size: 52px;
+    font-weight: 900;
+    color: #E8EEFA;
+    line-height: 1;
+    min-width: 54px;
+    text-align: right;
+    letter-spacing: -2px;
+  }
+  .s4 .service-text h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+  .s4 .service-text p {
+    font-size: 17px;
+    color: #5A6E90;
+    line-height: 1.4;
+  }
+  .s4 .bottom-bar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, var(--navy) 0%, var(--cyan) 100%);
+  }
+
+  /* ══════════════════════════════════════════
+     SLIDE 5 — PARA QUIÉN
+  ══════════════════════════════════════════ */
+  .s5 {
+    background: var(--navy);
+  }
+  .s5 .bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(#FFFFFF06 1px, transparent 1px),
+                      linear-gradient(90deg, #FFFFFF06 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+  .s5 .content {
+    position: relative;
+    z-index: 1;
+    padding: 80px 80px;
+  }
+  .s5 .eyebrow {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--cyan);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .s5 .headline {
+    font-size: 68px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.05;
+    margin-bottom: 60px;
+  }
+  .s5 .headline span { color: var(--cyan); }
+  .s5 .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .s5 .card {
+    background: #FFFFFF0D;
+    border: 1px solid #FFFFFF15;
+    border-radius: 16px;
+    padding: 32px 28px;
+    backdrop-filter: blur(8px);
+  }
+  .s5 .card .icon {
+    font-size: 40px;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .s5 .card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .s5 .card p {
+    font-size: 17px;
+    color: #7A9CC8;
+    line-height: 1.5;
+  }
+  .s5 .logo-area {
+    position: absolute;
+    bottom: 50px;
+    right: 80px;
+  }
+  .s5 .logo-area img {
+    height: 40px;
+    filter: brightness(0) invert(1);
+    opacity: 0.5;
+  }
+
+  /* ══════════════════════════════════════════
+     SLIDE 6 — METODOLOGÍA CORE
+  ══════════════════════════════════════════ */
+  .s6 {
+    background: var(--off-white);
+  }
+  .s6 .top-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 12px;
+    background: linear-gradient(90deg, var(--navy) 0%, var(--cyan) 100%);
+  }
+  .s6 .content {
+    position: absolute;
+    inset: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .s6 .eyebrow {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--cyan);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .s6 .headline {
+    font-size: 54px;
+    font-weight: 900;
+    color: var(--navy);
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .s6 .sub {
+    font-size: 22px;
+    color: #5A6E90;
+    text-align: center;
+    margin-bottom: 64px;
+    max-width: 700px;
+    line-height: 1.5;
+  }
+  .s6 .steps {
+    display: flex;
+    gap: 0;
+    width: 100%;
+    max-width: 900px;
+  }
+  .s6 .step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+  .s6 .step:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -16px;
+    top: 44px;
+    font-size: 28px;
+    color: var(--cyan);
+    font-weight: 700;
+    z-index: 1;
+  }
+  .s6 .step-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--cyan);
+    margin-bottom: 20px;
+    box-shadow: 0 8px 32px rgba(22,34,67,0.2);
+  }
+  .s6 .step h3 {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .s6 .step p {
+    font-size: 15px;
+    color: #5A6E90;
+    text-align: center;
+    line-height: 1.4;
+    padding: 0 8px;
+  }
+  .s6 .logo-area {
+    position: absolute;
+    bottom: 50px;
+    right: 64px;
+  }
+  .s6 .logo-area img {
+    height: 40px;
+    opacity: 0.4;
+  }
+
+  /* ══════════════════════════════════════════
+     SLIDE 7 — CTA
+  ══════════════════════════════════════════ */
+  .s7 {
+    background: var(--navy);
+  }
+  .s7 .bg-shape {
+    position: absolute;
+    left: -100px;
+    bottom: -100px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, #00B4E615 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .s7 .photo-container {
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 420px;
+    height: 540px;
+    overflow: hidden;
+  }
+  .s7 .photo-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    filter: grayscale(20%);
+  }
+  .s7 .photo-fade {
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 420px;
+    height: 540px;
+    background: linear-gradient(270deg, var(--navy) 0%, transparent 40%),
+                linear-gradient(0deg, var(--navy) 0%, transparent 25%);
+  }
+  .s7 .content {
+    position: absolute;
+    right: 64px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 560px;
+    text-align: right;
+  }
+  .s7 .eyebrow {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--cyan);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .s7 .headline {
+    font-size: 60px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 28px;
+  }
+  .s7 .headline span { color: var(--cyan); }
+  .s7 .sub {
+    font-size: 22px;
+    color: #7A9CC8;
+    line-height: 1.6;
+    margin-bottom: 48px;
+  }
+  .s7 .cta-btn {
+    display: inline-block;
+    background: var(--cyan);
+    color: var(--navy);
+    font-size: 22px;
+    font-weight: 800;
+    padding: 20px 44px;
+    border-radius: 8px;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    margin-bottom: 32px;
+    box-shadow: 0 8px 32px rgba(0,180,230,0.3);
+  }
+  .s7 .contact-info {
+    font-size: 18px;
+    color: #7A9CC8;
+    font-weight: 500;
+  }
+  .s7 .contact-info strong {
+    color: var(--cyan-light);
+  }
+  .s7 .logo-top {
+    position: absolute;
+    top: 60px;
+    right: 64px;
+  }
+  .s7 .logo-top img {
+    height: 50px;
+    filter: brightness(0) invert(1);
+  }
+
+  /* ── Labels de slide ── */
+  .slide-label {
+    color: #4A6088;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 16px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<p class="nav-hint">Carrusel Zerda Finance — 7 slides 1080×1080px · Hacer captura de cada slide para Instagram</p>
+
+<!-- ══ SLIDE 1 ══ -->
+<div class="slide s1">
+  <div class="bg-shape"></div>
+  <div class="line-accent"></div>
+  <div class="photo-container">
+    <img src="oscar.jpg" alt="Oscar Rincón">
+  </div>
+  <div class="photo-fade"></div>
+  <div class="content">
+    <span class="tag">Zerda Finance</span>
+    <h1 class="headline">¿Vendes bien<br>pero la <span>caja</span><br>no alcanza?</h1>
+    <p class="sub">El problema no es cuánto vendes.<br>Es cómo estás estructurado.</p>
+  </div>
+  <div class="cta-pill">Desliza para saber por qué →</div>
+  <div class="logo-area">
+    <img src="logos/Logo oficial white.png" alt="Zerda Finance">
+  </div>
+  <div class="slide-num">01</div>
+</div>
+<p class="slide-label">Slide 1 — Hook / Portada</p>
+
+<!-- ══ SLIDE 2 ══ -->
+<div class="slide s2">
+  <div class="top-bar"></div>
+  <div class="slide-num" style="color:#16224310; position:absolute; bottom:40px; left:60px; font-size:200px; line-height:1; letter-spacing:-8px;">02</div>
+  <div class="content">
+    <span class="eyebrow">El problema real</span>
+    <div class="big-stat">9<span>/10</span></div>
+    <p class="stat-label">emprendedores no saben<br>exactamente cuánto les cuesta operar.</p>
+    <div class="problems">
+      <div class="problem-item"><span class="dot"></span>Venden más, pero la rentabilidad no mejora</div>
+      <div class="problem-item"><span class="dot"></span>Contratan sin saber si pueden costear la nómina</div>
+      <div class="problem-item"><span class="dot"></span>Confunden contabilidad con gestión financiera</div>
+      <div class="problem-item"><span class="dot"></span>No saben cuánto les cuesta conseguir un cliente</div>
+    </div>
+  </div>
+  <div class="logo-area">
+    <img src="logos/Logo oficial.png" alt="Zerda Finance">
+  </div>
+</div>
+<p class="slide-label">Slide 2 — El problema</p>
+
+<!-- ══ SLIDE 3 ══ -->
+<div class="slide s3">
+  <div class="bg-circle"></div>
+  <div class="bg-circle2"></div>
+  <div class="content">
+    <div class="logo-big">
+      <img src="logos/Logo oficial white.png" alt="Zerda Finance">
+    </div>
+    <div class="divider"></div>
+    <h2 class="headline">Te ayudamos a <span>entender</span><br>tus números y tomar<br>mejores decisiones</h2>
+    <p class="sub">No partimos del Excel.<br>Partimos de las <strong style="color:#A8D4F0">decisiones que necesitas tomar.</strong></p>
+    <div class="highlight-box">No somos contadores → somos tu CFO externo</div>
+  </div>
+  <div class="slide-num">03</div>
+</div>
+<p class="slide-label">Slide 3 — Qué es Zerda Finance</p>
+
+<!-- ══ SLIDE 4 ══ -->
+<div class="slide s4">
+  <div class="left-bar">
+    <img src="logos/Logo oficial white.png" alt="Zerda Finance">
+    <div class="left-title">Lo que hacemos</div>
+    <div class="left-sub">5 servicios clave</div>
+  </div>
+  <div class="services-list">
+    <div class="service-item">
+      <span class="service-num">01</span>
+      <div class="service-text">
+        <h3>Diagnóstico financiero</h3>
+        <p>Identificamos los problemas reales de tu estructura de costos e ingresos</p>
+      </div>
+    </div>
+    <div class="service-item">
+      <span class="service-num">02</span>
+      <div class="service-text">
+        <h3>Plan financiero</h3>
+        <p>EERR, flujo de caja y proyección a 12–24 meses con supuestos claros</p>
+      </div>
+    </div>
+    <div class="service-item">
+      <span class="service-num">03</span>
+      <div class="service-text">
+        <h3>Pricing estratégico</h3>
+        <p>Precios basados en costos reales + benchmark de competencia</p>
+      </div>
+    </div>
+    <div class="service-item">
+      <span class="service-num">04</span>
+      <div class="service-text">
+        <h3>KPIs que importan</h3>
+        <p>CAC, margen, unit economics, runway y rentabilidad por cliente</p>
+      </div>
+    </div>
+    <div class="service-item">
+      <span class="service-num">05</span>
+      <div class="service-text">
+        <h3>Acompañamiento mensual</h3>
+        <p>EERR vs plan, flujo real vs proyectado, soporte en decisiones clave</p>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-bar"></div>
+  <div class="slide-num" style="color:#E8EEFA; bottom:20px; right:20px; top:auto; font-size:100px; opacity:0.5;">04</div>
+</div>
+<p class="slide-label">Slide 4 — Servicios</p>
+
+<!-- ══ SLIDE 5 ══ -->
+<div class="slide s5">
+  <div class="bg-grid"></div>
+  <div class="content">
+    <span class="eyebrow">¿Esto es para ti?</span>
+    <h2 class="headline">Si tienes un negocio<br>que quiere <span>crecer<br>con control</span></h2>
+    <div class="cards">
+      <div class="card">
+        <span class="icon">🚀</span>
+        <h3>Startups en early stage</h3>
+        <p>Que necesitan ordenar su modelo antes de crecer o levantar capital</p>
+      </div>
+      <div class="card">
+        <span class="icon">🏪</span>
+        <h3>PYMEs establecidas</h3>
+        <p>Con ventas estables pero sin claridad sobre rentabilidad ni márgenes</p>
+      </div>
+      <div class="card">
+        <span class="icon">💡</span>
+        <h3>Emprendedores con tracción</h3>
+        <p>Que venden bien pero no entienden por qué la caja siempre está apretada</p>
+      </div>
+      <div class="card">
+        <span class="icon">📈</span>
+        <h3>Negocios listos para escalar</h3>
+        <p>Que necesitan estructura financiera antes de contratar o expandirse</p>
+      </div>
+    </div>
+  </div>
+  <div class="logo-area">
+    <img src="logos/Logo oficial white.png" alt="Zerda Finance">
+  </div>
+  <div class="slide-num">05</div>
+</div>
+<p class="slide-label">Slide 5 — Para quién es</p>
+
+<!-- ══ SLIDE 6 ══ -->
+<div class="slide s6">
+  <div class="top-bar"></div>
+  <div class="content">
+    <span class="eyebrow">Nuestra metodología</span>
+    <h2 class="headline">Método CORE</h2>
+    <p class="sub">Cuatro fases para pasar del caos financiero<br>a un negocio rentable y escalable</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-circle">C</div>
+        <h3>Claridad</h3>
+        <p>Entender exactamente dónde está parado el negocio</p>
+      </div>
+      <div class="step">
+        <div class="step-circle">O</div>
+        <h3>Orden</h3>
+        <p>Estructura de costos, ingresos y métricas clave</p>
+      </div>
+      <div class="step">
+        <div class="step-circle">R</div>
+        <h3>Rentabilidad</h3>
+        <p>Pricing correcto, márgenes sanos, decisiones basadas en datos</p>
+      </div>
+      <div class="step">
+        <div class="step-circle">E</div>
+        <h3>Escalabilidad</h3>
+        <p>Crecer con control sin que la caja te explote</p>
+      </div>
+    </div>
+  </div>
+  <div class="logo-area">
+    <img src="logos/Logo oficial.png" alt="Zerda Finance">
+  </div>
+  <div class="slide-num" style="color:#16224308; font-size:220px; top: auto; bottom: 20px; right: 30px;">06</div>
+</div>
+<p class="slide-label">Slide 6 — Metodología CORE</p>
+
+<!-- ══ SLIDE 7 ══ -->
+<div class="slide s7">
+  <div class="bg-shape"></div>
+  <div class="photo-container">
+    <img src="oscar.jpg" alt="Oscar Rincón">
+  </div>
+  <div class="photo-fade"></div>
+  <div class="logo-top">
+    <img src="logos/Logo oficial white.png" alt="Zerda Finance">
+  </div>
+  <div class="content">
+    <p class="eyebrow">El siguiente paso</p>
+    <h2 class="headline">¿Listo para<br>entender tus<br><span>números</span>?</h2>
+    <p class="sub">Un diagnóstico financiero puede<br>cambiar cómo ves tu negocio.</p>
+    <div>
+      <div class="cta-btn">Agenda una llamada gratis</div>
+    </div>
+    <p class="contact-info">
+      Oscar Rincón · Founder<br>
+      <strong>zerdafinance.com</strong>
+    </p>
+  </div>
+  <div class="slide-num">07</div>
+</div>
+<p class="slide-label">Slide 7 — CTA / Cierre</p>
+
+</body>
+</html>

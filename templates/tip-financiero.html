@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Template: Tip Financiero — Zerda Finance</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #162243; --cyan: #00B4E6; --cyan-light: #5CD3F5;
+    --white: #FFFFFF; --off-white: #F0F6FF; --red: #E63946; --green: #2DB37A;
+  }
+  body { font-family: 'Poppins', sans-serif; background: #0D1520; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; gap: 32px; }
+  .hint { color: #4A6088; font-size: 13px; text-align: center; margin-bottom: 8px; }
+  .slide { width: 1080px; height: 1080px; position: relative; overflow: hidden; flex-shrink: 0; }
+  .label { color: #4A6088; font-size: 13px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 16px; text-align: center; }
+
+  /* ── Elementos comunes ── */
+  .logo-mark { position: absolute; bottom: 52px; right: 60px; }
+  .logo-mark img { height: 40px; }
+  .logo-mark.inv img { filter: brightness(0) invert(1); opacity: 0.7; }
+  .counter { position: absolute; top: 52px; left: 60px; font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.05em; }
+  .swipe-cta { position: absolute; bottom: 52px; left: 60px; font-size: 18px; font-weight: 700; color: var(--cyan); display: flex; align-items: center; gap: 12px; }
+  .swipe-cta::before { content: ''; display: block; width: 36px; height: 2px; background: var(--cyan); }
+
+  /* ══ SLIDE 1 — SCROLL STOPPER ══ */
+  /* Regla: 1 idea, máximo 8 palabras en headline, sin subtítulo largo */
+  .s1 { background: var(--navy); }
+  .s1 .bar { position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: linear-gradient(180deg, var(--cyan), #005580); }
+  .s1 .glow { position: absolute; right: -80px; top: -80px; width: 700px; height: 700px; background: radial-gradient(circle, #00B4E618 0%, transparent 65%); border-radius: 50%; }
+  .s1 .content { position: absolute; left: 80px; right: 80px; top: 50%; transform: translateY(-55%); }
+  .s1 .tag { background: var(--cyan); color: var(--navy); font-size: 15px; font-weight: 800; padding: 7px 20px; border-radius: 4px; letter-spacing: 0.12em; text-transform: uppercase; display: inline-block; margin-bottom: 44px; }
+  /* ✏️ EDITAR: hook — 1 pregunta o afirmación que duela */
+  .s1 h1 { font-size: 96px; font-weight: 900; color: var(--white); line-height: 0.95; letter-spacing: -2px; }
+  .s1 h1 span { color: var(--cyan); }
+  /* ✏️ EDITAR: 1 línea que amplía el gancho */
+  .s1 .punch { margin-top: 36px; font-size: 26px; color: #8AADCC; font-weight: 500; max-width: 680px; line-height: 1.4; }
+
+  /* ══ SLIDE 2 — EL PROBLEMA ══ */
+  /* Regla: cada slide debe funcionar solo — tiene logo + número + headline */
+  .s2 { background: var(--off-white); }
+  .s2 .topbar { position: absolute; top: 0; left: 0; right: 0; height: 10px; background: linear-gradient(90deg, var(--navy), var(--cyan)); }
+  .s2 .content { position: absolute; inset: 80px; display: flex; flex-direction: column; justify-content: center; }
+  .s2 .eye { font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; }
+  /* ✏️ EDITAR: el problema central — máx 10 palabras */
+  .s2 h2 { font-size: 68px; font-weight: 900; color: var(--navy); line-height: 1.05; margin-bottom: 44px; }
+  .s2 h2 span { color: var(--cyan); }
+  /* ✏️ EDITAR: 3 consecuencias concretas — máx 10 palabras cada una */
+  .s2 .bullets { display: flex; flex-direction: column; gap: 20px; }
+  .s2 .b { display: flex; align-items: center; gap: 18px; font-size: 22px; color: #2A3F6B; font-weight: 600; }
+  .s2 .b::before { content: ''; display: block; min-width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); }
+
+  /* ══ SLIDE 3 — EL TIP (slide estrella) ══ */
+  /* Regla: menos texto = más impacto. Máx 12 palabras en total */
+  .s3 { background: var(--navy); display: flex; align-items: center; justify-content: center; }
+  .s3 .circle1 { position: absolute; width: 800px; height: 800px; border: 1px solid #FFFFFF06; border-radius: 50%; }
+  .s3 .circle2 { position: absolute; width: 560px; height: 560px; border: 1px solid #FFFFFF08; border-radius: 50%; }
+  .s3 .content { position: relative; z-index: 1; text-align: center; padding: 0 120px; }
+  .s3 .eye { font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 28px; }
+  .s3 .line { width: 72px; height: 4px; background: var(--cyan); margin: 0 auto 44px; border-radius: 2px; }
+  /* ✏️ EDITAR: el tip en 1 frase potente */
+  .s3 h2 { font-size: 68px; font-weight: 900; color: var(--white); line-height: 1.1; margin-bottom: 32px; }
+  .s3 h2 span { color: var(--cyan); }
+  /* ✏️ EDITAR: 1 sola oración de soporte */
+  .s3 .sub { font-size: 24px; color: #6A8DB8; line-height: 1.5; }
+
+  /* ══ SLIDE 4 — CÓMO APLICARLO ══ */
+  /* Regla: lista accionable, mínimo texto de apoyo */
+  .s4 { background: var(--white); }
+  .s4 .sidebar { position: absolute; left: 0; top: 0; bottom: 0; width: 280px; background: var(--navy); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px 32px; gap: 0; }
+  .s4 .sidebar img { height: 52px; filter: brightness(0) invert(1); margin-bottom: 32px; }
+  .s4 .sidebar .title { color: var(--white); font-size: 26px; font-weight: 800; text-align: center; line-height: 1.2; margin-bottom: 12px; }
+  .s4 .sidebar .sub { color: var(--cyan); font-size: 14px; font-weight: 700; text-align: center; text-transform: uppercase; letter-spacing: 0.1em; }
+  .s4 .steps { position: absolute; left: 328px; right: 52px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 36px; }
+  .s4 .step { display: flex; gap: 20px; align-items: flex-start; }
+  .s4 .num { font-size: 44px; font-weight: 900; color: #E8EEFA; line-height: 1; min-width: 48px; }
+  /* ✏️ EDITAR: 4 pasos — título + 1 línea de apoyo */
+  .s4 .step h3 { font-size: 21px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+  .s4 .step p { font-size: 15px; color: #5A6E90; }
+  .s4 .bottombar { position: absolute; bottom: 0; left: 0; right: 0; height: 7px; background: linear-gradient(90deg, var(--navy), var(--cyan)); }
+
+  /* ══ SLIDE 5 — EJEMPLO REAL ══ */
+  /* Regla: 1 negocio, 1 problema, 1 resultado. Nada más */
+  .s5 { background: var(--navy); }
+  .s5 .grid { position: absolute; inset: 0; background-image: linear-gradient(#FFFFFF04 1px, transparent 1px), linear-gradient(90deg, #FFFFFF04 1px, transparent 1px); background-size: 80px 80px; }
+  .s5 .content { position: relative; z-index: 1; padding: 88px 80px; }
+  .s5 .eye { font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; }
+  /* ✏️ EDITAR: titular del ejemplo — 1 resultado concreto */
+  .s5 h2 { font-size: 60px; font-weight: 900; color: var(--white); line-height: 1.1; margin-bottom: 44px; }
+  .s5 h2 span { color: var(--cyan); }
+  .s5 .box { background: #FFFFFF0D; border: 1px solid #FFFFFF12; border-radius: 16px; padding: 36px 40px; }
+  /* ✏️ EDITAR: tipo de negocio */
+  .s5 .biz { font-size: 16px; color: var(--cyan); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; }
+  /* ✏️ EDITAR: el ejemplo en máx 3 líneas con un número impactante */
+  .s5 .txt { font-size: 22px; color: #B8D4EE; line-height: 1.65; }
+  .s5 .txt strong { color: var(--white); }
+
+  /* ══ SLIDE 6 — ERROR vs CORRECTO ══ */
+  /* Regla: contraste visual directo, máx 5 palabras por bullet */
+  .s6 { background: var(--off-white); }
+  .s6 .topbar { position: absolute; top: 0; left: 0; right: 0; height: 10px; background: linear-gradient(90deg, var(--navy), var(--cyan)); }
+  .s6 .content { position: absolute; inset: 80px; display: flex; flex-direction: column; justify-content: center; }
+  .s6 .eye { font-size: 16px; font-weight: 700; color: var(--red); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; }
+  /* ✏️ EDITAR: el error más común — máx 8 palabras */
+  .s6 h2 { font-size: 62px; font-weight: 900; color: var(--navy); line-height: 1.05; margin-bottom: 44px; }
+  .s6 h2 span { color: var(--red); }
+  .s6 .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .s6 .col h3 { font-size: 17px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
+  .s6 .wrong h3 { color: var(--red); }
+  .s6 .right h3 { color: var(--green); }
+  /* ✏️ EDITAR: 3 bullets por columna — máx 5 palabras cada uno */
+  .s6 ul { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .s6 li { font-size: 19px; color: #2A3F6B; padding-left: 28px; position: relative; font-weight: 600; }
+  .s6 .wrong li::before { content: '✗'; position: absolute; left: 0; color: var(--red); font-weight: 900; }
+  .s6 .right li::before { content: '✓'; position: absolute; left: 0; color: var(--green); font-weight: 900; }
+
+  /* ══ SLIDE 7 — CTA ══ */
+  /* Regla: 1 CTA claro, foto humana, contacto visible */
+  .s7 { background: var(--navy); }
+  .s7 .glow { position: absolute; left: -80px; bottom: -80px; width: 600px; height: 600px; background: radial-gradient(circle, #00B4E612 0%, transparent 70%); border-radius: 50%; }
+  .s7 .photo { position: absolute; left: 0; bottom: 0; width: 400px; height: 520px; overflow: hidden; }
+  .s7 .photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  .s7 .fade { position: absolute; left: 0; bottom: 0; width: 400px; height: 520px; background: linear-gradient(270deg, var(--navy) 0%, transparent 42%), linear-gradient(0deg, var(--navy) 0%, transparent 28%); }
+  .s7 .logo-top { position: absolute; top: 56px; right: 64px; }
+  .s7 .logo-top img { height: 46px; filter: brightness(0) invert(1); }
+  .s7 .content { position: absolute; right: 64px; top: 50%; transform: translateY(-50%); width: 540px; text-align: right; }
+  .s7 .eye { font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; }
+  /* ✏️ EDITAR: cierre — 1 pregunta directa al lector */
+  .s7 h2 { font-size: 58px; font-weight: 900; color: var(--white); line-height: 1.1; margin-bottom: 20px; }
+  .s7 h2 span { color: var(--cyan); }
+  /* ✏️ EDITAR: puente al CTA — 1 línea */
+  .s7 .sub { font-size: 21px; color: #7A9CC8; line-height: 1.5; margin-bottom: 36px; }
+  .s7 .btn { display: inline-block; background: var(--cyan); color: var(--navy); font-size: 19px; font-weight: 800; padding: 17px 36px; border-radius: 8px; margin-bottom: 24px; }
+  .s7 .contact { font-size: 16px; color: #6A8DB8; }
+  .s7 .contact strong { color: var(--cyan-light); }
+</style>
+</head>
+<body>
+
+<p class="hint">✏️ Template TIP FINANCIERO · Edita los textos marcados · Publicar: node post.js templates/tip-financiero.html</p>
+
+<!-- ══ SLIDE 1 — SCROLL STOPPER ══ -->
+<div class="slide s1">
+  <div class="bar"></div>
+  <div class="glow"></div>
+  <div class="counter">Zerda Finance</div>
+  <div class="content">
+    <span class="tag">💡 Tip financiero</span>
+    <!-- ✏️ EDITAR: 1 pregunta o afirmación que duela — máx 8 palabras -->
+    <h1>¿Cuánto te<br>cuesta <span>vender</span><br>de verdad?</h1>
+    <!-- ✏️ EDITAR: 1 línea amplificadora -->
+    <p class="punch">La mayoría no lo sabe. Y eso es el problema.</p>
+  </div>
+  <div class="swipe-cta">Desliza para descubrirlo →</div>
+  <div class="logo-mark inv"><img src="../logos/Logo oficial white.png" alt="Zerda Finance"></div>
+</div>
+<p class="label">Slide 1 — Scroll Stopper (simple, 1 idea)</p>
+
+<!-- ══ SLIDE 2 — EL PROBLEMA ══ -->
+<div class="slide s2">
+  <div class="topbar"></div>
+  <div class="counter">2 / 7 · Zerda Finance</div>
+  <div class="content">
+    <!-- ✏️ EDITAR: categoría del problema -->
+    <p class="eye">El error más común</p>
+    <!-- ✏️ EDITAR: headline del problema — máx 10 palabras -->
+    <h2>No saber tu<br><span>costo real</span> de venta</h2>
+    <div class="bullets">
+      <!-- ✏️ EDITAR: 3 consecuencias — máx 10 palabras cada una -->
+      <div class="b">Vendes más, ganas menos — y no entiendes por qué</div>
+      <div class="b">Pones precios a ojo, no basados en datos</div>
+      <div class="b">Nunca sabes si un cliente te deja plata</div>
+    </div>
+  </div>
+  <div class="swipe-cta">El tip →</div>
+  <div class="logo-mark"><img src="../logos/Logo oficial.png" alt="Zerda Finance"></div>
+</div>
+<p class="label">Slide 2 — El problema (funciona solo)</p>
+
+<!-- ══ SLIDE 3 — EL TIP ══ -->
+<div class="slide s3">
+  <div class="circle1"></div>
+  <div class="circle2"></div>
+  <div class="counter" style="color: #FFFFFF50;">3 / 7 · Zerda Finance</div>
+  <div class="content">
+    <p class="eye">El tip</p>
+    <div class="line"></div>
+    <!-- ✏️ EDITAR: el tip en 1 frase — máx 8 palabras -->
+    <h2>Calcula tu<br><span>CAC real</span><br>cada mes</h2>
+    <!-- ✏️ EDITAR: 1 oración de soporte -->
+    <p class="sub">CAC = lo que gastas en conseguir un cliente.<br>Si no lo sabes, estás volando a ciegas.</p>
+  </div>
+  <div class="swipe-cta" style="left:auto; right:60px; bottom:52px;">Cómo →</div>
+  <div class="logo-mark inv"><img src="../logos/Logo oficial white.png" alt="Zerda Finance"></div>
+</div>
+<p class="label">Slide 3 — El tip (menos texto = más impacto)</p>
+
+<!-- ══ SLIDE 4 — CÓMO APLICARLO ══ -->
+<div class="slide s4">
+  <div class="sidebar">
+    <img src="../logos/Logo oficial white.png" alt="Zerda Finance">
+    <!-- ✏️ EDITAR: título de la sección -->
+    <div class="title">Cómo calcularlo</div>
+    <div class="sub">4 pasos</div>
+  </div>
+  <div class="steps">
+    <!-- ✏️ EDITAR: 4 pasos — título corto + 1 línea -->
+    <div class="step">
+      <span class="num">01</span>
+      <div>
+        <h3>Suma todo lo que gastas en marketing</h3>
+        <p>Pauta, agencia, tiempo tuyo, herramientas</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="num">02</span>
+      <div>
+        <h3>Cuenta cuántos clientes nuevos entraron</h3>
+        <p>Solo clientes nuevos, no recurrentes</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="num">03</span>
+      <div>
+        <h3>Divide: gasto ÷ clientes nuevos</h3>
+        <p>Ese número es tu CAC del mes</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="num">04</span>
+      <div>
+        <h3>Compáralo con tu ticket promedio</h3>
+        <p>Si CAC ≥ ticket, tienes un problema serio</p>
+      </div>
+    </div>
+  </div>
+  <div class="bottombar"></div>
+</div>
+<p class="label">Slide 4 — Cómo aplicarlo</p>
+
+<!-- ══ SLIDE 5 — EJEMPLO REAL ══ -->
+<div class="slide s5">
+  <div class="grid"></div>
+  <div class="counter" style="color:#FFFFFF50;">5 / 7 · Zerda Finance</div>
+  <div class="content">
+    <p class="eye">Caso real</p>
+    <!-- ✏️ EDITAR: 1 resultado concreto en el titular -->
+    <h2>Gastaban <span>$800K</span><br>por cliente nuevo</h2>
+    <div class="box">
+      <!-- ✏️ EDITAR: tipo de negocio -->
+      <p class="biz">🛍️ E-commerce de ropa · Santiago</p>
+      <!-- ✏️ EDITAR: el caso en 3 líneas con un número impactante -->
+      <p class="txt">Su ticket promedio era <strong>$650K</strong>. Cada cliente nuevo les costaba <strong>$800K en pauta</strong>.<br><br>Estaban perdiendo $150K por venta — y pensaban que estaban creciendo bien.</p>
+    </div>
+  </div>
+  <div class="logo-mark inv"><img src="../logos/Logo oficial white.png" alt="Zerda Finance"></div>
+</div>
+<p class="label">Slide 5 — Ejemplo real (1 negocio, 1 problema, 1 número)</p>
+
+<!-- ══ SLIDE 6 — ERROR vs CORRECTO ══ -->
+<div class="slide s6">
+  <div class="topbar"></div>
+  <div class="counter">6 / 7 · Zerda Finance</div>
+  <div class="content">
+    <p class="eye">⚠️ Evita esto</p>
+    <!-- ✏️ EDITAR: el error más común — máx 8 palabras -->
+    <h2>No calcules<br><span>"a ojo"</span></h2>
+    <div class="vs">
+      <div class="col wrong">
+        <h3>Error frecuente</h3>
+        <!-- ✏️ EDITAR: 3 errores — máx 5 palabras -->
+        <ul>
+          <li>Ignorar el costo de tu tiempo</li>
+          <li>Mezclar clientes nuevos y recurrentes</li>
+          <li>No medir por canal de venta</li>
+        </ul>
+      </div>
+      <div class="col right">
+        <h3>Lo correcto</h3>
+        <!-- ✏️ EDITAR: 3 correcciones — máx 5 palabras -->
+        <ul>
+          <li>Valorar tu tiempo como costo</li>
+          <li>Medir solo adquisición nueva</li>
+          <li>CAC separado por canal</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="logo-mark"><img src="../logos/Logo oficial.png" alt="Zerda Finance"></div>
+</div>
+<p class="label">Slide 6 — Error vs Correcto (contraste visual directo)</p>
+
+<!-- ══ SLIDE 7 — CTA ══ -->
+<div class="slide s7">
+  <div class="glow"></div>
+  <div class="photo"><img src="../oscar.jpg" alt="Oscar Rincón"></div>
+  <div class="fade"></div>
+  <div class="logo-top"><img src="../logos/Logo oficial white.png" alt="Zerda Finance"></div>
+  <div class="content">
+    <p class="eye">¿Aplicaste el tip?</p>
+    <!-- ✏️ EDITAR: pregunta directa al lector -->
+    <h2>¿Sabes cuánto<br>te cuesta cada<br><span>cliente</span>?</h2>
+    <!-- ✏️ EDITAR: puente al CTA -->
+    <p class="sub">Si no, hay algo que<br>podemos hacer juntos.</p>
+    <div class="btn">Agenda una llamada gratis</div>
+    <p class="contact">Oscar Rincón · <strong>zerdafinance.com</strong></p>
+  </div>
+</div>
+<p class="label">Slide 7 — CTA (1 acción, contacto claro)</p>
+
+</body>
+</html>

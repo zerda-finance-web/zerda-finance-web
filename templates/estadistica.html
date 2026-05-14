@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Template: Estadística Impactante — Zerda Finance</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #162243; --cyan: #00B4E6; --cyan-light: #5CD3F5;
+    --white: #FFFFFF; --off-white: #F0F6FF;
+  }
+  body { font-family: 'Poppins', sans-serif; background: #0D1520; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; gap: 32px; }
+  .hint { color: #4A6088; font-size: 13px; text-align: center; margin-bottom: 8px; }
+  .slide { width: 1080px; height: 1080px; position: relative; overflow: hidden; flex-shrink: 0; }
+  .label { color: #4A6088; font-size: 13px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 16px; text-align: center; }
+  .logo-mark { position: absolute; bottom: 52px; right: 60px; }
+  .logo-mark img { height: 40px; }
+  .logo-mark.inv img { filter: brightness(0) invert(1); opacity: 0.7; }
+  .counter { position: absolute; top: 52px; left: 60px; font-size: 16px; font-weight: 700; color: var(--cyan); }
+  .swipe-cta { position: absolute; bottom: 52px; left: 60px; font-size: 18px; font-weight: 700; color: var(--cyan); display: flex; align-items: center; gap: 12px; }
+  .swipe-cta::before { content: ''; display: block; width: 36px; height: 2px; background: var(--cyan); }
+
+  /* ══ SLIDE 1 — LA ESTADÍSTICA (scroll stopper) ══ */
+  .s1 { background: var(--navy); display: flex; align-items: center; justify-content: center; }
+  .s1 .bar { position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: linear-gradient(180deg, var(--cyan), #005580); }
+  .s1 .glow { position: absolute; width: 800px; height: 800px; background: radial-gradient(circle, #00B4E610 0%, transparent 65%); border-radius: 50%; }
+  .s1 .content { position: relative; z-index: 1; text-align: center; padding: 0 80px; }
+  .s1 .tag { background: var(--cyan); color: var(--navy); font-size: 15px; font-weight: 800; padding: 7px 20px; border-radius: 4px; letter-spacing: 0.12em; text-transform: uppercase; display: inline-block; margin-bottom: 48px; }
+  /* ✏️ EDITAR: el número impactante — más grande, más simple */
+  .s1 .stat { font-size: 220px; font-weight: 900; color: var(--white); line-height: 0.85; letter-spacing: -8px; margin-bottom: 12px; }
+  .s1 .stat span { color: var(--cyan); }
+  /* ✏️ EDITAR: qué mide ese número — máx 8 palabras */
+  .s1 .stat-label { font-size: 34px; font-weight: 700; color: #7AADCC; line-height: 1.3; }
+  /* ✏️ EDITAR: fuente de la estadística */
+  .s1 .source { position: absolute; bottom: 52px; right: 60px; font-size: 13px; color: #3A5580; font-weight: 500; }
+
+  /* ══ SLIDE 2 — QUÉ SIGNIFICA ══ */
+  .s2 { background: var(--off-white); }
+  .s2 .topbar { position: absolute; top: 0; left: 0; right: 0; height: 10px; background: linear-gradient(90deg, var(--navy), var(--cyan)); }
+  .s2 .content { position: absolute; inset: 80px; display: flex; flex-direction: column; justify-content: center; }
+  .s2 .eye { font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; }
+  /* ✏️ EDITAR: qué significa ese número para el emprendedor */
+  .s2 h2 { font-size: 64px; font-weight: 900; color: var(--navy); line-height: 1.05; margin-bottom: 40px; }
+  .s2 h2 span { color: var(--cyan); }
+  /* ✏️ EDITAR: traducción práctica — 1 párrafo simple */
+  .s2 .explain { font-size: 24px; color: #3A5070; line-height: 1.65; max-width: 900px; }
+  .s2 .explain strong { color: var(--navy); }
+
+  /* ══ SLIDE 3 — POR QUÉ PASA ══ */
+  .s3 { background: var(--navy); }
+  .s3 .grid { position: absolute; inset: 0; background-image: linear-gradient(#FFFFFF04 1px, transparent 1px), linear-gradient(90deg, #FFFFFF04 1px, transparent 1px); background-size: 80px 80px; }
+  .s3 .content { position: relative; z-index: 1; padding: 88px 80px; display: flex; flex-direction: column; justify-content: center; height: 100%; }
+  .s3 .eye { font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; }
+  /* ✏️ EDITAR: por qué ocurre este problema */
+  .s3 h2 { font-size: 66px; font-weight: 900; color: var(--white); line-height: 1.05; margin-bottom: 44px; }
+  .s3 h2 span { color: var(--cyan); }
+  .s3 .reasons { display: flex; flex-direction: column; gap: 20px; }
+  /* ✏️ EDITAR: 3 razones concretas — máx 10 palabras cada una */
+  .s3 .r { display: flex; align-items: center; gap: 20px; font-size: 22px; color: #90B8D8; font-weight: 500; }
+  .s3 .r::before { content: ''; display: block; min-width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); }
+
+  /* ══ SLIDE 4 — EL IMPACTO EN TU NEGOCIO ══ */
+  .s4 { background: var(--off-white); }
+  .s4 .topbar { position: absolute; top: 0; left: 0; right: 0; height: 10px; background: linear-gradient(90deg, var(--navy), var(--cyan)); }
+  .s4 .content { position: absolute; inset: 80px; display: flex; flex-direction: column; justify-content: center; }
+  .s4 .eye { font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; }
+  /* ✏️ EDITAR: cómo afecta esto a un negocio típico */
+  .s4 h2 { font-size: 58px; font-weight: 900; color: var(--navy); line-height: 1.1; margin-bottom: 44px; }
+  .s4 h2 span { color: var(--cyan); }
+  .s4 .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .s4 .card { background: var(--white); border: 1px solid #D0DFF0; border-radius: 14px; padding: 28px 28px; }
+  /* ✏️ EDITAR: 4 impactos concretos — ícono + título + 1 línea */
+  .s4 .card .icon { font-size: 32px; margin-bottom: 12px; display: block; }
+  .s4 .card h3 { font-size: 19px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .s4 .card p { font-size: 15px; color: #5A6E90; line-height: 1.4; }
+
+  /* ══ SLIDE 5 — CÓMO REVERTIRLO ══ */
+  .s5 { background: var(--navy); }
+  .s5 .grid { position: absolute; inset: 0; background-image: linear-gradient(#FFFFFF04 1px, transparent 1px), linear-gradient(90deg, #FFFFFF04 1px, transparent 1px); background-size: 80px 80px; }
+  .s5 .sidebar { position: absolute; left: 0; top: 0; bottom: 0; width: 280px; background: #0D1835; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px 32px; border-right: 1px solid #FFFFFF10; }
+  .s5 .sidebar img { height: 52px; filter: brightness(0) invert(1); margin-bottom: 32px; opacity: 0.8; }
+  .s5 .sidebar .title { color: var(--white); font-size: 26px; font-weight: 800; text-align: center; line-height: 1.2; margin-bottom: 12px; }
+  .s5 .sidebar .sub { color: var(--cyan); font-size: 14px; font-weight: 700; text-align: center; text-transform: uppercase; letter-spacing: 0.1em; }
+  .s5 .steps { position: absolute; left: 328px; right: 52px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 36px; }
+  .s5 .step { display: flex; gap: 20px; align-items: flex-start; }
+  .s5 .num { font-size: 44px; font-weight: 900; color: #FFFFFF12; line-height: 1; min-width: 48px; }
+  /* ✏️ EDITAR: 4 acciones para revertir el problema */
+  .s5 .step h3 { font-size: 21px; font-weight: 700; color: var(--white); margin-bottom: 3px; }
+  .s5 .step p { font-size: 15px; color: #6A8DB8; }
+
+  /* ══ SLIDE 6 — EL PRINCIPIO ══ */
+  .s6 { background: var(--off-white); }
+  .s6 .topbar { position: absolute; top: 0; left: 0; right: 0; height: 10px; background: linear-gradient(90deg, var(--navy), var(--cyan)); }
+  .s6 .content { position: absolute; inset: 80px; display: flex; flex-direction: column; justify-content: center; }
+  .s6 .eye { font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; }
+  /* ✏️ EDITAR: el principio detrás de la estadística */
+  .s6 h2 { font-size: 58px; font-weight: 900; color: var(--navy); line-height: 1.1; margin-bottom: 36px; }
+  .s6 h2 span { color: var(--cyan); }
+  .s6 .quote { background: var(--navy); border-radius: 16px; padding: 36px 44px; border-left: 5px solid var(--cyan); margin-bottom: 32px; }
+  /* ✏️ EDITAR: la frase clave — estilo Oscar Rincón */
+  .s6 .quote p { font-size: 26px; color: var(--white); line-height: 1.55; font-style: italic; }
+  .s6 .quote p strong { color: var(--cyan); font-style: normal; }
+  .s6 .author { font-size: 16px; color: #8899BB; font-weight: 600; }
+
+  /* ══ SLIDE 7 — CTA ══ */
+  .s7 { background: var(--navy); }
+  .s7 .glow { position: absolute; left: -80px; bottom: -80px; width: 600px; height: 600px; background: radial-gradient(circle, #00B4E612 0%, transparent 70%); border-radius: 50%; }
+  .s7 .photo { position: absolute; left: 0; bottom: 0; width: 400px; height: 520px; overflow: hidden; }
+  .s7 .photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  .s7 .fade { position: absolute; left: 0; bottom: 0; width: 400px; height: 520px; background: linear-gradient(270deg, var(--navy) 0%, transparent 42%), linear-gradient(0deg, var(--navy) 0%, transparent 28%); }
+  .s7 .logo-top { position: absolute; top: 56px; right: 64px; }
+  .s7 .logo-top img { height: 46px; filter: brightness(0) invert(1); }
+  .s7 .content { position: absolute; right: 64px; top: 50%; transform: translateY(-50%); width: 540px; text-align: right; }
+  .s7 .eye { font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; }
+  /* ✏️ EDITAR: pregunta directa al lector */
+  .s7 h2 { font-size: 56px; font-weight: 900; color: var(--white); line-height: 1.1; margin-bottom: 20px; }
+  .s7 h2 span { color: var(--cyan); }
+  .s7 .sub { font-size: 21px; color: #7A9CC8; line-height: 1.5; margin-bottom: 36px; }
+  .s7 .btn { display: inline-block; background: var(--cyan); color: var(--navy); font-size: 19px; font-weight: 800; padding: 17px 36px; border-radius: 8px; margin-bottom: 24px; }
+  .s7 .contact { font-size: 16px; color: #6A8DB8; }
+  .s7 .contact strong { color: var(--cyan-light); }
+</style>
+</head>
+<body>
+
+<p class="hint">✏️ Template ESTADÍSTICA IMPACTANTE · Edita los textos marcados · Publicar: node post.js templates/estadistica.html</p>
+
+<!-- ══ SLIDE 1 ══ -->
+<div class="slide s1">
+  <div class="bar"></div>
+  <div class="glow"></div>
+  <div class="counter">Zerda Finance</div>
+  <div class="content">
+    <span class="tag">📊 Dato financiero</span>
+    <!-- ✏️ EDITAR: el número impactante — solo el número, sin texto extra -->
+    <div class="stat">7<span>/10</span></div>
+    <!-- ✏️ EDITAR: qué mide ese número — máx 8 palabras -->
+    <p class="stat-label">negocios no saben cuánto<br>les cuesta operar de verdad</p>
+  </div>
+  <div class="swipe-cta">¿Eres uno de ellos? →</div>
+  <!-- ✏️ EDITAR: fuente del dato -->
+  <span class="source">Fuente: Zerda Finance · 2024</span>
+</div>
+<p class="label">Slide 1 — El número (solo el número, máximo impacto)</p>
+
+<!-- ══ SLIDE 2 ══ -->
+<div class="slide s2">
+  <div class="topbar"></div>
+  <div class="counter">2 / 7 · Zerda Finance</div>
+  <div class="content">
+    <p class="eye">Lo que significa</p>
+    <!-- ✏️ EDITAR: traducción del número al mundo real -->
+    <h2>No es un problema<br>de <span>ventas</span></h2>
+    <!-- ✏️ EDITAR: explicación en 2-3 líneas máx -->
+    <p class="explain">
+      Es un problema de <strong>estructura</strong>. Puedes vender bien y no tener plata en la caja. Puedes crecer y volerte menos rentable. Sin conocer tus números reales, cada decisión es una apuesta.
+    </p>
+  </div>
+  <div class="swipe-cta">Por qué pasa →</div>
+  <div class="logo-mark"><img src="../logos/Logo oficial.png" alt="Zerda Finance"></div>
+</div>
+<p class="label">Slide 2 — Qué significa (traducción práctica)</p>
+
+<!-- ══ SLIDE 3 ══ -->
+<div class="slide s3">
+  <div class="grid"></div>
+  <div class="counter" style="color:#FFFFFF50;">3 / 7 · Zerda Finance</div>
+  <div class="content">
+    <p class="eye">Por qué pasa</p>
+    <!-- ✏️ EDITAR: causa raíz en 1 frase -->
+    <h2>Nadie te enseña<br>a leer tus<br><span>propios números</span></h2>
+    <div class="reasons">
+      <!-- ✏️ EDITAR: 3 razones concretas -->
+      <div class="r">Confunden contabilidad con finanzas</div>
+      <div class="r">Trabajan dentro del negocio, nunca sobre él</div>
+      <div class="r">No tienen un modelo financiero que use para decidir</div>
+    </div>
+  </div>
+  <div class="swipe-cta">El impacto →</div>
+  <div class="logo-mark inv"><img src="../logos/Logo oficial white.png" alt="Zerda Finance"></div>
+</div>
+<p class="label">Slide 3 — Por qué pasa</p>
+
+<!-- ══ SLIDE 4 ══ -->
+<div class="slide s4">
+  <div class="topbar"></div>
+  <div class="counter">4 / 7 · Zerda Finance</div>
+  <div class="content">
+    <p class="eye">El impacto en tu negocio</p>
+    <!-- ✏️ EDITAR: cómo afecta al emprendedor -->
+    <h2>Lo que no mides<br>te <span>cuesta caro</span></h2>
+    <div class="cards">
+      <!-- ✏️ EDITAR: 4 consecuencias concretas -->
+      <div class="card"><span class="icon">💸</span><h3>Precios mal calculados</h3><p>Vendes a precios que no cubren tus costos reales</p></div>
+      <div class="card"><span class="icon">📉</span><h3>Crecimiento sin margen</h3><p>Más ventas, pero la caja no mejora</p></div>
+      <div class="card"><span class="icon">🔁</span><h3>Decisiones a ciegas</h3><p>Contratas o inviertes sin saber si puedes</p></div>
+      <div class="card"><span class="icon">⏰</span><h3>Crisis de caja predecibles</h3><p>Que con un modelo se habrían evitado</p></div>
+    </div>
+  </div>
+  <div class="logo-mark"><img src="../logos/Logo oficial.png" alt="Zerda Finance"></div>
+</div>
+<p class="label">Slide 4 — El impacto (4 consecuencias)</p>
+
+<!-- ══ SLIDE 5 ══ -->
+<div class="slide s5">
+  <div class="grid"></div>
+  <div class="sidebar">
+    <img src="../logos/Logo oficial white.png" alt="Zerda Finance">
+    <!-- ✏️ EDITAR: título de la sección -->
+    <div class="title">Cómo revertirlo</div>
+    <div class="sub">4 pasos</div>
+  </div>
+  <div class="steps">
+    <!-- ✏️ EDITAR: 4 acciones concretas -->
+    <div class="step">
+      <span class="num">01</span>
+      <div><h3>Mapea todos tus costos reales</h3><p>Fijos, variables, y el costo de tu tiempo</p></div>
+    </div>
+    <div class="step">
+      <span class="num">02</span>
+      <div><h3>Calcula tu margen real por producto</h3><p>No margen bruto — margen de contribución</p></div>
+    </div>
+    <div class="step">
+      <span class="num">03</span>
+      <div><h3>Define tu punto de equilibrio</h3><p>¿Cuánto necesitas vender para no perder?</p></div>
+    </div>
+    <div class="step">
+      <span class="num">04</span>
+      <div><h3>Revisa tus números cada mes</h3><p>Sin eso, el modelo no sirve para decidir</p></div>
+    </div>
+  </div>
+</div>
+<p class="label">Slide 5 — Cómo revertirlo</p>
+
+<!-- ══ SLIDE 6 ══ -->
+<div class="slide s6">
+  <div class="topbar"></div>
+  <div class="counter">6 / 7 · Zerda Finance</div>
+  <div class="content">
+    <p class="eye">El principio</p>
+    <!-- ✏️ EDITAR: el principio detrás del dato -->
+    <h2>La caja te <span>mantiene vivo</span><br>hoy. El margen<br>define tu futuro.</h2>
+    <div class="quote">
+      <!-- ✏️ EDITAR: frase de Oscar — directa y sin relleno -->
+      <p>"No es un problema de ventas. Es un problema de <strong>estructura</strong>. Y eso sí tiene solución."</p>
+    </div>
+    <p class="author">— Oscar Rincón, Zerda Finance</p>
+  </div>
+  <div class="logo-mark"><img src="../logos/Logo oficial.png" alt="Zerda Finance"></div>
+</div>
+<p class="label">Slide 6 — El principio (frase de Oscar)</p>
+
+<!-- ══ SLIDE 7 ══ -->
+<div class="slide s7">
+  <div class="glow"></div>
+  <div class="photo"><img src="../oscar.jpg" alt="Oscar Rincón"></div>
+  <div class="fade"></div>
+  <div class="logo-top"><img src="../logos/Logo oficial white.png" alt="Zerda Finance"></div>
+  <div class="content">
+    <p class="eye">¿Eres el 7 de 10?</p>
+    <!-- ✏️ EDITAR: conectar con el dato del slide 1 -->
+    <h2>Cambia eso<br>esta <span>semana</span></h2>
+    <p class="sub">Un diagnóstico financiero te<br>da claridad en menos de 72 horas.</p>
+    <div class="btn">Agenda una llamada gratis</div>
+    <p class="contact">Oscar Rincón · <strong>zerdafinance.com</strong></p>
+  </div>
+</div>
+<p class="label">Slide 7 — CTA (conecta con el dato del slide 1)</p>
+
+</body>
+</html>
