@@ -2,7 +2,8 @@ const express      = require('express');
 const session      = require('express-session');
 const fs           = require('fs');
 const path         = require('path');
-const nodemailer = require('nodemailer');
+const nodemailer   = require('nodemailer');
+const XLSX         = require('xlsx');
 
 // ── Email transporter (configura EMAIL_USER y EMAIL_PASS en Render) ──
 const mailer = (process.env.EMAIL_USER && process.env.EMAIL_PASS)
@@ -126,7 +127,7 @@ app.get('/simulador', (_req, res) => {
 
 // ── Enviar plan financiero por correo ───────────────────────────
 app.post('/api/enviar-plan', async (req, res) => {
-    const { nombreUser, correo, empresa, tipo, kpis, eerr, meses, escenarios } = req.body;
+    const { nombreUser, correo, empresa, tipo, kpis, eerr, meses, escenarios, inp, fixedTot, teamTotal } = req.body;
     console.log(`[ENVIAR-PLAN] correo=${correo} empresa=${empresa}`);
     if (!correo) return res.status(400).json({ error: 'Correo requerido.' });
 
@@ -136,12 +137,21 @@ app.post('/api/enviar-plan', async (req, res) => {
     }
 
     try {
-        await mailer.sendMail({
+        const mailOpts = {
             from:    `"Zerda Finance" <${process.env.EMAIL_USER}>`,
             to:      correo,
             subject: `Tu Plan Financiero — ${empresa || 'Zerda Finance'}`,
-            html:    buildPlanEmail({ nombreUser, empresa, tipo, kpis, eerr, meses, escenarios })
-        });
+            html:    buildPlanEmail({ nombreUser, empresa, tipo, kpis, eerr, escenarios })
+        };
+        if (meses && inp) {
+            const xlsBuffer = buildExcel({ inp, meses, fixedTot, teamTotal });
+            mailOpts.attachments = [{
+                filename: `Plan-Financiero-${empresa||'Zerda'}-${new Date().toISOString().slice(0,10)}.xlsx`,
+                content:  xlsBuffer,
+                contentType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            }];
+        }
+        await mailer.sendMail(mailOpts);
         console.log(`[PLAN ENVIADO] ${nombreUser} <${correo}>`);
         res.json({ success: true });
     } catch (err) {
@@ -150,7 +160,89 @@ app.post('/api/enviar-plan', async (req, res) => {
     }
 });
 
-function buildPlanEmail({ nombreUser, empresa, tipo, kpis, eerr, meses, escenarios }) {
+function buildExcel({ inp, meses, fixedTot, teamTotal }) {
+    const wb  = XLSX.utils.book_new();
+    const cur = v => ({ t:'n', v:+v, z:'$#,##0' });
+    const pct = v => ({ t:'n', v:+v, z:'0.0%' });
+    const str = v => ({ t:'s', v:String(v||'') });
+    const num = v => ({ t:'n', v:+v });
+
+    // Hoja Supuestos
+    const S = [
+        [str('PLAN FINANCIERO — ZERDA FINANCE')], [],
+        [str('EMPRESA'),             str(inp.nombre)],
+        [str('Responsable'),         str(`${inp.nombreUser} (${inp.rolUser})`)],
+        [str('Tipo de negocio'),     str(inp.tipo)],
+        [str('Producto / Servicio'), str(inp.prod)], [],
+        [str('SUPUESTOS DE INGRESOS')],
+        [str('Precio (ticket promedio)'),       cur(inp.precio)],
+        [str('Volumen inicial (unidades/mes)'), num(inp.vol)],
+        [str('Crecimiento mensual esperado'),   pct(inp.crec/100)], [],
+        [str('COSTOS VARIABLES (% sobre ventas)')],
+        [str('Costo variable del producto'), pct(inp.cv/100)],
+        [str('Marketing / Ads'),             pct(inp.mkt/100)],
+        [str('Comision de ventas'),          pct(inp.com/100)],
+        ...(inp.pas>0?[[str('Pasarela de pago'),pct(inp.pas/100)]]:[]), [],
+        [str('EQUIPO'), str('Sueldo Mensual')],
+        ...(inp.team||[]).map(t=>[str(t.rol), cur(t.sueldo)]), [],
+        [str('OTROS COSTOS FIJOS'), str('Monto Mensual')],
+        ...(inp.arr  >0?[[str('Arriendo'),        cur(inp.arr )]]:[]),
+        ...(inp.soft >0?[[str('Software / TI'),   cur(inp.soft)]]:[]),
+        ...(inp.cont >0?[[str('Contador / Legal'),cur(inp.cont)]]:[]),
+        ...(inp.otros>0?[[str('Otros gastos'),    cur(inp.otros)]]:[]), [],
+        [str('Total Costos Fijos Mensuales'), cur(fixedTot)], [],
+        [str('Zerda Finance · www.zerdafinance.com')],
+    ];
+    const wsS = XLSX.utils.aoa_to_sheet(S);
+    wsS['!cols'] = [{wch:34},{wch:22}];
+    XLSX.utils.book_append_sheet(wb, wsS, 'Supuestos');
+
+    // Hoja EERR
+    const mL = meses.map(m=>str(m.label));
+    const E = [
+        [str('ESTADO DE RESULTADOS PROYECTADO — 12 MESES')], [],
+        [str('Concepto'), ...mL],
+        [str('Ingresos'),       ...meses.map(m=>cur(m.ing))],
+        [str('Costo Variable'), ...meses.map(m=>cur(-m.cv))],
+        [str('MARGEN BRUTO'),   ...meses.map(m=>cur(m.mb))],
+        [str('% Margen Bruto'), ...meses.map(m=>pct(m.mbPct/100))], [],
+        [str('COSTOS FIJOS')],
+        [str('Equipo'), ...meses.map(()=>cur(-teamTotal))],
+        ...(inp.arr  >0?[[str('Arriendo'),        ...meses.map(()=>cur(-inp.arr ))]]:[]),
+        ...(inp.soft >0?[[str('Software / TI'),   ...meses.map(()=>cur(-inp.soft))]]:[]),
+        ...(inp.cont >0?[[str('Contador / Legal'),...meses.map(()=>cur(-inp.cont))]]:[]),
+        ...(inp.otros>0?[[str('Otros gastos'),    ...meses.map(()=>cur(-inp.otros))]]:[]), [],
+        [str('EBITDA'), ...meses.map(m=>cur(m.ebit))],
+    ];
+    const wsE = XLSX.utils.aoa_to_sheet(E);
+    wsE['!cols'] = [{wch:28},...meses.map(()=>({wch:13}))];
+    wsE['!views'] = [{state:'frozen',xSplit:1,ySplit:3}];
+    XLSX.utils.book_append_sheet(wb, wsE, 'EERR');
+
+    // Hoja KPIs
+    const avgMB = meses.reduce((a,m)=>a+m.mbPct,0)/12;
+    const pe    = avgMB>0 ? fixedTot/(avgMB/100) : 0;
+    const peU   = inp.precio>0 ? Math.ceil(pe/inp.precio) : 0;
+    const K = [
+        [str('KPIs — RESUMEN FINANCIERO')], [],
+        [str('Indicador'),              str('Valor')],
+        [str('Margen Bruto Promedio'),  pct(avgMB/100)],
+        [str('Costos Fijos Mensuales'), cur(fixedTot)],
+        [str('Punto de Equilibrio'),    cur(pe)],
+        [str('Unidades de Equilibrio'), num(peU)],
+        [str('Ingresos Mes 1'),         cur(meses[0].ing)],
+        [str('Ingresos Mes 12'),        cur(meses[11].ing)],
+        [str('EBITDA Mes 1'),           cur(meses[0].ebit)],
+        [str('EBITDA Mes 12'),          cur(meses[11].ebit)],
+    ];
+    const wsK = XLSX.utils.aoa_to_sheet(K);
+    wsK['!cols'] = [{wch:30},{wch:20}];
+    XLSX.utils.book_append_sheet(wb, wsK, 'KPIs');
+
+    return XLSX.write(wb, { type:'buffer', bookType:'xlsx' });
+}
+
+function buildPlanEmail({ nombreUser, empresa, tipo, kpis, eerr, escenarios }) {
     const dark = '#0F2035', teal = '#00BDD0', muted = '#64748b', red = '#ef4444', green = '#10b981';
     const ag = process.env.CALENDLY_URL || 'mailto:oscar@zerdafinance.com?subject=Quiero%20agendar%20una%20sesi%C3%B3n';
     const fmt = n => {
@@ -160,31 +252,21 @@ function buildPlanEmail({ nombreUser, empresa, tipo, kpis, eerr, meses, escenari
         return n < 0 ? `($${s})` : `$${s}`;
     };
 
-    // KPIs — cuadrícula 2x2 con colores por tipo (igual al dashboard)
-    const kpiColors = [
-        { border:'#10b981', txt:'#10b981' },  // Margen Bruto — verde
-        { border:'#f59e0b', txt:dark },        // Punto de Equilibrio — amarillo
-        { border:'#ef4444', txt:'#ef4444' },   // Burn Rate / EBITDA — rojo si negativo
-        { border:'#ef4444', txt:'#ef4444' },
-        { border:'#ef4444', txt:'#ef4444' },
-    ];
+    // KPIs — 3 en una sola fila con borde de color
+    const kpiBorders = ['#10b981', '#64748b', '#f59e0b'];
     const kpiHtml = (() => {
-        const rows = [kpis.slice(0,2), kpis.slice(2)].filter(r => r.length);
-        return rows.map(row => {
-            const cells = row.map((k, ki) => {
-                const col = ki === 0 && row === kpis.slice(0,2) ? kpiColors[0] : kpiColors[1];
-                const borderC = k.neg ? '#ef4444' : (k.l.toLowerCase().includes('margen') ? '#10b981' : k.l.toLowerCase().includes('equilibrio') ? '#f59e0b' : '#ef4444');
-                const valC    = k.neg ? '#ef4444' : dark;
-                return `
-          <td width="50%" style="padding:5px">
-            <div style="background:#fff;border-radius:8px;padding:14px 12px;border-left:4px solid ${borderC}">
-              <div style="font-size:10px;font-weight:700;color:${muted};font-family:Arial,sans-serif;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px">${k.l}</div>
-              <div style="font-size:18px;font-weight:800;color:${valC};font-family:Arial,sans-serif;margin-bottom:4px">${k.v}</div>
+        const cells = kpis.map((k, i) => {
+            const borderC = k.neg ? '#ef4444' : kpiBorders[i] || teal;
+            const valC    = k.neg ? '#ef4444' : dark;
+            return `
+          <td width="${Math.round(100/kpis.length)}%" style="padding:5px;vertical-align:top">
+            <div style="background:#fff;border-radius:8px;padding:16px 14px;border-top:3px solid ${borderC};text-align:center;height:80px;box-sizing:border-box">
+              <div style="font-size:10px;font-weight:700;color:${muted};font-family:Arial,sans-serif;letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px;white-space:nowrap">${k.l}</div>
+              <div style="font-size:17px;font-weight:800;color:${valC};font-family:Arial,sans-serif">${k.v.replace(/(\(~[^)]+\))/g, '<br><span style="font-size:11px;font-weight:600">$1</span>')}</div>
             </div>
           </td>`;
-            }).join('');
-            return `<tr>${cells}</tr>`;
         }).join('');
+        return `<tr>${cells}</tr>`;
     })();
 
     // EERR Mes 1 vs Mes 12
@@ -199,29 +281,6 @@ function buildPlanEmail({ nombreUser, empresa, tipo, kpis, eerr, meses, escenari
         return `<tr style="background:${bg}">${cells}</tr>`;
     }).join('');
 
-    // Tabla mensual completa (Ingresos / EBITDA por mes)
-    let monthlyHtml = '';
-    if (meses && meses.length) {
-        const mTh = ['Mes','Ingresos','Margen Bruto','EBITDA'].map((h,i) =>
-          `<th style="padding:6px 8px;text-align:${i===0?'left':'right'};font-size:11px;color:#fff;background:${dark};font-family:Arial,sans-serif">${h}</th>`).join('');
-        const mTr = meses.map((m,i) => {
-            const pos = m.ebit >= 0;
-            const bg  = i%2===0?'#fff':'#f8fafc';
-            return `<tr style="background:${bg}">
-              <td style="padding:5px 8px;font-size:11px;color:${muted};font-family:Arial,sans-serif">${m.label}</td>
-              <td style="padding:5px 8px;text-align:right;font-size:11px;color:${dark};font-family:Arial,sans-serif">${fmt(m.ing)}</td>
-              <td style="padding:5px 8px;text-align:right;font-size:11px;color:${dark};font-family:Arial,sans-serif">${fmt(m.mb)} <span style="color:${muted}">(${m.mbPct.toFixed(1)}%)</span></td>
-              <td style="padding:5px 8px;text-align:right;font-size:11px;font-weight:700;color:${pos?green:red};font-family:Arial,sans-serif">${fmt(m.ebit)}</td>
-            </tr>`;
-        }).join('');
-        monthlyHtml = `
-    <div style="margin-bottom:28px">
-      <div style="font-size:10px;font-weight:700;color:#94a3b8;letter-spacing:1px;margin-bottom:10px;font-family:Arial,sans-serif">EVOLUCIÓN MENSUAL — 12 MESES</div>
-      <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden">
-        <tr>${mTh}</tr>${mTr}
-      </table>
-    </div>`;
-    }
 
     // Escenarios P/R/O
     let scenHtml = '';
@@ -289,7 +348,6 @@ function buildPlanEmail({ nombreUser, empresa, tipo, kpis, eerr, meses, escenari
       </table>
     </div>
 
-    ${monthlyHtml}
     ${scenHtml}
 
     <!-- CTA -->
@@ -340,9 +398,8 @@ app.get('/preview-email', (_req, res) => {
         tipo:'SaaS',
         kpis:[
             {l:'Margen Bruto Promedio', v:'59.0%'},
+            {l:'Costos Fijos / Mes',    v:'$4.900.000'},
             {l:'Punto de Equilibrio',   v:'$8.305.085 (~167 uds)'},
-            {l:'EBITDA Mes 12',         v:fmt(meses[11].ebit), neg:meses[11].ebit<0},
-            {l:'Burn Rate Mensual',     v:'($2.943.520)',       neg:true},
         ],
         eerr:[
             ['Concepto','Mes 1','Mes 12'],

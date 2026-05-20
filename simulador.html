@@ -1030,11 +1030,9 @@ function calcular() {
         empresa:    inp.nombre,
         tipo:       inp.tipo,
         kpis: [
-          {l:'Margen Bruto Promedio', v: avgMB2.toFixed(1)+'%'},
+          {l:'Margen Bruto Prom.', v: avgMB2.toFixed(1)+'%'},
           {l:'Costos Fijos / Mes',    v: fmt(fixedTot)},
           {l:'Punto de Equilibrio',   v: fmt(pe2)+(peU2>0?' (~'+peU2+' uds)':'')},
-          {l:'EBITDA Mes 12',         v: fmt(meses[11].ebit), neg: meses[11].ebit<0},
-          {l:'Burn Rate Mensual',     v: burnProm2<0?fmt(burnProm2):'Sin quema ✓', neg: burnProm2<0},
         ],
         eerr: [
           ['Concepto',      'Mes 1',                        'Mes 12'],
@@ -1045,8 +1043,15 @@ function calcular() {
           ['Costos Fijos',   fmt(-fixedTot),                 fmt(-fixedTot)],
           ['EBITDA',         fmt(meses[0].ebit),             fmt(meses[11].ebit)],
         ],
-        meses:      meses.map(m=>({ label:m.label, ing:Math.round(m.ing), mb:Math.round(m.mb), ebit:Math.round(m.ebit), mbPct:m.mbPct })),
+        meses:      meses.map(m=>({ label:m.label, ing:Math.round(m.ing), cv:Math.round(m.cv), mb:Math.round(m.mb), ebit:Math.round(m.ebit), mbPct:m.mbPct })),
         escenarios,
+        fixedTot,
+        teamTotal,
+        inp: { nombre:inp.nombre, nombreUser:inp.nombreUser, rolUser:inp.rolUser||'', tipo:inp.tipo, prod:inp.prod||'',
+               precio:inp.precio, vol:inp.vol, crec:inp.crec,
+               cv:inp.cv, mkt:inp.mkt, com:inp.com, pas:inp.pas,
+               arr:inp.arr||0, soft:inp.soft||0, cont:inp.cont||0, otros:inp.otros||0,
+               team:inp.team },
       });
       fetch('/api/enviar-plan', {
         method:'POST', headers:{'Content-Type':'application/json'}, body: planPayload
@@ -1173,7 +1178,7 @@ function renderResults() {
 
   html += sec('COSTOS FIJOS');
   const teamDetail = inp.team.map(t=>`${t.rol}: $${fmtRaw(t.sueldo)}`).join(' · ');
-  html += `<tr><td title="${teamDetail}">Equipo <span style="font-size:11px;color:var(--muted);font-weight:400">(${inp.team.length} pers.) — ver detalle →</span></td>${meses.map(()=>`<td>${fmt(-teamTotal)}</td>`).join('')}</tr>`;
+  html += `<tr><td title="${teamDetail}">Equipo <span style="font-size:11px;color:var(--muted);font-weight:400">(${inp.team.length} pers.)</span></td>${meses.map(()=>`<td>${fmt(-teamTotal)}</td>`).join('')}</tr>`;
   if (arr  > 0) html += row('Arriendo',        meses.map(()=>-arr));
   if (soft > 0) html += row('Software / TI',   meses.map(()=>-soft));
   if (cont > 0) html += row('Contador / Legal', meses.map(()=>-cont));
