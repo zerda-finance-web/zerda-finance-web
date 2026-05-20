@@ -19,8 +19,8 @@
   .logo-mark { position: absolute; bottom: 52px; right: 60px; }
   .logo-mark img { height: 40px; }
   .logo-mark.inv img { filter: brightness(0) invert(1); opacity: 0.7; }
-  .counter { position: absolute; top: 52px; left: 60px; font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.05em; }
-  .swipe-cta { position: absolute; bottom: 52px; left: 60px; font-size: 18px; font-weight: 700; color: var(--cyan); display: flex; align-items: center; gap: 12px; }
+  .counter { position: absolute; top: 52px; left: 60px; font-size: 26px; font-weight: 700; color: var(--cyan); letter-spacing: 0.05em; }
+  .swipe-cta { position: absolute; bottom: 52px; left: 60px; font-size: 28px; font-weight: 700; color: var(--cyan); display: flex; align-items: center; gap: 12px; }
   .swipe-cta::before { content: ''; display: block; width: 36px; height: 2px; background: var(--cyan); }
 
   /* ══ SLIDE 1 — SCROLL STOPPER ══ */
@@ -28,65 +28,65 @@
   .s1 .bar { position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: linear-gradient(180deg, var(--cyan), #005580); }
   .s1 .glow { position: absolute; right: -80px; top: -80px; width: 700px; height: 700px; background: radial-gradient(circle, #00B4E618 0%, transparent 65%); border-radius: 50%; }
   .s1 .content { position: absolute; left: 80px; right: 80px; top: 50%; transform: translateY(-55%); }
-  .s1 .tag { background: var(--cyan); color: var(--navy); font-size: 15px; font-weight: 800; padding: 7px 20px; border-radius: 4px; letter-spacing: 0.12em; text-transform: uppercase; display: inline-block; margin-bottom: 44px; }
+  .s1 .tag { background: var(--cyan); color: var(--navy); font-size: 24px; font-weight: 800; padding: 7px 20px; border-radius: 4px; letter-spacing: 0.12em; text-transform: uppercase; display: inline-block; margin-bottom: 44px; }
   /* ✏️ EDITAR: hook — 1 pregunta que identifique al cliente */
   .s1 h1 { font-size: 88px; font-weight: 900; color: var(--white); line-height: 0.95; letter-spacing: -2px; }
   .s1 h1 span { color: var(--cyan); }
   /* ✏️ EDITAR: 1 línea que valida el dolor */
-  .s1 .punch { margin-top: 36px; font-size: 26px; color: #8AADCC; font-weight: 500; max-width: 680px; line-height: 1.4; }
+  .s1 .punch { margin-top: 36px; font-size: 36px; color: #8AADCC; font-weight: 500; max-width: 680px; line-height: 1.4; }
 
   /* ══ SLIDE 2 — PARA QUIÉN ES ══ */
   .s2 { background: var(--off-white); }
   .s2 .topbar { position: absolute; top: 0; left: 0; right: 0; height: 10px; background: linear-gradient(90deg, var(--navy), var(--cyan)); }
   .s2 .content { position: absolute; inset: 80px; display: flex; flex-direction: column; justify-content: center; }
-  .s2 .eye { font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; }
+  .s2 .eye { font-size: 26px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; }
   /* ✏️ EDITAR: a quién va dirigido */
   .s2 h2 { font-size: 64px; font-weight: 900; color: var(--navy); line-height: 1.05; margin-bottom: 44px; }
   .s2 h2 span { color: var(--cyan); }
   /* ✏️ EDITAR: 3 perfiles de cliente ideal */
   .s2 .bullets { display: flex; flex-direction: column; gap: 20px; }
-  .s2 .b { display: flex; align-items: center; gap: 18px; font-size: 22px; color: #2A3F6B; font-weight: 600; }
+  .s2 .b { display: flex; align-items: center; gap: 18px; font-size: 32px; color: #2A3F6B; font-weight: 600; }
   .s2 .b::before { content: ''; display: block; min-width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); }
 
   /* ══ SLIDE 3 — LOS SERVICIOS ══ */
   .s3 { background: var(--navy); }
   .s3 .glow { position: absolute; left: -100px; bottom: -100px; width: 600px; height: 600px; background: radial-gradient(circle, #00B4E610 0%, transparent 70%); border-radius: 50%; }
   .s3 .content { position: absolute; inset: 72px; display: flex; flex-direction: column; }
-  .s3 .eye { font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; }
+  .s3 .eye { font-size: 26px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; }
   .s3 h2 { font-size: 52px; font-weight: 900; color: var(--white); line-height: 1.1; margin-bottom: 40px; }
   /* ✏️ EDITAR: los 5 servicios */
   .s3 .services { display: flex; flex-direction: column; gap: 18px; flex: 1; justify-content: center; }
   .s3 .svc { display: flex; align-items: center; gap: 24px; padding: 18px 24px; background: rgba(255,255,255,0.05); border-left: 4px solid var(--cyan); border-radius: 0 8px 8px 0; }
   .s3 .svc .ico { font-size: 32px; min-width: 44px; text-align: center; }
-  .s3 .svc-title { font-size: 20px; font-weight: 700; color: var(--white); margin-bottom: 2px; }
-  .s3 .svc-sub { font-size: 14px; color: #6A8DB8; }
+  .s3 .svc-title { font-size: 30px; font-weight: 700; color: var(--white); margin-bottom: 2px; }
+  .s3 .svc-sub { font-size: 28px; color: #6A8DB8; }
 
   /* ══ SLIDE 4 — METODOLOGÍA CORE ══ */
   .s4 { background: var(--white); }
   .s4 .topbar { position: absolute; top: 0; left: 0; right: 0; height: 10px; background: linear-gradient(90deg, var(--navy), var(--cyan)); }
   .s4 .content { position: absolute; inset: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-  .s4 .eye { font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; }
+  .s4 .eye { font-size: 26px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; }
   .s4 h2 { font-size: 58px; font-weight: 900; color: var(--navy); line-height: 1.1; margin-bottom: 52px; }
   .s4 .core { display: flex; gap: 0; align-items: stretch; width: 100%; }
   /* ✏️ EDITAR: las 4 etapas de la metodología */
   .s4 .step { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 28px 16px; position: relative; }
   .s4 .step:not(:last-child)::after { content: '→'; position: absolute; right: -14px; top: 50%; transform: translateY(-50%); font-size: 28px; color: var(--cyan); font-weight: 900; z-index: 1; }
   .s4 .step-num { width: 64px; height: 64px; border-radius: 50%; background: var(--navy); color: var(--cyan); font-size: 28px; font-weight: 900; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
-  .s4 .step-word { font-size: 22px; font-weight: 900; color: var(--navy); margin-bottom: 6px; }
-  .s4 .step-desc { font-size: 13px; color: #5A6E90; line-height: 1.4; text-align: center; }
+  .s4 .step-word { font-size: 32px; font-weight: 900; color: var(--navy); margin-bottom: 6px; }
+  .s4 .step-desc { font-size: 22px; color: #5A6E90; line-height: 1.4; text-align: center; }
 
   /* ══ SLIDE 5 — PROCESO ══ */
   .s5 { background: var(--navy); }
   .s5 .glow { position: absolute; right: -80px; top: -80px; width: 600px; height: 600px; background: radial-gradient(circle, #00B4E614 0%, transparent 65%); border-radius: 50%; }
   .s5 .content { position: absolute; inset: 80px; display: flex; flex-direction: column; justify-content: center; }
-  .s5 .eye { font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; }
+  .s5 .eye { font-size: 26px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; }
   .s5 h2 { font-size: 60px; font-weight: 900; color: var(--white); line-height: 1.1; margin-bottom: 48px; }
   /* ✏️ EDITAR: 4 etapas del proceso con descripción */
   .s5 .steps { display: flex; flex-direction: column; gap: 28px; }
   .s5 .st { display: flex; gap: 24px; align-items: flex-start; }
   .s5 .num { font-size: 48px; font-weight: 900; color: rgba(0,180,230,0.18); line-height: 1; min-width: 56px; }
-  .s5 .st h3 { font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
-  .s5 .st p { font-size: 15px; color: #6A8DB8; }
+  .s5 .st h3 { font-size: 32px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .s5 .st p { font-size: 30px; color: #6A8DB8; }
 
   /* ══ SLIDE 6 — POR QUÉ ZERDA ══ */
   .s6 { background: var(--off-white); }
@@ -94,17 +94,17 @@
   .s6 .sidebar { position: absolute; left: 0; top: 10px; bottom: 0; width: 300px; background: var(--navy); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px 32px; gap: 0; }
   .s6 .sidebar img { height: 52px; filter: brightness(0) invert(1); margin-bottom: 28px; }
   .s6 .sidebar .big { color: var(--cyan); font-size: 72px; font-weight: 900; line-height: 1; }
-  .s6 .sidebar .years { color: var(--white); font-size: 20px; font-weight: 700; text-align: center; margin-top: 8px; }
+  .s6 .sidebar .years { color: var(--white); font-size: 30px; font-weight: 700; text-align: center; margin-top: 8px; }
   .s6 .main { position: absolute; left: 348px; right: 52px; top: 50%; transform: translateY(-50%); }
-  .s6 .eye { font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; }
+  .s6 .eye { font-size: 26px; font-weight: 700; color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; }
   /* ✏️ EDITAR: titular de diferenciación */
   .s6 h2 { font-size: 54px; font-weight: 900; color: var(--navy); line-height: 1.1; margin-bottom: 36px; }
   /* ✏️ EDITAR: 3 diferenciadores clave */
   .s6 .diffs { display: flex; flex-direction: column; gap: 20px; }
   .s6 .d { display: flex; gap: 16px; align-items: flex-start; }
   .s6 .d .check { width: 28px; height: 28px; border-radius: 50%; background: var(--cyan); display: flex; align-items: center; justify-content: center; color: var(--navy); font-size: 14px; font-weight: 900; flex-shrink: 0; margin-top: 2px; }
-  .s6 .d h3 { font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 2px; }
-  .s6 .d p { font-size: 14px; color: #5A6E90; }
+  .s6 .d h3 { font-size: 30px; font-weight: 700; color: var(--navy); margin-bottom: 2px; }
+  .s6 .d p { font-size: 30px; color: #5A6E90; }
   .s6 .bottombar { position: absolute; bottom: 0; left: 0; right: 0; height: 7px; background: linear-gradient(90deg, var(--navy), var(--cyan)); }
 
   /* ══ SLIDE 7 — CTA ══ */
@@ -113,15 +113,15 @@
   .s7 .ring1 { position: absolute; width: 900px; height: 900px; border: 1px solid #FFFFFF05; border-radius: 50%; }
   .s7 .ring2 { position: absolute; width: 660px; height: 660px; border: 1px solid #FFFFFF08; border-radius: 50%; }
   .s7 .content { position: relative; z-index: 1; text-align: center; padding: 0 100px; display: flex; flex-direction: column; align-items: center; }
-  .s7 .eye { font-size: 16px; font-weight: 700; color: var(--cyan); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 28px; }
+  .s7 .eye { font-size: 26px; font-weight: 700; color: var(--cyan); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 28px; }
   .s7 .line { width: 72px; height: 4px; background: var(--cyan); margin: 0 auto 44px; border-radius: 2px; }
   /* ✏️ EDITAR: llamada a acción principal */
   .s7 h2 { font-size: 72px; font-weight: 900; color: var(--white); line-height: 1.05; margin-bottom: 28px; }
   .s7 h2 span { color: var(--cyan); }
   /* ✏️ EDITAR: instrucción concreta de qué hacer */
-  .s7 .cta-text { font-size: 24px; color: #6A8DB8; margin-bottom: 52px; }
-  .s7 .btn { background: var(--cyan); color: var(--navy); font-size: 22px; font-weight: 800; padding: 20px 52px; border-radius: 6px; display: inline-block; letter-spacing: 0.05em; }
-  .s7 .handle { margin-top: 36px; font-size: 18px; color: #4A6088; }
+  .s7 .cta-text { font-size: 34px; color: #6A8DB8; margin-bottom: 52px; }
+  .s7 .btn { background: var(--cyan); color: var(--navy); font-size: 32px; font-weight: 800; padding: 20px 52px; border-radius: 6px; display: inline-block; letter-spacing: 0.05em; }
+  .s7 .handle { margin-top: 36px; font-size: 28px; color: #4A6088; }
   .s7 .handle span { color: var(--cyan); font-weight: 700; }
 </style>
 </head>

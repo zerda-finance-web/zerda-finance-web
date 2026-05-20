@@ -381,7 +381,7 @@
                             <th>Fecha</th>
                             <th>Nombre</th>
                             <th>Correo</th>
-                            <th>Facturación</th>
+                            <th>Fuente</th>
                             <th>Descripción</th>
                             <th>Estado</th>
                             <th>Acciones</th>
@@ -527,21 +527,29 @@
         }
         empty.style.display = 'none';
 
-        tbody.innerHTML = leads.map(l => `
+        tbody.innerHTML = leads.map(l => {
+            const esSimulador = l.fuente === 'simulador';
+            const fuenteBadge = esSimulador
+                ? `<span style="display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;background:#e0f9ff;color:#0891b2;letter-spacing:.3px">Simulador</span>`
+                : `<span style="display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;background:#f1f5f9;color:#64748b;letter-spacing:.3px">Web</span>`;
+            const nombreDisplay = l.nombreUser && l.nombreUser !== l.nombre
+                ? `${esc(l.nombre)}<br><span style="font-size:11px;color:#94a3b8;font-weight:400">${esc(l.nombreUser)}</span>`
+                : esc(l.nombre);
+            return `
             <tr>
                 <td style="color:#94A3B8;font-size:13px;">#${l.id}</td>
                 <td class="td-fecha">${fmtDate(l.fecha)}</td>
-                <td class="td-name">${esc(l.nombre)}</td>
+                <td class="td-name">${nombreDisplay}</td>
                 <td class="td-email"><a href="mailto:${esc(l.correo)}">${esc(l.correo)}</a></td>
-                <td style="font-size:13px;color:#64748B;">${esc(l.facturacion) || '—'}</td>
+                <td style="font-size:13px;">${fuenteBadge}</td>
                 <td class="td-desc" title="${esc(l.descripcion)}">${esc(l.descripcion) || '—'}</td>
                 <td><span class="status-badge s-${esc(l.status)}">${esc(l.status)}</span></td>
                 <td>
                     <button class="action-btn btn-edit" onclick="openModal(${l.id})">✏️ Editar</button>
                     <button class="action-btn btn-del" onclick="deleteLead(${l.id}, '${esc(l.nombre)}')" style="margin-left:6px;">🗑</button>
                 </td>
-            </tr>
-        `).join('');
+            </tr>`;
+        }).join('');
     }
 
     // ── MODAL ────────────────────────────────────────────────────
@@ -554,12 +562,15 @@
         document.getElementById('modalStatus').value = lead.status;
         document.getElementById('modalNotas').value  = lead.notas || '';
 
+        const fuenteLabel = lead.fuente === 'simulador' ? '🔢 Simulador financiero' : '🌐 Formulario web';
         document.getElementById('modalInfoGrid').innerHTML = `
             <div class="info-block"><div class="info-label">Correo</div><div class="info-value"><a href="mailto:${esc(lead.correo)}">${esc(lead.correo)}</a></div></div>
-            <div class="info-block"><div class="info-label">Facturación</div><div class="info-value">${esc(lead.facturacion) || '—'}</div></div>
+            <div class="info-block"><div class="info-label">Origen</div><div class="info-value">${fuenteLabel}</div></div>
             <div class="info-block"><div class="info-label">Fecha</div><div class="info-value">${fmtDateFull(lead.fecha)}</div></div>
             <div class="info-block"><div class="info-label">ID</div><div class="info-value">#${lead.id}</div></div>
-            <div class="info-block" style="grid-column:1/-1;"><div class="info-label">¿Qué necesita?</div><div class="desc-box">${esc(lead.descripcion) || '—'}</div></div>
+            ${lead.nombreUser && lead.nombreUser !== lead.nombre ? `<div class="info-block"><div class="info-label">Contacto</div><div class="info-value">${esc(lead.nombreUser)}</div></div>` : ''}
+            ${lead.facturacion ? `<div class="info-block"><div class="info-label">Facturación</div><div class="info-value">${esc(lead.facturacion)}</div></div>` : ''}
+            <div class="info-block" style="grid-column:1/-1;"><div class="info-label">Descripción</div><div class="desc-box">${esc(lead.descripcion) || '—'}</div></div>
         `;
 
         document.getElementById('modalOverlay').classList.add('open');
@@ -602,10 +613,10 @@
 
     // ── EXPORT CSV ───────────────────────────────────────────────
     function exportCSV() {
-        const headers = ['ID','Fecha','Nombre','Correo','Facturación','Descripción','Estado','Notas'];
+        const headers = ['ID','Fecha','Empresa','Contacto','Correo','Fuente','Descripción','Estado','Notas'];
         const rows = allLeads.map(l => [
-            l.id, fmtDateFull(l.fecha), l.nombre, l.correo,
-            l.facturacion, l.descripcion, l.status, l.notas
+            l.id, fmtDateFull(l.fecha), l.nombre, l.nombreUser||'', l.correo,
+            l.fuente||'web', l.descripcion, l.status, l.notas
         ].map(v => `"${String(v||'').replace(/"/g,'""')}"`));
         const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
         const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });

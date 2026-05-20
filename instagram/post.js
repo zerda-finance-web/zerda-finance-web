@@ -141,15 +141,11 @@ async function main() {
     process.exit(1);
   }
 
-  const caption = `¿Tu negocio vende bien pero la caja no alcanza? 💡
-
-El problema no es cuánto vendes. Es cómo estás estructurado.
-
-En Zerda Finance ayudamos a emprendedores, startups y PYMEs a entender sus números y tomar mejores decisiones — sin teoría, con implementación.
-
-👉 Desliza para ver qué hacemos y si es para ti.
-
-#ZerdaFinance #FinanzasParaEmprendedores #CFOExterno #Startups #PYME #FinanzasChile #EmprendimientoChile #ControlFinanciero #Rentabilidad #PlanFinanciero`;
+  // Si existe caption.txt generado por el agente, usarlo; si no, usar el default
+  const captionFile = path.join(__dirname, 'caption.txt');
+  const caption = fs.existsSync(captionFile)
+    ? fs.readFileSync(captionFile, 'utf-8').trim()
+    : `¿Tu negocio vende bien pero la caja no alcanza? 💡\n\nEl problema no es cuánto vendes. Es cómo estás estructurado.\n\nEn Zerda Finance ayudamos a emprendedores, startups y PYMEs a entender sus números y tomar mejores decisiones — sin teoría, con implementación.\n\n👉 Desliza para ver qué hacemos y si es para ti.\n\n#ZerdaFinance #FinanzasParaEmprendedores #CFOExterno #Startups #PYME #FinanzasChile #EmprendimientoChile #ControlFinanciero #Rentabilidad #PlanFinanciero`;
 
   try {
     // Paso 1: Capturar slides

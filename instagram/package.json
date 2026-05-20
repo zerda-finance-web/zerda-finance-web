@@ -7,9 +7,10 @@
     "post": "node post.js"
   },
   "dependencies": {
-    "puppeteer": "^24.15.0",
+    "@anthropic-ai/sdk": "^0.96.0",
     "axios": "^1.7.0",
+    "dotenv": "^16.4.0",
     "form-data": "^4.0.0",
-    "dotenv": "^16.4.0"
+    "puppeteer": "^24.15.0"
   }
 }

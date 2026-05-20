@@ -983,18 +983,47 @@ function calcular() {
   resData = { inp, meses, fixedTot, teamTotal, overhead, cvPorc };
 
   if (inp.email) {
-    // Guardar lead
+    const avgMB2   = meses.reduce((a,m)=>a+m.mbPct,0)/12;
+    const pe2      = avgMB2>0 ? fixedTot/(avgMB2/100) : 0;
+    const peU2     = inp.precio>0 ? Math.ceil(pe2/inp.precio) : 0;
+    const burnMs2  = meses.filter(m=>m.ebit<0);
+    const burnProm2= burnMs2.length ? burnMs2.reduce((a,m)=>a+m.ebit,0)/burnMs2.length : 0;
+
+    // Guardar lead con fuente y datos financieros clave
     fetch('/api/lead', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({ nombre:inp.nombre, correo:inp.email,
-        descripcion:`Simulador — ${inp.tipo} | Precio: $${fmtRaw(inp.precio)} | Vol: ${inp.vol} uds/mes | Crec: ${inp.crec}%` })
+      body:JSON.stringify({
+        nombre:      inp.nombre,
+        nombreUser:  inp.nombreUser,
+        correo:      inp.email,
+        fuente:      'simulador',
+        descripcion: `Simulador — ${inp.tipo} | Precio: $${fmtRaw(inp.precio)} | Vol: ${inp.vol} uds/mes | Crec: ${inp.crec}% | MB: ${avgMB2.toFixed(1)}% | EBITDA M12: ${fmt(meses[11].ebit)}`
+      })
     }).catch(()=>{});
 
-    // Enviar plan por correo
+    // Calcular escenarios para el correo
     try {
-      const avgMB2 = meses.reduce((a,m)=>a+m.mbPct,0)/12;
-      const pe2    = avgMB2>0 ? fixedTot/(avgMB2/100) : 0;
-      const peU2   = inp.precio>0 ? Math.ceil(pe2/inp.precio) : 0;
+      const scenConfigs = [
+        { mult:0.80, label:'Pesimista', delta:'-20% ventas', icon:'▼' },
+        { mult:1.00, label:'Realista',  delta:'tu plan base', icon:'●' },
+        { mult:1.20, label:'Optimista', delta:'+20% ventas',  icon:'▲' },
+      ];
+      const escenarios = scenConfigs.map(cfg => {
+        let u = inp.vol * cfg.mult;
+        const ms = [];
+        for (let i=0;i<12;i++) {
+          if (i>0) u *= (1+inp.crec/100);
+          const ing=inp.precio*u, mb=ing*(1-cvPorc), ebit=mb-fixedTot;
+          ms.push({ ing, mbPct:ing>0?mb/ing*100:0, ebit });
+        }
+        const mbAvg=ms.reduce((a,m)=>a+m.mbPct,0)/12;
+        const ebit12=ms[11].ebit, ebitAnual=ms.reduce((a,m)=>a+m.ebit,0);
+        let mesPosEbit=null;
+        for(let i=0;i<12;i++){if(ms[i].ebit>=0&&mesPosEbit===null)mesPosEbit=i+1;}
+        return { label:cfg.label, delta:cfg.delta, icon:cfg.icon,
+          ing12:ms[11].ing, mbAvg, ebit12, ebitAnual, mesPosEbit };
+      });
+
       const planPayload = JSON.stringify({
         nombreUser: inp.nombreUser,
         correo:     inp.email,
@@ -1005,6 +1034,7 @@ function calcular() {
           {l:'Costos Fijos / Mes',    v: fmt(fixedTot)},
           {l:'Punto de Equilibrio',   v: fmt(pe2)+(peU2>0?' (~'+peU2+' uds)':'')},
           {l:'EBITDA Mes 12',         v: fmt(meses[11].ebit), neg: meses[11].ebit<0},
+          {l:'Burn Rate Mensual',     v: burnProm2<0?fmt(burnProm2):'Sin quema ✓', neg: burnProm2<0},
         ],
         eerr: [
           ['Concepto',      'Mes 1',                        'Mes 12'],
@@ -1014,7 +1044,9 @@ function calcular() {
           ['% Margen',       meses[0].mbPct.toFixed(1)+'%',  meses[11].mbPct.toFixed(1)+'%'],
           ['Costos Fijos',   fmt(-fixedTot),                 fmt(-fixedTot)],
           ['EBITDA',         fmt(meses[0].ebit),             fmt(meses[11].ebit)],
-        ]
+        ],
+        meses:      meses.map(m=>({ label:m.label, ing:Math.round(m.ing), mb:Math.round(m.mb), ebit:Math.round(m.ebit), mbPct:m.mbPct })),
+        escenarios,
       });
       fetch('/api/enviar-plan', {
         method:'POST', headers:{'Content-Type':'application/json'}, body: planPayload

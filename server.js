@@ -47,7 +47,7 @@ app.use(session({
 
 // ── PUBLIC: enviar diagnóstico ──────────────────────────────────
 app.post('/api/lead', (req, res) => {
-    const { nombre, correo, facturacion, descripcion } = req.body;
+    const { nombre, correo, facturacion, descripcion, fuente, nombreUser } = req.body;
     if (!nombre || !correo) {
         return res.status(400).json({ error: 'Nombre y correo son requeridos.' });
     }
@@ -55,16 +55,18 @@ app.post('/api/lead', (req, res) => {
     const lead = {
         id:          nextId(leads),
         nombre:      nombre.trim(),
+        nombreUser:  nombreUser ? nombreUser.trim() : '',
         correo:      correo.trim().toLowerCase(),
         facturacion: facturacion || '',
         descripcion: descripcion || '',
+        fuente:      fuente || 'web',
         status:      'Nuevo',
         notas:       '',
         fecha:       new Date().toISOString()
     };
     leads.push(lead);
     writeLeads(leads);
-    console.log(`[NUEVO LEAD] ${lead.nombre} <${lead.correo}>`);
+    console.log(`[NUEVO LEAD] ${lead.nombre} <${lead.correo}> [${lead.fuente}]`);
     res.json({ success: true });
 });
 
@@ -148,35 +150,103 @@ app.post('/api/enviar-plan', async (req, res) => {
     }
 });
 
-function buildPlanEmail({ nombreUser, empresa, tipo, kpis, eerr }) {
-    const dark = '#0F2035', teal = '#00BDD0', muted = '#64748b';
+function buildPlanEmail({ nombreUser, empresa, tipo, kpis, eerr, meses, escenarios }) {
+    const dark = '#0F2035', teal = '#00BDD0', muted = '#64748b', red = '#ef4444', green = '#10b981';
     const ag = process.env.CALENDLY_URL || 'mailto:oscar@zerdafinance.com?subject=Quiero%20agendar%20una%20sesi%C3%B3n';
+    const fmt = n => {
+        if (n === undefined || n === null) return '—';
+        const abs = Math.abs(Math.round(n));
+        const s = abs.toLocaleString('es-CL');
+        return n < 0 ? `($${s})` : `$${s}`;
+    };
 
-    const kpiHtml = kpis.map(k => `
-      <td width="25%" style="padding:6px">
-        <div style="background:#fff;border-radius:8px;padding:14px 10px;border-top:3px solid ${teal};text-align:center">
-          <div style="font-size:11px;color:${muted};font-family:Arial,sans-serif;margin-bottom:6px">${k.l}</div>
-          <div style="font-size:15px;font-weight:700;color:${k.neg?'#ef4444':dark};font-family:Arial,sans-serif">${k.v}</div>
-        </div>
-      </td>`).join('');
+    // KPIs — 2 filas de 3 si hay 5+, sino 1 fila
+    const kpiCols = kpis.length <= 4 ? kpis.length : Math.ceil(kpis.length / 2);
+    const kpiRows = [];
+    for (let i = 0; i < kpis.length; i += kpiCols) kpiRows.push(kpis.slice(i, i + kpiCols));
+    const kpiHtml = kpiRows.map(row => {
+        const cells = row.map(k => `
+          <td width="${Math.round(100/kpiCols)}%" style="padding:5px">
+            <div style="background:#fff;border-radius:8px;padding:12px 8px;border-top:3px solid ${k.neg?red:teal};text-align:center">
+              <div style="font-size:10px;color:${muted};font-family:Arial,sans-serif;margin-bottom:5px">${k.l}</div>
+              <div style="font-size:14px;font-weight:700;color:${k.neg?red:dark};font-family:Arial,sans-serif">${k.v}</div>
+            </div>
+          </td>`).join('');
+        return `<tr>${cells}</tr>`;
+    }).join('');
 
-    const thHtml = (eerr[0]||[]).map((h,i) => `
-      <th style="padding:8px 12px;text-align:${i===0?'left':'right'};font-size:12px;color:#fff;background:${dark};font-family:Arial,sans-serif;font-weight:600">${h}</th>`).join('');
-
+    // EERR Mes 1 vs Mes 12
+    const thHtml = (eerr[0]||[]).map((h,i) =>
+      `<th style="padding:8px 12px;text-align:${i===0?'left':'right'};font-size:12px;color:#fff;background:${dark};font-family:Arial,sans-serif;font-weight:600">${h}</th>`).join('');
     const trHtml = eerr.slice(1).map((row, ri) => {
-        const sec = ['MARGEN BRUTO','EBITDA','COSTOS FIJOS'].some(s => row[0].startsWith(s));
-        const bg  = sec ? '#eef2f7' : (ri%2===0 ? '#fff' : '#f8fafc');
-        const fw  = sec ? '700' : '400';
-        const cells = row.map((c,i) => `
-          <td style="padding:7px 12px;text-align:${i===0?'left':'right'};font-size:12px;font-weight:${fw};color:${dark};font-family:Arial,sans-serif">${c}</td>`).join('');
+        const isSec = ['MARGEN BRUTO','EBITDA'].some(s => row[0].startsWith(s));
+        const bg = isSec ? '#eef2f7' : (ri%2===0?'#fff':'#f8fafc');
+        const fw = isSec ? '700' : '400';
+        const cells = row.map((c,i) =>
+          `<td style="padding:7px 12px;text-align:${i===0?'left':'right'};font-size:12px;font-weight:${fw};color:${dark};font-family:Arial,sans-serif">${c}</td>`).join('');
         return `<tr style="background:${bg}">${cells}</tr>`;
     }).join('');
+
+    // Tabla mensual completa (Ingresos / EBITDA por mes)
+    let monthlyHtml = '';
+    if (meses && meses.length) {
+        const mTh = ['Mes','Ingresos','Margen Bruto','EBITDA'].map((h,i) =>
+          `<th style="padding:6px 8px;text-align:${i===0?'left':'right'};font-size:11px;color:#fff;background:${dark};font-family:Arial,sans-serif">${h}</th>`).join('');
+        const mTr = meses.map((m,i) => {
+            const pos = m.ebit >= 0;
+            const bg  = i%2===0?'#fff':'#f8fafc';
+            return `<tr style="background:${bg}">
+              <td style="padding:5px 8px;font-size:11px;color:${muted};font-family:Arial,sans-serif">${m.label}</td>
+              <td style="padding:5px 8px;text-align:right;font-size:11px;color:${dark};font-family:Arial,sans-serif">${fmt(m.ing)}</td>
+              <td style="padding:5px 8px;text-align:right;font-size:11px;color:${dark};font-family:Arial,sans-serif">${fmt(m.mb)} <span style="color:${muted}">(${m.mbPct.toFixed(1)}%)</span></td>
+              <td style="padding:5px 8px;text-align:right;font-size:11px;font-weight:700;color:${pos?green:red};font-family:Arial,sans-serif">${fmt(m.ebit)}</td>
+            </tr>`;
+        }).join('');
+        monthlyHtml = `
+    <div style="margin-bottom:28px">
+      <div style="font-size:10px;font-weight:700;color:#94a3b8;letter-spacing:1px;margin-bottom:10px;font-family:Arial,sans-serif">EVOLUCIÓN MENSUAL — 12 MESES</div>
+      <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden">
+        <tr>${mTh}</tr>${mTr}
+      </table>
+    </div>`;
+    }
+
+    // Escenarios P/R/O
+    let scenHtml = '';
+    if (escenarios && escenarios.length) {
+        const colors = { 'Pesimista':'#fef2f2', 'Realista':'#f0fdf4', 'Optimista':'#f0feff' };
+        const borders = { 'Pesimista':red, 'Realista':green, 'Optimista':teal };
+        const scenCells = escenarios.map(sc => {
+            const bg  = colors[sc.label]  || '#f8fafc';
+            const bdr = borders[sc.label] || teal;
+            const pos = sc.ebit12 >= 0;
+            const verdict = sc.mesPosEbit
+              ? (sc.mesPosEbit === 1 ? 'Positivo desde mes 1 ✓' : `Positivo desde mes ${sc.mesPosEbit} ✓`)
+              : 'Negativo todo el año';
+            return `
+          <td width="33%" style="padding:6px;vertical-align:top">
+            <div style="background:${bg};border-radius:10px;padding:14px 12px;border-top:3px solid ${bdr}">
+              <div style="font-size:10px;font-weight:700;color:${bdr};font-family:Arial,sans-serif;margin-bottom:2px">${sc.icon} ${sc.label.toUpperCase()}</div>
+              <div style="font-size:10px;color:${muted};font-family:Arial,sans-serif;margin-bottom:10px">${sc.delta}</div>
+              <div style="font-size:11px;color:${dark};font-family:Arial,sans-serif;margin-bottom:4px">Ingresos mes 12<br><strong>${fmt(sc.ing12)}</strong></div>
+              <div style="font-size:11px;color:${dark};font-family:Arial,sans-serif;margin-bottom:4px">Margen bruto prom.<br><strong>${sc.mbAvg.toFixed(1)}%</strong></div>
+              <div style="font-size:11px;color:${dark};font-family:Arial,sans-serif;margin-bottom:8px">EBITDA mes 12<br><strong style="color:${pos?green:red}">${fmt(sc.ebit12)}</strong></div>
+              <div style="font-size:10px;color:${pos?green:red};font-weight:700;font-family:Arial,sans-serif">${verdict}</div>
+            </div>
+          </td>`;
+        }).join('');
+        scenHtml = `
+    <div style="margin-bottom:28px">
+      <div style="font-size:10px;font-weight:700;color:#94a3b8;letter-spacing:1px;margin-bottom:10px;font-family:Arial,sans-serif">ESCENARIOS: ¿TU PLAN ES FRÁGIL O ROBUSTO?</div>
+      <table width="100%" cellpadding="0" cellspacing="0"><tr>${scenCells}</tr></table>
+    </div>`;
+    }
 
     return `<!DOCTYPE html><html><head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;background:#f1f5f9">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#f1f5f9;padding:28px 0">
 <tr><td align="center">
-<table width="620" cellpadding="0" cellspacing="0" style="max-width:620px;width:100%">
+<table width="640" cellpadding="0" cellspacing="0" style="max-width:640px;width:100%">
 
   <!-- Header -->
   <tr><td style="background:${dark};border-radius:12px 12px 0 0;padding:26px 32px">
@@ -190,23 +260,25 @@ function buildPlanEmail({ nombreUser, empresa, tipo, kpis, eerr }) {
 
     <p style="font-size:16px;color:${dark};margin:0 0 6px;font-family:Arial,sans-serif">Hola <strong>${nombreUser}</strong>,</p>
     <p style="font-size:14px;color:${muted};margin:0 0 24px;line-height:1.6;font-family:Arial,sans-serif">
-      Aquí está el resumen de tu plan financiero para <strong>${empresa}</strong> (${tipo}).
-      Puedes descargar el PDF y el Excel completo desde la plataforma.
+      Aquí está el plan financiero completo de <strong>${empresa}</strong> (${tipo}) para los próximos 12 meses.
     </p>
 
     <!-- KPIs -->
     <div style="background:#f8fafc;border-radius:10px;padding:16px;margin-bottom:24px">
       <div style="font-size:10px;font-weight:700;color:#94a3b8;letter-spacing:1px;margin-bottom:12px;font-family:Arial,sans-serif">INDICADORES CLAVE</div>
-      <table width="100%" cellpadding="0" cellspacing="0"><tr>${kpiHtml}</tr></table>
+      <table width="100%" cellpadding="0" cellspacing="0">${kpiHtml}</table>
     </div>
 
-    <!-- EERR -->
+    <!-- EERR Mes 1 vs Mes 12 -->
     <div style="margin-bottom:28px">
       <div style="font-size:10px;font-weight:700;color:#94a3b8;letter-spacing:1px;margin-bottom:10px;font-family:Arial,sans-serif">ESTADO DE RESULTADOS — MES 1 vs MES 12</div>
       <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden">
         <tr>${thHtml}</tr>${trHtml}
       </table>
     </div>
+
+    ${monthlyHtml}
+    ${scenHtml}
 
     <!-- CTA -->
     <div style="background:#f0feff;border-radius:12px;padding:24px;text-align:center;border:1.5px solid #a5f3fc">
