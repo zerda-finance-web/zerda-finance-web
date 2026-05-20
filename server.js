@@ -126,7 +126,7 @@ app.get('/simulador', (_req, res) => {
 
 // ── Enviar plan financiero por correo ───────────────────────────
 app.post('/api/enviar-plan', async (req, res) => {
-    const { nombreUser, correo, empresa, tipo, kpis, eerr } = req.body;
+    const { nombreUser, correo, empresa, tipo, kpis, eerr, meses, escenarios } = req.body;
     console.log(`[ENVIAR-PLAN] correo=${correo} empresa=${empresa}`);
     if (!correo) return res.status(400).json({ error: 'Correo requerido.' });
 
@@ -140,7 +140,7 @@ app.post('/api/enviar-plan', async (req, res) => {
             from:    `"Zerda Finance" <${process.env.EMAIL_USER}>`,
             to:      correo,
             subject: `Tu Plan Financiero — ${empresa || 'Zerda Finance'}`,
-            html:    buildPlanEmail({ nombreUser, empresa, tipo, kpis, eerr })
+            html:    buildPlanEmail({ nombreUser, empresa, tipo, kpis, eerr, meses, escenarios })
         });
         console.log(`[PLAN ENVIADO] ${nombreUser} <${correo}>`);
         res.json({ success: true });
@@ -160,20 +160,32 @@ function buildPlanEmail({ nombreUser, empresa, tipo, kpis, eerr, meses, escenari
         return n < 0 ? `($${s})` : `$${s}`;
     };
 
-    // KPIs — 2 filas de 3 si hay 5+, sino 1 fila
-    const kpiCols = kpis.length <= 4 ? kpis.length : Math.ceil(kpis.length / 2);
-    const kpiRows = [];
-    for (let i = 0; i < kpis.length; i += kpiCols) kpiRows.push(kpis.slice(i, i + kpiCols));
-    const kpiHtml = kpiRows.map(row => {
-        const cells = row.map(k => `
-          <td width="${Math.round(100/kpiCols)}%" style="padding:5px">
-            <div style="background:#fff;border-radius:8px;padding:12px 8px;border-top:3px solid ${k.neg?red:teal};text-align:center">
-              <div style="font-size:10px;color:${muted};font-family:Arial,sans-serif;margin-bottom:5px">${k.l}</div>
-              <div style="font-size:14px;font-weight:700;color:${k.neg?red:dark};font-family:Arial,sans-serif">${k.v}</div>
+    // KPIs — cuadrícula 2x2 con colores por tipo (igual al dashboard)
+    const kpiColors = [
+        { border:'#10b981', txt:'#10b981' },  // Margen Bruto — verde
+        { border:'#f59e0b', txt:dark },        // Punto de Equilibrio — amarillo
+        { border:'#ef4444', txt:'#ef4444' },   // Burn Rate / EBITDA — rojo si negativo
+        { border:'#ef4444', txt:'#ef4444' },
+        { border:'#ef4444', txt:'#ef4444' },
+    ];
+    const kpiHtml = (() => {
+        const rows = [kpis.slice(0,2), kpis.slice(2)].filter(r => r.length);
+        return rows.map(row => {
+            const cells = row.map((k, ki) => {
+                const col = ki === 0 && row === kpis.slice(0,2) ? kpiColors[0] : kpiColors[1];
+                const borderC = k.neg ? '#ef4444' : (k.l.toLowerCase().includes('margen') ? '#10b981' : k.l.toLowerCase().includes('equilibrio') ? '#f59e0b' : '#ef4444');
+                const valC    = k.neg ? '#ef4444' : dark;
+                return `
+          <td width="50%" style="padding:5px">
+            <div style="background:#fff;border-radius:8px;padding:14px 12px;border-left:4px solid ${borderC}">
+              <div style="font-size:10px;font-weight:700;color:${muted};font-family:Arial,sans-serif;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px">${k.l}</div>
+              <div style="font-size:18px;font-weight:800;color:${valC};font-family:Arial,sans-serif;margin-bottom:4px">${k.v}</div>
             </div>
-          </td>`).join('');
-        return `<tr>${cells}</tr>`;
-    }).join('');
+          </td>`;
+            }).join('');
+            return `<tr>${cells}</tr>`;
+        }).join('');
+    })();
 
     // EERR Mes 1 vs Mes 12
     const thHtml = (eerr[0]||[]).map((h,i) =>
@@ -306,6 +318,44 @@ function buildPlanEmail({ nombreUser, empresa, tipo, kpis, eerr, meses, escenari
 </table>
 </body></html>`;
 }
+
+// ── Preview email (solo desarrollo) ────────────────────────────
+app.get('/preview-email', (_req, res) => {
+    const precio = 50000, vol = 50, crec = 5, cvPorc = 0.41, fixedTot = 4900000;
+    const meses = Array.from({length:12}, (_,i) => {
+        const u = vol * Math.pow(1+crec/100, i);
+        const ing = precio * u, mb = ing*(1-cvPorc), ebit = mb-fixedTot;
+        const MONTHS=['May','Jun','Jul','Ago','Sep','Oct','Nov','Dic','Ene','Feb','Mar','Abr'];
+        return { label:MONTHS[i]+' 26', ing:Math.round(ing), mb:Math.round(mb), ebit:Math.round(ebit), mbPct:(1-cvPorc)*100 };
+    });
+    const escenarios = [
+        {label:'Pesimista',delta:'-20% ventas',icon:'▼',ing12:meses[11].ing*.8,mbAvg:59,ebit12:meses[11].ebit*.8-fixedTot*.2,ebitAnual:-13000000,mesPosEbit:null},
+        {label:'Realista', delta:'tu plan base',icon:'●',ing12:meses[11].ing,    mbAvg:59,ebit12:meses[11].ebit,               ebitAnual:-10000000,mesPosEbit:null},
+        {label:'Optimista',delta:'+20% ventas', icon:'▲',ing12:meses[11].ing*1.2,mbAvg:59,ebit12:meses[11].ebit*1.2+fixedTot*.2,ebitAnual:-6000000, mesPosEbit:null},
+    ];
+    const fmt = n => n < 0 ? `($${Math.abs(Math.round(n)).toLocaleString('es-CL')})` : `$${Math.round(n).toLocaleString('es-CL')}`;
+    res.send(buildPlanEmail({
+        nombreUser:'Oscar',
+        empresa:'SASI',
+        tipo:'SaaS',
+        kpis:[
+            {l:'Margen Bruto Promedio', v:'59.0%'},
+            {l:'Punto de Equilibrio',   v:'$8.305.085 (~167 uds)'},
+            {l:'EBITDA Mes 12',         v:fmt(meses[11].ebit), neg:meses[11].ebit<0},
+            {l:'Burn Rate Mensual',     v:'($2.943.520)',       neg:true},
+        ],
+        eerr:[
+            ['Concepto','Mes 1','Mes 12'],
+            ['Ingresos',         fmt(meses[0].ing),    fmt(meses[11].ing)],
+            ['Costo Variable',   fmt(-meses[0].ing*.41),fmt(-meses[11].ing*.41)],
+            ['MARGEN BRUTO',     fmt(meses[0].mb),     fmt(meses[11].mb)],
+            ['% Margen',         '59.0%',              '59.0%'],
+            ['Costos Fijos',     fmt(-fixedTot),       fmt(-fixedTot)],
+            ['EBITDA',           fmt(meses[0].ebit),   fmt(meses[11].ebit)],
+        ],
+        meses, escenarios,
+    }));
+});
 
 // ── Redirect old blog URLs ──────────────────────────────────────
 app.get('/blog/:slug', (req, res) => {
